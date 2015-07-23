@@ -8,7 +8,7 @@ Legend:
 
 2015-07-23 - HyperImage 3.0.1.beta2
 -----------------------------------
-+ modified: fixed pubtool to show correct html in meta text fields
+* fixed pubtool to show correct html in meta text fields
 
 
 2015-06-15 - HyperInage 3.0.beta2

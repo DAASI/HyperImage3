@@ -1431,8 +1431,17 @@ function generatePeTALDocs() {
 		pubtool.docs.project += '<template id="T_'+pubtool.project.templateKeys[i].id+'_'+pubtool.project.templateKeys[i].key+'">';
 		for (var rank=0; rank < pubtool.project.sortedFields.length ; rank++) {
 			if ( pubtool.project.sortedFields[rank].split('_')[0] == pubtool.project.templateKeys[i].key ) {
+
 				var key = pubtool.project.sortedFields[rank].split('_')[1];
-				pubtool.docs.project += '<key tagName="'+key+'" rank="'+(rank+1)+'">';
+                                pubtool.docs.project += '<key tagName="'+key+'"rank="'+(rank+1)+'" ';
+                                var field = pubtool.project.sortedFields[rank];
+                                var template = pubtool.project.templates[field];
+                                if ( template != null && template.richText ) {
+                                  pubtool.docs.project += 'richText="' + template.richText + '" >';
+                                }else{
+                                  pubtool.docs.project += '>';
+                                }
+
 				for (var lang in pubtool.project.langs)
 					if ( pubtool.project.templates[pubtool.project.sortedFields[rank]][pubtool.project.langs[lang]] )
 						pubtool.docs.project += '<displayName xml:lang="'+pubtool.project.langs[lang]+'">'+pubtool.project.templates[pubtool.project.sortedFields[rank]][pubtool.project.langs[lang]]+'</displayName>';

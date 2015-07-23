@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE preferences SYSTEM "http://java.sun.com/dtd/preferences.dtd">
+<preferences EXTERNAL_XML_VERSION="1.0">
+  <root type="user">
+    <map/>
+    <node name="org">
+      <map/>
+      <node name="hyperimage">
+        <map/>
+        <node name="service">
+          <map>
+            <entry key="historeLocation" value="/Users/Shared/HIStore/"/>
+	    <entry key="prometheusAPILocation" value="http://prometheus-test.uni-koeln.de/pandora-devel"/>
+	    <entry key="OAUTHConsumerKey" value=""/>
+	    <entry key="OAUTHConsumerSecret" value=""/>
+          </map>
+        </node>
+      </node>
+    </node>
+  </root>
+</preferences>

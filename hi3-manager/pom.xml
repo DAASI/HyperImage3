@@ -1,0 +1,100 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>org.hyperimage</groupId>
+  <artifactId>HI3SystemManager</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+
+  <build>
+    <sourceDirectory>src</sourceDirectory>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.1</version>
+        <configuration>
+          <source>1.7</source>
+          <target>1.7</target>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifest>
+              <addClasspath>true</addClasspath>
+              <classpathPrefix>lib/</classpathPrefix>
+              <mainClass>org.hyperimage.sysop.client.Main</mainClass>
+            </manifest>
+          </archive>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jarsigner-plugin</artifactId>
+        <version>1.4</version>
+        <executions>
+          <execution>
+            <id>sign</id>
+            <goals>
+              <goal>sign</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>verify</id>
+            <goals>
+              <goal>verify</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <verbose>true</verbose>
+          <certs>true</certs>
+          <keystore>../hi3-editor/src/main/resources/resources/security/hyper_cacerts.jks</keystore>
+          <alias>hyperimage</alias>
+          <storepass>changeit</storepass>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  
+  <dependencies>
+ 	<dependency>
+		<groupId>org.hyperimage</groupId>
+		<artifactId>hi3-editor</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+ 	</dependency>
+ 
+	<dependency>
+	    <groupId>aspectj</groupId>
+	    <artifactId>aspectjrt</artifactId>
+	    <version>1.0</version>
+	    <scope>system</scope>
+	    <systemPath>${project.basedir}/lib/aspectjrt.jar</systemPath>
+	</dependency>
+	<dependency>
+	    <groupId>jai</groupId>
+	    <artifactId>jai_codec</artifactId>
+	    <version>1.0</version>
+	    <scope>system</scope>
+	    <systemPath>${project.basedir}/lib/jai_codec.jar</systemPath>
+	</dependency>
+	<dependency>
+	    <groupId>jai</groupId>
+	    <artifactId>jai_core</artifactId>
+	    <version>1.0</version>
+	    <scope>system</scope>
+	    <systemPath>${project.basedir}/lib/jai_core.jar</systemPath>
+	</dependency>
+	<dependency>
+	    <groupId>swing</groupId>
+	    <artifactId>swing-layout</artifactId>
+	    <version>1.0.4</version>
+	    <scope>system</scope>
+	    <systemPath>${project.basedir}/lib/swing-layout-1.0.4.jar</systemPath>
+	</dependency>
+ 
+  </dependencies>
+</project>

@@ -1,0 +1,1964 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI (http://jax-ws.java.net). RI's version is Metro/2.3.1-b419 (branches/2.3.1.x-7937; 2014-08-04T08:11:03+0000) JAXWS-RI/2.2.10-b140803.1500 JAXWS-API/2.2.11 JAXB-RI/2.2.10-b140802.1033 JAXB-API/2.2.12-b140109.1041 svn-revision#unknown. --><xs:schema xmlns:tns="http://ws.service.hyperimage.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://ws.service.hyperimage.org/">
+
+<xs:element name="HIEntityException" type="tns:HIEntityException"/>
+
+<xs:element name="HIEntityNotFoundException" type="tns:HIEntityNotFoundException"/>
+
+<xs:element name="HIMaintenanceModeException" type="tns:HIMaintenanceModeException"/>
+
+<xs:element name="HIParameterException" type="tns:HIParameterException"/>
+
+<xs:element name="HIPrivilegeException" type="tns:HIPrivilegeException"/>
+
+<xs:element name="HIServiceException" type="tns:HIServiceException"/>
+
+<xs:element name="adminAddLanguageToProject" type="tns:adminAddLanguageToProject"/>
+
+<xs:element name="adminAddLanguageToProjectResponse" type="tns:adminAddLanguageToProjectResponse"/>
+
+<xs:element name="adminAddSetToTemplate" type="tns:adminAddSetToTemplate"/>
+
+<xs:element name="adminAddSetToTemplateResponse" type="tns:adminAddSetToTemplateResponse"/>
+
+<xs:element name="adminAddTemplateToProject" type="tns:adminAddTemplateToProject"/>
+
+<xs:element name="adminAddTemplateToProjectResponse" type="tns:adminAddTemplateToProjectResponse"/>
+
+<xs:element name="adminAddUserToProject" type="tns:adminAddUserToProject"/>
+
+<xs:element name="adminAddUserToProjectResponse" type="tns:adminAddUserToProjectResponse"/>
+
+<xs:element name="adminCreateRepository" type="tns:adminCreateRepository"/>
+
+<xs:element name="adminCreateRepositoryResponse" type="tns:adminCreateRepositoryResponse"/>
+
+<xs:element name="adminCreateSetDisplayName" type="tns:adminCreateSetDisplayName"/>
+
+<xs:element name="adminCreateSetDisplayNameResponse" type="tns:adminCreateSetDisplayNameResponse"/>
+
+<xs:element name="adminDeleteRepository" type="tns:adminDeleteRepository"/>
+
+<xs:element name="adminDeleteRepositoryResponse" type="tns:adminDeleteRepositoryResponse"/>
+
+<xs:element name="adminGetProjectUsers" type="tns:adminGetProjectUsers"/>
+
+<xs:element name="adminGetProjectUsersResponse" type="tns:adminGetProjectUsersResponse"/>
+
+<xs:element name="adminGetRoleInProject" type="tns:adminGetRoleInProject"/>
+
+<xs:element name="adminGetRoleInProjectResponse" type="tns:adminGetRoleInProjectResponse"/>
+
+<xs:element name="adminGetUserByID" type="tns:adminGetUserByID"/>
+
+<xs:element name="adminGetUserByIDResponse" type="tns:adminGetUserByIDResponse"/>
+
+<xs:element name="adminGetUserByUserName" type="tns:adminGetUserByUserName"/>
+
+<xs:element name="adminGetUserByUserNameResponse" type="tns:adminGetUserByUserNameResponse"/>
+
+<xs:element name="adminGetUsers" type="tns:adminGetUsers"/>
+
+<xs:element name="adminGetUsersResponse" type="tns:adminGetUsersResponse"/>
+
+<xs:element name="adminRemoveLanguageFromProject" type="tns:adminRemoveLanguageFromProject"/>
+
+<xs:element name="adminRemoveLanguageFromProjectResponse" type="tns:adminRemoveLanguageFromProjectResponse"/>
+
+<xs:element name="adminRemoveSetFromTemplate" type="tns:adminRemoveSetFromTemplate"/>
+
+<xs:element name="adminRemoveSetFromTemplateResponse" type="tns:adminRemoveSetFromTemplateResponse"/>
+
+<xs:element name="adminRemoveTemplateFromProject" type="tns:adminRemoveTemplateFromProject"/>
+
+<xs:element name="adminRemoveTemplateFromProjectResponse" type="tns:adminRemoveTemplateFromProjectResponse"/>
+
+<xs:element name="adminRemoveUserFromProject" type="tns:adminRemoveUserFromProject"/>
+
+<xs:element name="adminRemoveUserFromProjectResponse" type="tns:adminRemoveUserFromProjectResponse"/>
+
+<xs:element name="adminSetProjectRole" type="tns:adminSetProjectRole"/>
+
+<xs:element name="adminSetProjectRoleResponse" type="tns:adminSetProjectRoleResponse"/>
+
+<xs:element name="adminUpdateSetDisplayName" type="tns:adminUpdateSetDisplayName"/>
+
+<xs:element name="adminUpdateSetDisplayNameResponse" type="tns:adminUpdateSetDisplayNameResponse"/>
+
+<xs:element name="adminUpdateTemplate" type="tns:adminUpdateTemplate"/>
+
+<xs:element name="adminUpdateTemplateResponse" type="tns:adminUpdateTemplateResponse"/>
+
+<xs:element name="adminUpdateTemplateSortOrder" type="tns:adminUpdateTemplateSortOrder"/>
+
+<xs:element name="adminUpdateTemplateSortOrderResponse" type="tns:adminUpdateTemplateSortOrderResponse"/>
+
+<xs:element name="copyToGroup" type="tns:copyToGroup"/>
+
+<xs:element name="copyToGroupResponse" type="tns:copyToGroupResponse"/>
+
+<xs:element name="createContentQuickInfo" type="tns:createContentQuickInfo"/>
+
+<xs:element name="createContentQuickInfoResponse" type="tns:createContentQuickInfoResponse"/>
+
+<xs:element name="createFlexMetadataRecord" type="tns:createFlexMetadataRecord"/>
+
+<xs:element name="createFlexMetadataRecordResponse" type="tns:createFlexMetadataRecordResponse"/>
+
+<xs:element name="createGroup" type="tns:createGroup"/>
+
+<xs:element name="createGroupResponse" type="tns:createGroupResponse"/>
+
+<xs:element name="createInscription" type="tns:createInscription"/>
+
+<xs:element name="createInscriptionResponse" type="tns:createInscriptionResponse"/>
+
+<xs:element name="createLayer" type="tns:createLayer"/>
+
+<xs:element name="createLayerResponse" type="tns:createLayerResponse"/>
+
+<xs:element name="createLightTable" type="tns:createLightTable"/>
+
+<xs:element name="createLightTableResponse" type="tns:createLightTableResponse"/>
+
+<xs:element name="createObject" type="tns:createObject"/>
+
+<xs:element name="createObjectResponse" type="tns:createObjectResponse"/>
+
+<xs:element name="createPreference" type="tns:createPreference"/>
+
+<xs:element name="createPreferenceResponse" type="tns:createPreferenceResponse"/>
+
+<xs:element name="createTagGroup" type="tns:createTagGroup"/>
+
+<xs:element name="createTagGroupResponse" type="tns:createTagGroupResponse"/>
+
+<xs:element name="createText" type="tns:createText"/>
+
+<xs:element name="createTextResponse" type="tns:createTextResponse"/>
+
+<xs:element name="createURL" type="tns:createURL"/>
+
+<xs:element name="createURLResponse" type="tns:createURLResponse"/>
+
+<xs:element name="createView" type="tns:createView"/>
+
+<xs:element name="createViewResponse" type="tns:createViewResponse"/>
+
+<xs:element name="deleteFromProject" type="tns:deleteFromProject"/>
+
+<xs:element name="deleteFromProjectResponse" type="tns:deleteFromProjectResponse"/>
+
+<xs:element name="deleteGroup" type="tns:deleteGroup"/>
+
+<xs:element name="deleteGroupResponse" type="tns:deleteGroupResponse"/>
+
+<xs:element name="deletePreference" type="tns:deletePreference"/>
+
+<xs:element name="deletePreferenceResponse" type="tns:deletePreferenceResponse"/>
+
+<xs:element name="fieldSearch" type="tns:fieldSearch"/>
+
+<xs:element name="fieldSearchResponse" type="tns:fieldSearchResponse"/>
+
+<xs:element name="getBaseElement" type="tns:getBaseElement"/>
+
+<xs:element name="getBaseElementByUUID" type="tns:getBaseElementByUUID"/>
+
+<xs:element name="getBaseElementByUUIDResponse" type="tns:getBaseElementByUUIDResponse"/>
+
+<xs:element name="getBaseElementResponse" type="tns:getBaseElementResponse"/>
+
+<xs:element name="getBaseQuickInfo" type="tns:getBaseQuickInfo"/>
+
+<xs:element name="getBaseQuickInfoByUUID" type="tns:getBaseQuickInfoByUUID"/>
+
+<xs:element name="getBaseQuickInfoByUUIDResponse" type="tns:getBaseQuickInfoByUUIDResponse"/>
+
+<xs:element name="getBaseQuickInfoResponse" type="tns:getBaseQuickInfoResponse"/>
+
+<xs:element name="getCurrentRole" type="tns:getCurrentRole"/>
+
+<xs:element name="getCurrentRoleResponse" type="tns:getCurrentRoleResponse"/>
+
+<xs:element name="getCurrentUser" type="tns:getCurrentUser"/>
+
+<xs:element name="getCurrentUserResponse" type="tns:getCurrentUserResponse"/>
+
+<xs:element name="getFlexMetadataRecords" type="tns:getFlexMetadataRecords"/>
+
+<xs:element name="getFlexMetadataRecordsResponse" type="tns:getFlexMetadataRecordsResponse"/>
+
+<xs:element name="getGroupContentQuickInfo" type="tns:getGroupContentQuickInfo"/>
+
+<xs:element name="getGroupContentQuickInfoResponse" type="tns:getGroupContentQuickInfoResponse"/>
+
+<xs:element name="getGroups" type="tns:getGroups"/>
+
+<xs:element name="getGroupsResponse" type="tns:getGroupsResponse"/>
+
+<xs:element name="getImage" type="tns:getImage"/>
+
+<xs:element name="getImageResponse" type="tns:getImageResponse"/>
+
+<xs:element name="getImportGroup" type="tns:getImportGroup"/>
+
+<xs:element name="getImportGroupResponse" type="tns:getImportGroupResponse"/>
+
+<xs:element name="getProject" type="tns:getProject"/>
+
+<xs:element name="getProjectLightTableElements" type="tns:getProjectLightTableElements"/>
+
+<xs:element name="getProjectLightTableElementsResponse" type="tns:getProjectLightTableElementsResponse"/>
+
+<xs:element name="getProjectResponse" type="tns:getProjectResponse"/>
+
+<xs:element name="getProjectTextElements" type="tns:getProjectTextElements"/>
+
+<xs:element name="getProjectTextElementsResponse" type="tns:getProjectTextElementsResponse"/>
+
+<xs:element name="getProjects" type="tns:getProjects"/>
+
+<xs:element name="getProjectsResponse" type="tns:getProjectsResponse"/>
+
+<xs:element name="getRepositories" type="tns:getRepositories"/>
+
+<xs:element name="getRepositoriesResponse" type="tns:getRepositoriesResponse"/>
+
+<xs:element name="getRole" type="tns:getRole"/>
+
+<xs:element name="getRoleResponse" type="tns:getRoleResponse"/>
+
+<xs:element name="getScaledImage" type="tns:getScaledImage"/>
+
+<xs:element name="getScaledImageResponse" type="tns:getScaledImageResponse"/>
+
+<xs:element name="getState" type="tns:getState"/>
+
+<xs:element name="getStateResponse" type="tns:getStateResponse"/>
+
+<xs:element name="getTagCountForBase" type="tns:getTagCountForBase"/>
+
+<xs:element name="getTagCountForBaseResponse" type="tns:getTagCountForBaseResponse"/>
+
+<xs:element name="getTagCountForBaseUUID" type="tns:getTagCountForBaseUUID"/>
+
+<xs:element name="getTagCountForBaseUUIDResponse" type="tns:getTagCountForBaseUUIDResponse"/>
+
+<xs:element name="getTagGroups" type="tns:getTagGroups"/>
+
+<xs:element name="getTagGroupsResponse" type="tns:getTagGroupsResponse"/>
+
+<xs:element name="getTagIDsForBase" type="tns:getTagIDsForBase"/>
+
+<xs:element name="getTagIDsForBaseResponse" type="tns:getTagIDsForBaseResponse"/>
+
+<xs:element name="getTagIDsForBaseUUID" type="tns:getTagIDsForBaseUUID"/>
+
+<xs:element name="getTagIDsForBaseUUIDResponse" type="tns:getTagIDsForBaseUUIDResponse"/>
+
+<xs:element name="getTrashGroup" type="tns:getTrashGroup"/>
+
+<xs:element name="getTrashGroupResponse" type="tns:getTrashGroupResponse"/>
+
+<xs:element name="getVersionID" type="tns:getVersionID"/>
+
+<xs:element name="getVersionIDResponse" type="tns:getVersionIDResponse"/>
+
+<xs:element name="isSysop" type="tns:isSysop"/>
+
+<xs:element name="isSysopResponse" type="tns:isSysopResponse"/>
+
+<xs:element name="moveToGroup" type="tns:moveToGroup"/>
+
+<xs:element name="moveToGroupResponse" type="tns:moveToGroupResponse"/>
+
+<xs:element name="moveToTrash" type="tns:moveToTrash"/>
+
+<xs:element name="moveToTrashResponse" type="tns:moveToTrashResponse"/>
+
+<xs:element name="rebuildSearchIndex" type="tns:rebuildSearchIndex"/>
+
+<xs:element name="rebuildSearchIndexResponse" type="tns:rebuildSearchIndexResponse"/>
+
+<xs:element name="removeDefaultView" type="tns:removeDefaultView"/>
+
+<xs:element name="removeDefaultViewResponse" type="tns:removeDefaultViewResponse"/>
+
+<xs:element name="removeFromGroup" type="tns:removeFromGroup"/>
+
+<xs:element name="removeFromGroupResponse" type="tns:removeFromGroupResponse"/>
+
+<xs:element name="removeLayer" type="tns:removeLayer"/>
+
+<xs:element name="removeLayerLink" type="tns:removeLayerLink"/>
+
+<xs:element name="removeLayerLinkResponse" type="tns:removeLayerLinkResponse"/>
+
+<xs:element name="removeLayerResponse" type="tns:removeLayerResponse"/>
+
+<xs:element name="setDefaultView" type="tns:setDefaultView"/>
+
+<xs:element name="setDefaultViewResponse" type="tns:setDefaultViewResponse"/>
+
+<xs:element name="setLayerLink" type="tns:setLayerLink"/>
+
+<xs:element name="setLayerLinkResponse" type="tns:setLayerLinkResponse"/>
+
+<xs:element name="setProject" type="tns:setProject"/>
+
+<xs:element name="setProjectResponse" type="tns:setProjectResponse"/>
+
+<xs:element name="simpleSearch" type="tns:simpleSearch"/>
+
+<xs:element name="simpleSearchResponse" type="tns:simpleSearchResponse"/>
+
+<xs:element name="sysopAddUserToProject" type="tns:sysopAddUserToProject"/>
+
+<xs:element name="sysopAddUserToProjectResponse" type="tns:sysopAddUserToProjectResponse"/>
+
+<xs:element name="sysopCreateProject" type="tns:sysopCreateProject"/>
+
+<xs:element name="sysopCreateProjectResponse" type="tns:sysopCreateProjectResponse"/>
+
+<xs:element name="sysopCreateUser" type="tns:sysopCreateUser"/>
+
+<xs:element name="sysopCreateUserResponse" type="tns:sysopCreateUserResponse"/>
+
+<xs:element name="sysopDeleteProject" type="tns:sysopDeleteProject"/>
+
+<xs:element name="sysopDeleteProjectResponse" type="tns:sysopDeleteProjectResponse"/>
+
+<xs:element name="sysopDeleteUser" type="tns:sysopDeleteUser"/>
+
+<xs:element name="sysopDeleteUserResponse" type="tns:sysopDeleteUserResponse"/>
+
+<xs:element name="sysopGetProjectsForUser" type="tns:sysopGetProjectsForUser"/>
+
+<xs:element name="sysopGetProjectsForUserResponse" type="tns:sysopGetProjectsForUserResponse"/>
+
+<xs:element name="sysopGetUsers" type="tns:sysopGetUsers"/>
+
+<xs:element name="sysopGetUsersForProject" type="tns:sysopGetUsersForProject"/>
+
+<xs:element name="sysopGetUsersForProjectResponse" type="tns:sysopGetUsersForProjectResponse"/>
+
+<xs:element name="sysopGetUsersResponse" type="tns:sysopGetUsersResponse"/>
+
+<xs:element name="sysopRemoveUserFromProject" type="tns:sysopRemoveUserFromProject"/>
+
+<xs:element name="sysopRemoveUserFromProjectResponse" type="tns:sysopRemoveUserFromProjectResponse"/>
+
+<xs:element name="sysopUpdateProjectQuota" type="tns:sysopUpdateProjectQuota"/>
+
+<xs:element name="sysopUpdateProjectQuotaResponse" type="tns:sysopUpdateProjectQuotaResponse"/>
+
+<xs:element name="updateContentOwner" type="tns:updateContentOwner"/>
+
+<xs:element name="updateContentOwnerResponse" type="tns:updateContentOwnerResponse"/>
+
+<xs:element name="updateFlexMetadataRecord" type="tns:updateFlexMetadataRecord"/>
+
+<xs:element name="updateFlexMetadataRecordResponse" type="tns:updateFlexMetadataRecordResponse"/>
+
+<xs:element name="updateFlexMetadataRecords" type="tns:updateFlexMetadataRecords"/>
+
+<xs:element name="updateFlexMetadataRecordsResponse" type="tns:updateFlexMetadataRecordsResponse"/>
+
+<xs:element name="updateGroupProperties" type="tns:updateGroupProperties"/>
+
+<xs:element name="updateGroupPropertiesResponse" type="tns:updateGroupPropertiesResponse"/>
+
+<xs:element name="updateGroupSortOrder" type="tns:updateGroupSortOrder"/>
+
+<xs:element name="updateGroupSortOrderResponse" type="tns:updateGroupSortOrderResponse"/>
+
+<xs:element name="updateLayerProperties" type="tns:updateLayerProperties"/>
+
+<xs:element name="updateLayerPropertiesResponse" type="tns:updateLayerPropertiesResponse"/>
+
+<xs:element name="updateLightTable" type="tns:updateLightTable"/>
+
+<xs:element name="updateLightTableResponse" type="tns:updateLightTableResponse"/>
+
+<xs:element name="updateObjectSortOrder" type="tns:updateObjectSortOrder"/>
+
+<xs:element name="updateObjectSortOrderResponse" type="tns:updateObjectSortOrderResponse"/>
+
+<xs:element name="updatePreference" type="tns:updatePreference"/>
+
+<xs:element name="updatePreferenceResponse" type="tns:updatePreferenceResponse"/>
+
+<xs:element name="updateProjectDefaultLanguage" type="tns:updateProjectDefaultLanguage"/>
+
+<xs:element name="updateProjectDefaultLanguageResponse" type="tns:updateProjectDefaultLanguageResponse"/>
+
+<xs:element name="updateProjectMetadata" type="tns:updateProjectMetadata"/>
+
+<xs:element name="updateProjectMetadataResponse" type="tns:updateProjectMetadataResponse"/>
+
+<xs:element name="updateProjectStartElement" type="tns:updateProjectStartElement"/>
+
+<xs:element name="updateProjectStartElementResponse" type="tns:updateProjectStartElementResponse"/>
+
+<xs:element name="updateURL" type="tns:updateURL"/>
+
+<xs:element name="updateURLResponse" type="tns:updateURLResponse"/>
+
+<xs:element name="updateUser" type="tns:updateUser"/>
+
+<xs:element name="updateUserPassword" type="tns:updateUserPassword"/>
+
+<xs:element name="updateUserPasswordResponse" type="tns:updateUserPasswordResponse"/>
+
+<xs:element name="updateUserResponse" type="tns:updateUserResponse"/>
+
+<xs:element name="updateViewSortOrder" type="tns:updateViewSortOrder"/>
+
+<xs:element name="updateViewSortOrderResponse" type="tns:updateViewSortOrderResponse"/>
+
+<xs:complexType name="setLayerLink">
+<xs:sequence>
+<xs:element name="layerID" type="xs:long"/>
+<xs:element name="linkID" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="setLayerLinkResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="HIParameterException">
+<xs:sequence>
+<xs:element name="message" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="HIPrivilegeException">
+<xs:sequence>
+<xs:element name="message" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="HIEntityNotFoundException">
+<xs:sequence>
+<xs:element name="message" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="HIMaintenanceModeException">
+<xs:sequence>
+<xs:element name="message" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="rebuildSearchIndex">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="rebuildSearchIndexResponse">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="getTagIDsForBaseUUID">
+<xs:sequence>
+<xs:element name="uuid" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getTagIDsForBaseUUIDResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:long" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getRepositories">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="getRepositoriesResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:hiRepository" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="hiRepository">
+<xs:sequence>
+<xs:element name="checkoutPermission" type="tns:checkoutPermissions" minOccurs="0"/>
+<xs:element name="creator" type="tns:hiUser" minOccurs="0"/>
+<xs:element name="displayTitle" type="xs:string" minOccurs="0"/>
+<xs:element name="id" type="xs:long"/>
+<xs:element name="password" type="xs:string" minOccurs="0"/>
+<xs:element name="repoType" type="xs:string" minOccurs="0"/>
+<xs:element name="url" type="xs:string" minOccurs="0"/>
+<xs:element name="userName" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="hiUser">
+<xs:sequence>
+<xs:element name="email" type="xs:string" minOccurs="0"/>
+<xs:element name="firstName" type="xs:string" minOccurs="0"/>
+<xs:element name="id" type="xs:long"/>
+<xs:element name="lastName" type="xs:string" minOccurs="0"/>
+<xs:element name="userName" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="sysopCreateUser">
+<xs:sequence>
+<xs:element name="firstName" type="xs:string" minOccurs="0"/>
+<xs:element name="lastName" type="xs:string" minOccurs="0"/>
+<xs:element name="userName" type="xs:string" minOccurs="0"/>
+<xs:element name="password" type="xs:string" minOccurs="0"/>
+<xs:element name="email" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="sysopCreateUserResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:hiUser" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="HIEntityException">
+<xs:sequence>
+<xs:element name="message" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="updateProjectMetadata">
+<xs:sequence>
+<xs:element name="languageID" type="xs:string" minOccurs="0"/>
+<xs:element name="title" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="updateProjectMetadataResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="createContentQuickInfo">
+<xs:sequence>
+<xs:element name="arg0" type="tns:hiBase" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="hiBase">
+<xs:sequence>
+<xs:element name="id" type="xs:long"/>
+<xs:element name="metadata" type="tns:hiFlexMetadataRecord" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="timestamp" type="xs:long"/>
+<xs:element name="UUID" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="hiFlexMetadataRecord">
+<xs:sequence>
+<xs:element name="contents" type="tns:hiKeyValue" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="id" type="xs:long"/>
+<xs:element name="language" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="hiKeyValue">
+<xs:sequence>
+<xs:element name="id" type="xs:long"/>
+<xs:element name="key" type="xs:string" minOccurs="0"/>
+<xs:element name="value" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="hiGroup">
+<xs:complexContent>
+<xs:extension base="tns:hiBase">
+<xs:sequence>
+<xs:element name="sortOrder" type="xs:string" minOccurs="0"/>
+<xs:element name="type" type="tns:groupTypes" minOccurs="0"/>
+<xs:element name="visible" type="xs:boolean"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+
+<xs:complexType name="hiInscription">
+<xs:complexContent>
+<xs:extension base="tns:hiObjectContent">
+<xs:sequence/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+
+<xs:complexType name="hiObjectContent">
+<xs:complexContent>
+<xs:extension base="tns:hiBase">
+<xs:sequence/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+
+<xs:complexType name="hiView">
+<xs:complexContent>
+<xs:extension base="tns:hiObjectContent">
+<xs:sequence>
+<xs:element name="filename" type="xs:string" minOccurs="0"/>
+<xs:element name="hash" type="xs:string" minOccurs="0"/>
+<xs:element name="height" type="xs:int"/>
+<xs:element name="layers" type="tns:hiLayer" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="mimeType" type="xs:string" minOccurs="0"/>
+<xs:element name="repositoryID" type="xs:string" minOccurs="0"/>
+<xs:element name="sortOrder" type="xs:string" minOccurs="0"/>
+<xs:element name="width" type="xs:int"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+
+<xs:complexType name="hiLayer">
+<xs:complexContent>
+<xs:extension base="tns:hiBase">
+<xs:sequence>
+<xs:element name="blue" type="xs:int"/>
+<xs:element name="green" type="xs:int"/>
+<xs:element name="linkInfo" type="tns:hiQuickInfo" minOccurs="0"/>
+<xs:element name="opacity" type="xs:float"/>
+<xs:element name="polygons" type="xs:string" minOccurs="0"/>
+<xs:element name="red" type="xs:int"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+
+<xs:complexType name="hiQuickInfo">
+<xs:sequence>
+<xs:element name="baseID" type="xs:long"/>
+<xs:element name="contentType" type="tns:hiBaseTypes" minOccurs="0"/>
+<xs:element name="count" type="xs:int"/>
+<xs:element name="preview" type="xs:string" minOccurs="0"/>
+<xs:element name="relatedID" type="xs:long"/>
+<xs:element name="title" type="xs:string" minOccurs="0"/>
+<xs:element name="UUID" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="hiLightTable">
+<xs:complexContent>
+<xs:extension base="tns:hiBase">
+<xs:sequence>
+<xs:element name="title" type="xs:string" minOccurs="0"/>
+<xs:element name="xml" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+
+<xs:complexType name="hiObject">
+<xs:complexContent>
+<xs:extension base="tns:hiBase">
+<xs:sequence>
+<xs:element name="defaultView" type="tns:hiObjectContent" minOccurs="0"/>
+<xs:element name="sortOrder" type="xs:string" minOccurs="0"/>
+<xs:element name="views" type="tns:hiObjectContent" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+
+<xs:complexType name="hiText">
+<xs:complexContent>
+<xs:extension base="tns:hiBase">
+<xs:sequence/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+
+<xs:complexType name="hiurl">
+<xs:complexContent>
+<xs:extension base="tns:hiBase">
+<xs:sequence>
+<xs:element name="lastAccess" type="xs:string" minOccurs="0"/>
+<xs:element name="title" type="xs:string" minOccurs="0"/>
+<xs:element name="url" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+
+<xs:complexType name="createContentQuickInfoResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:hiQuickInfo" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="createLayer">
+<xs:sequence>
+<xs:element name="viewID" type="xs:long"/>
+<xs:element name="red" type="xs:int"/>
+<xs:element name="green" type="xs:int"/>
+<xs:element name="blue" type="xs:int"/>
+<xs:element name="opacity" type="xs:float"/>
+<xs:element name="uuid" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="createLayerResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:hiLayer" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="updateUserPassword">
+<xs:sequence>
+<xs:element name="userID" type="xs:long"/>
+<xs:element name="password" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="updateUserPasswordResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="sysopCreateProject">
+<xs:sequence>
+<xs:element name="adminUsername" type="xs:string" minOccurs="0"/>
+<xs:element name="defaultLanguage" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="sysopCreateProjectResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:hiProject" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="hiProject">
+<xs:sequence>
+<xs:element name="defaultLanguage" type="tns:hiLanguage" minOccurs="0"/>
+<xs:element name="id" type="xs:long"/>
+<xs:element name="languages" type="tns:hiLanguage" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="metadata" type="tns:hiProjectMetadata" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="preferences" type="tns:hiPreference" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="quota" type="xs:long"/>
+<xs:element name="startObjectInfo" type="tns:hiQuickInfo" minOccurs="0"/>
+<xs:element name="templates" type="tns:hiFlexMetadataTemplate" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="used" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="hiLanguage">
+<xs:sequence>
+<xs:element name="id" type="xs:long"/>
+<xs:element name="languageId" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="hiProjectMetadata">
+<xs:sequence>
+<xs:element name="id" type="xs:long"/>
+<xs:element name="languageID" type="xs:string" minOccurs="0"/>
+<xs:element name="title" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="hiPreference">
+<xs:sequence>
+<xs:element name="id" type="xs:long"/>
+<xs:element name="key" type="xs:string" minOccurs="0"/>
+<xs:element name="value" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="hiFlexMetadataTemplate">
+<xs:sequence>
+<xs:element name="entries" type="tns:hiFlexMetadataSet" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="id" type="xs:long"/>
+<xs:element name="namespacePrefix" type="xs:string" minOccurs="0"/>
+<xs:element name="namespaceURI" type="xs:string" minOccurs="0"/>
+<xs:element name="namespaceURL" type="xs:string" minOccurs="0"/>
+<xs:element name="sortOrder" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="hiFlexMetadataSet">
+<xs:sequence>
+<xs:element name="displayNames" type="tns:hiFlexMetadataName" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="id" type="xs:long"/>
+<xs:element name="richText" type="xs:boolean"/>
+<xs:element name="tagname" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="hiFlexMetadataName">
+<xs:sequence>
+<xs:element name="displayName" type="xs:string" minOccurs="0"/>
+<xs:element name="id" type="xs:long"/>
+<xs:element name="language" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="adminDeleteRepository">
+<xs:sequence>
+<xs:element name="repository" type="tns:hiRepository" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="adminDeleteRepositoryResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="copyToGroup">
+<xs:sequence>
+<xs:element name="baseID" type="xs:long"/>
+<xs:element name="groupID" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="copyToGroupResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="updateURL">
+<xs:sequence>
+<xs:element name="hiURL" type="tns:hiurl" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="updateURLResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getBaseQuickInfo">
+<xs:sequence>
+<xs:element name="baseID" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getBaseQuickInfoResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:hiQuickInfo" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="adminRemoveSetFromTemplate">
+<xs:sequence>
+<xs:element name="templateID" type="xs:long"/>
+<xs:element name="setID" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="adminRemoveSetFromTemplateResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="createPreference">
+<xs:sequence>
+<xs:element name="key" type="xs:string" minOccurs="0"/>
+<xs:element name="value" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="createPreferenceResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:hiPreference" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getImage">
+<xs:sequence>
+<xs:element name="baseID" type="xs:long"/>
+<xs:element name="arg1" type="tns:hiImageSizes" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getImageResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:base64Binary" nillable="true" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="createTagGroup">
+<xs:sequence>
+<xs:element name="uuid" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="createTagGroupResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:hiGroup" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getCurrentUser">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="getCurrentUserResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getProjectTextElements">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="getProjectTextElementsResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:hiText" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="moveToTrash">
+<xs:sequence>
+<xs:element name="baseID" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="moveToTrashResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="adminGetUserByID">
+<xs:sequence>
+<xs:element name="userID" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="adminGetUserByIDResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:hiUser" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="isSysop">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="isSysopResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getGroupContentQuickInfo">
+<xs:sequence>
+<xs:element name="groupID" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getGroupContentQuickInfoResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:hiQuickInfo" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="adminRemoveUserFromProject">
+<xs:sequence>
+<xs:element name="userID" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="adminRemoveUserFromProjectResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="HIServiceException">
+<xs:sequence>
+<xs:element name="message" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="adminAddTemplateToProject">
+<xs:sequence>
+<xs:element name="template" type="tns:hiFlexMetadataTemplate" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="adminAddTemplateToProjectResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="moveToGroup">
+<xs:sequence>
+<xs:element name="baseID" type="xs:long"/>
+<xs:element name="fromGroupID" type="xs:long"/>
+<xs:element name="toGroupID" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="moveToGroupResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="updateProjectDefaultLanguage">
+<xs:sequence>
+<xs:element name="language" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="updateProjectDefaultLanguageResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="deleteFromProject">
+<xs:sequence>
+<xs:element name="baseID" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="deleteFromProjectResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="removeLayerLink">
+<xs:sequence>
+<xs:element name="layerID" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="removeLayerLinkResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getProjectLightTableElements">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="getProjectLightTableElementsResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:hiLightTable" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="updateUser">
+<xs:sequence>
+<xs:element name="userID" type="xs:long"/>
+<xs:element name="firstName" type="xs:string" minOccurs="0"/>
+<xs:element name="lastName" type="xs:string" minOccurs="0"/>
+<xs:element name="email" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="updateUserResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getRole">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="getRoleResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:hiRoles" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="updateLightTable">
+<xs:sequence>
+<xs:element name="lightTable" type="tns:hiLightTable" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="updateLightTableResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="sysopDeleteUser">
+<xs:sequence>
+<xs:element name="userID" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="sysopDeleteUserResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getScaledImage">
+<xs:sequence>
+<xs:element name="baseID" type="xs:long"/>
+<xs:element name="arg1" type="xs:double"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getScaledImageResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:base64Binary" nillable="true" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="adminAddLanguageToProject">
+<xs:sequence>
+<xs:element name="language" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="adminAddLanguageToProjectResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="createURL">
+<xs:sequence>
+<xs:element name="url" type="xs:string" minOccurs="0"/>
+<xs:element name="title" type="xs:string" minOccurs="0"/>
+<xs:element name="lastAccess" type="xs:string" minOccurs="0"/>
+<xs:element name="uuid" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="createURLResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:hiurl" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getBaseElementByUUID">
+<xs:sequence>
+<xs:element name="uuid" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getBaseElementByUUIDResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:hiBase" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getTagCountForBaseUUID">
+<xs:sequence>
+<xs:element name="uuid" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getTagCountForBaseUUIDResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="removeLayer">
+<xs:sequence>
+<xs:element name="layerID" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="removeLayerResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="sysopGetUsersForProject">
+<xs:sequence>
+<xs:element name="projectID" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="sysopGetUsersForProjectResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:hiUser" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getTrashGroup">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="getTrashGroupResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:hiGroup" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="adminUpdateSetDisplayName">
+<xs:sequence>
+<xs:element name="setID" type="xs:long"/>
+<xs:element name="languageID" type="xs:string" minOccurs="0"/>
+<xs:element name="displayName" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="adminUpdateSetDisplayNameResponse">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="getBaseElement">
+<xs:sequence>
+<xs:element name="baseID" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getBaseElementResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:hiBase" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="updateGroupProperties">
+<xs:sequence>
+<xs:element name="groupID" type="xs:long"/>
+<xs:element name="visible" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="updateGroupPropertiesResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getTagCountForBase">
+<xs:sequence>
+<xs:element name="baseID" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getTagCountForBaseResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="sysopUpdateProjectQuota">
+<xs:sequence>
+<xs:element name="projectID" type="xs:long"/>
+<xs:element name="quota" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="sysopUpdateProjectQuotaResponse">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="deleteGroup">
+<xs:sequence>
+<xs:element name="groupID" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="deleteGroupResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="updateFlexMetadataRecord">
+<xs:sequence>
+<xs:element name="record" type="tns:hiFlexMetadataRecord" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="updateFlexMetadataRecordResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="adminGetUserByUserName">
+<xs:sequence>
+<xs:element name="userName" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="adminGetUserByUserNameResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:hiUser" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="updateObjectSortOrder">
+<xs:sequence>
+<xs:element name="objectID" type="xs:long"/>
+<xs:element name="sortOrder" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="updateObjectSortOrderResponse">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="updateGroupSortOrder">
+<xs:sequence>
+<xs:element name="groupID" type="xs:long"/>
+<xs:element name="sortOrder" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="updateGroupSortOrderResponse">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="createView">
+<xs:sequence>
+<xs:element name="objectID" type="xs:long"/>
+<xs:element name="filename" type="xs:string" minOccurs="0"/>
+<xs:element name="repositoryIDString" type="xs:string" minOccurs="0"/>
+<xs:element name="data" type="xs:base64Binary" nillable="true" minOccurs="0"/>
+<xs:element name="uuid" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="createViewResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:hiView" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="createInscription">
+<xs:sequence>
+<xs:element name="objectID" type="xs:long"/>
+<xs:element name="uuid" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="createInscriptionResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:hiInscription" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="sysopDeleteProject">
+<xs:sequence>
+<xs:element name="projectID" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="sysopDeleteProjectResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getTagGroups">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="getTagGroupsResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:hiGroup" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getProjects">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="getProjectsResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:hiProject" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="createGroup">
+<xs:sequence>
+<xs:element name="uuid" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="createGroupResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:hiGroup" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="adminUpdateTemplateSortOrder">
+<xs:sequence>
+<xs:element name="templateID" type="xs:long"/>
+<xs:element name="sortOrder" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="adminUpdateTemplateSortOrderResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="adminCreateSetDisplayName">
+<xs:sequence>
+<xs:element name="setID" type="xs:long"/>
+<xs:element name="languageID" type="xs:string" minOccurs="0"/>
+<xs:element name="displayName" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="adminCreateSetDisplayNameResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:hiFlexMetadataName" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="deletePreference">
+<xs:sequence>
+<xs:element name="prefID" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="deletePreferenceResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getVersionID">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="getVersionIDResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="adminCreateRepository">
+<xs:sequence>
+<xs:element name="newRepository" type="tns:hiRepository" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="adminCreateRepositoryResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:hiRepository" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="updateViewSortOrder">
+<xs:sequence>
+<xs:element name="viewID" type="xs:long"/>
+<xs:element name="sortOrder" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="updateViewSortOrderResponse">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="getImportGroup">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="getImportGroupResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:hiGroup" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="updateFlexMetadataRecords">
+<xs:sequence>
+<xs:element name="records" type="tns:hiFlexMetadataRecord" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="updateFlexMetadataRecordsResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getProject">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="getProjectResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:hiProject" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="adminGetRoleInProject">
+<xs:sequence>
+<xs:element name="userID" type="xs:long"/>
+<xs:element name="projectID" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="adminGetRoleInProjectResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:hiRoles" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="adminRemoveTemplateFromProject">
+<xs:sequence>
+<xs:element name="templateID" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="adminRemoveTemplateFromProjectResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="removeFromGroup">
+<xs:sequence>
+<xs:element name="baseID" type="xs:long"/>
+<xs:element name="groupID" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="removeFromGroupResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="sysopGetUsers">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="sysopGetUsersResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:hiUser" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="setProject">
+<xs:sequence>
+<xs:element name="project" type="tns:hiProject" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="setProjectResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="adminAddSetToTemplate">
+<xs:sequence>
+<xs:element name="templateID" type="xs:long"/>
+<xs:element name="tagName" type="xs:string" minOccurs="0"/>
+<xs:element name="isRichText" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="adminAddSetToTemplateResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:hiFlexMetadataSet" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getGroups">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="getGroupsResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:hiGroup" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="updateLayerProperties">
+<xs:sequence>
+<xs:element name="layerID" type="xs:long"/>
+<xs:element name="red" type="xs:int"/>
+<xs:element name="green" type="xs:int"/>
+<xs:element name="blue" type="xs:int"/>
+<xs:element name="opacity" type="xs:float"/>
+<xs:element name="polygons" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="updateLayerPropertiesResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="adminSetProjectRole">
+<xs:sequence>
+<xs:element name="userID" type="xs:long"/>
+<xs:element name="role" type="tns:hiRoles" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="adminSetProjectRoleResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="adminAddUserToProject">
+<xs:sequence>
+<xs:element name="userID" type="xs:long"/>
+<xs:element name="role" type="tns:hiRoles" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="adminAddUserToProjectResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="adminRemoveLanguageFromProject">
+<xs:sequence>
+<xs:element name="language" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="adminRemoveLanguageFromProjectResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="updateContentOwner">
+<xs:sequence>
+<xs:element name="objectID" type="xs:long"/>
+<xs:element name="contentID" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="updateContentOwnerResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="createObject">
+<xs:sequence>
+<xs:element name="uuid" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="createObjectResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:hiObject" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getState">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="getStateResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:wSstates" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getCurrentRole">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="getCurrentRoleResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:hiRoles" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="updateProjectStartElement">
+<xs:sequence>
+<xs:element name="baseID" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="updateProjectStartElementResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="sysopGetProjectsForUser">
+<xs:sequence>
+<xs:element name="userID" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="sysopGetProjectsForUserResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:hiProject" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="setDefaultView">
+<xs:sequence>
+<xs:element name="objectID" type="xs:long"/>
+<xs:element name="contentID" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="setDefaultViewResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="simpleSearch">
+<xs:sequence>
+<xs:element name="text" type="xs:string" minOccurs="0"/>
+<xs:element name="language" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="simpleSearchResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:hiQuickInfo" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="updatePreference">
+<xs:sequence>
+<xs:element name="prefID" type="xs:long"/>
+<xs:element name="value" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="updatePreferenceResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="removeDefaultView">
+<xs:sequence>
+<xs:element name="objectID" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="removeDefaultViewResponse">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="createLightTable">
+<xs:sequence>
+<xs:element name="title" type="xs:string" minOccurs="0"/>
+<xs:element name="xml" type="xs:string" minOccurs="0"/>
+<xs:element name="uuid" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="createLightTableResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:hiLightTable" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="fieldSearch">
+<xs:sequence>
+<xs:element name="fields" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="contents" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="language" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="fieldSearchResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:hiQuickInfo" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="adminUpdateTemplate">
+<xs:sequence>
+<xs:element name="templateID" type="xs:long"/>
+<xs:element name="templateURI" type="xs:string" minOccurs="0"/>
+<xs:element name="templateURL" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="adminUpdateTemplateResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getFlexMetadataRecords">
+<xs:sequence>
+<xs:element name="baseID" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getFlexMetadataRecordsResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:hiFlexMetadataRecord" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="sysopAddUserToProject">
+<xs:sequence>
+<xs:element name="userID" type="xs:long"/>
+<xs:element name="projectID" type="xs:long"/>
+<xs:element name="role" type="tns:hiRoles" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="sysopAddUserToProjectResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="adminGetUsers">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="adminGetUsersResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:hiUser" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="createFlexMetadataRecord">
+<xs:sequence>
+<xs:element name="baseID" type="xs:long"/>
+<xs:element name="language" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="createFlexMetadataRecordResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:hiFlexMetadataRecord" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="createText">
+<xs:sequence>
+<xs:element name="uuid" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="createTextResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:hiText" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getBaseQuickInfoByUUID">
+<xs:sequence>
+<xs:element name="uuid" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getBaseQuickInfoByUUIDResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:hiQuickInfo" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="sysopRemoveUserFromProject">
+<xs:sequence>
+<xs:element name="userID" type="xs:long"/>
+<xs:element name="projectID" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="sysopRemoveUserFromProjectResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="adminGetProjectUsers">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="adminGetProjectUsersResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:hiUser" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getTagIDsForBase">
+<xs:sequence>
+<xs:element name="baseID" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getTagIDsForBaseResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:long" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:simpleType name="checkoutPermissions">
+<xs:restriction base="xs:string">
+<xs:enumeration value="CREATOR_ADMINS_USERS"/>
+<xs:enumeration value="CREATOR_ADMINS"/>
+<xs:enumeration value="CREATOR_ONLY"/>
+</xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="groupTypes">
+<xs:restriction base="xs:string">
+<xs:enumeration value="HIGROUP_REGULAR"/>
+<xs:enumeration value="HIGROUP_IMPORT"/>
+<xs:enumeration value="HIGROUP_TRASH"/>
+<xs:enumeration value="HIGROUP_TAG"/>
+</xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="hiBaseTypes">
+<xs:restriction base="xs:string">
+<xs:enumeration value="HIGroup"/>
+<xs:enumeration value="HIInscription"/>
+<xs:enumeration value="HILayer"/>
+<xs:enumeration value="HIObject"/>
+<xs:enumeration value="HIText"/>
+<xs:enumeration value="HIURL"/>
+<xs:enumeration value="HILightTable"/>
+<xs:enumeration value="HIView"/>
+<xs:enumeration value="HIRepositoryItem"/>
+</xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="hiImageSizes">
+<xs:restriction base="xs:string">
+<xs:enumeration value="HI_THUMBNAIL"/>
+<xs:enumeration value="HI_PREVIEW"/>
+<xs:enumeration value="HI_FULL"/>
+<xs:enumeration value="HI_ORIGINAL"/>
+<xs:enumeration value="HI_NAV"/>
+</xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="hiRoles">
+<xs:restriction base="xs:string">
+<xs:enumeration value="GUEST"/>
+<xs:enumeration value="USER"/>
+<xs:enumeration value="ADMIN"/>
+</xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="wSstates">
+<xs:restriction base="xs:string">
+<xs:enumeration value="AUTHENTICATED"/>
+<xs:enumeration value="PROJECT_SELECTED"/>
+</xs:restriction>
+</xs:simpleType>
+</xs:schema>

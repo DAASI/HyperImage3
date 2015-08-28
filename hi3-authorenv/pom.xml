@@ -241,8 +241,8 @@
  
  	<dependency>
 		<groupId>org.hyperimage</groupId>
-		<artifactId>hi3-editor</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<artifactId>HI3Author-EditorClient</artifactId>
+		<version>3.0</version>
  	</dependency>
  
   	<dependency>

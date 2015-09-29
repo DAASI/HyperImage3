@@ -37,7 +37,7 @@
 	<pref key="TABS_COLOR" val="#f0ecea"/>               <!-- Farbe der Registerkarte -->
 	<pref key="TABS_COLOR_DESEL" val="#ffffff"/>         <!-- Farbe der deselektierten Registerkarten -->
 	<pref key="TABS_COLOR_BORDER" val="#CCCCCC"/>        <!-- Umrissfarbe der Reiter der Registerkarten -->
-	<pref key="TABS_STANDARD" val="1"/>                  <!-- standardmäßig selektierte Registerkarte [0 | 1 | 2 | 3] -->
+	<pref key="TABS_STANDARD" val="0"/>                  <!-- standardmäßig selektierte Registerkarte [0 | 1 | 2 | 3] -->
 	<pref key="TABS_BUTTON_COLOR" val="#f0ecea"/>        <!-- Farbe der Schaltflächen -->
 	<pref key="TABS_INPUT_COLOR" val="#f0ecea"/>         <!-- Hintergrundfarbe des Eingabefeldes -->
 

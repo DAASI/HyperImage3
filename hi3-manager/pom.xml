@@ -61,12 +61,13 @@
   </build>
   
   <dependencies>
- 	<dependency>
-		<groupId>org.hyperimage</groupId>
-		<artifactId>hi3-editor</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
- 	</dependency>
- 
+
+        <dependency>
+          <groupId>org.hyperimage</groupId>
+          <artifactId>HI3Author-EditorClient</artifactId>
+          <version>3.0</version>
+        </dependency>
+          
 	<dependency>
 	    <groupId>aspectj</groupId>
 	    <artifactId>aspectjrt</artifactId>

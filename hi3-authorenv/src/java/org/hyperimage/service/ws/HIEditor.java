@@ -3286,6 +3286,7 @@ public class HIEditor {
                     JPEGEncodeParam jpegParam = new JPEGEncodeParam();
                     jpegParam.setQuality(0.8f); // set encoding quality
                     JAI.create("encode", previewImage, outThumbnail, "JPEG", jpegParam);
+                    previewImage.
                     bitstream = outThumbnail.toByteArray();
 
                 } else {

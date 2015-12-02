@@ -114,5 +114,7 @@ public class ImageHelper {
 		return scaleImageTo(PlanarImage.wrapRenderedImage(originalImage), scaleDimension);
 	}
 	
-
+//	public static Image scaleImageTo(BufferedImage originalImage, Dimension sacaleDimension){
+//		
+//	}
 }

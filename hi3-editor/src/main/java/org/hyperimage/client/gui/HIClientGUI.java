@@ -38,9 +38,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -480,13 +480,13 @@ public class HIClientGUI extends JFrame implements WindowListener, ActionListene
                 Document tambotiDoc = importer.getXMLDocument();
                 Node tambotiDocRoot = tambotiDoc.getFirstChild(); // returns <my-list-export>
                 NodeList childNodes = tambotiDocRoot.getChildNodes();
-                
+
                 // Iterate through the nodes looking for the first (and only?) element, namely <vra>.
                 int i = 0;
                 Node vraNode = childNodes.item(i);
                 while( !(vraNode instanceof Element) )
                     vraNode = childNodes.item(++i);
-                
+
                 Node node = vraDoc.importNode(vraNode, true);
                 vraDoc.appendChild(node);
                 VRACore4HeidelbergImporter vrahdlbgImporter = new VRACore4HeidelbergImporter(importFile, vraDoc);
@@ -684,8 +684,8 @@ public class HIClientGUI extends JFrame implements WindowListener, ActionListene
             displayInfoDialog(Messages.getString("HIClientGUI.27"), Messages.getString("HIClientGUI.28")); //$NON-NLS-1$ //$NON-NLS-2$
         }
     }
-    
-    
+
+
     public long getTagCountForElement(long baseID) {
         if (baseID <= 0 ) {
             return 0;
@@ -699,13 +699,13 @@ public class HIClientGUI extends JFrame implements WindowListener, ActionListene
             stopIndicatingServiceActivity();
             HIRuntime.getGui().reportError(wse, null);
         }
-        
+
         return count;
     }
 
     public long getTagCountForElement(HiBase base) {
         if ( base == null ) return 0;
-        
+
         return getTagCountForElement(base.getId());
     }
 
@@ -781,7 +781,7 @@ public class HIClientGUI extends JFrame implements WindowListener, ActionListene
         if (!handleLogin()) {
             tryLogoutAndExit();
         }
-        
+
         // display beta version warning on first startup if necessary
         if ( HIRuntime.getClientVersion().contains("beta") && !HIRuntime.betaWarningDisplayed ) {
             HIRuntime.betaWarningDisplayed = true;
@@ -815,7 +815,7 @@ public class HIClientGUI extends JFrame implements WindowListener, ActionListene
         projectTemplatesMenuItem = new JMenuItem();
         administrateProjectUsersMenuItem = new JMenuItem();
         toolsMenu = new JMenu();
-        newGroupBrowserMenuItem = new JMenuItem();        
+        newGroupBrowserMenuItem = new JMenuItem();
         searchMenuItem = new JMenuItem();
         importMenuItem = new JMenuItem();
         tagManagerMenuItem = new JMenuItem();
@@ -919,10 +919,10 @@ public class HIClientGUI extends JFrame implements WindowListener, ActionListene
             toolsMenu.add(tagManagerMenuItem);
         }
 
-//        importMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_4, HIRuntime.getModifierKey()));
+        importMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_4, HIRuntime.getModifierKey()));
         importMenuItem.setIcon(new ImageIcon(getClass().getResource("/resources/icons/import-menu.png"))); //$NON-NLS-1$
         importMenuItem.setActionCommand("repositoryImport"); //$NON-NLS-1$
-//        toolsMenu.add(importMenuItem);
+        toolsMenu.add(importMenuItem);
 
         guiMenuBar.add(toolsMenu);
 
@@ -1346,7 +1346,7 @@ public class HIClientGUI extends JFrame implements WindowListener, ActionListene
     }
 
     public boolean deregisterComponent(HIComponentFrame componentFrame, boolean force) {
-        // bring frame to front 
+        // bring frame to front
         focusComponent(componentFrame);
         setMenuState();
 
@@ -2114,7 +2114,7 @@ public class HIClientGUI extends JFrame implements WindowListener, ActionListene
                 registerComponent(new RepositoryImport());
             }
         }
-        
+
         if (e.getActionCommand().equalsIgnoreCase("tagManager")) { //$NON-NLS-1$
             // check if tag manager is already open
             if (getComponentTypeCount(TagManager.class) > 0) {
@@ -2209,7 +2209,7 @@ public class HIClientGUI extends JFrame implements WindowListener, ActionListene
          // open new feedback form
          registerComponent(new FeedbackModule());
          }
-         } 
+         }
          */
 
         // DEBUG remove debug actions

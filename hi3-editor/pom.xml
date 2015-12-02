@@ -4,7 +4,7 @@
   <groupId>org.hyperimage</groupId>
   <artifactId>HI3Author-EditorClient</artifactId>
   <version>3.0</version>
-  
+
   <build>
     <sourceDirectory>src</sourceDirectory>
     <plugins>
@@ -16,7 +16,7 @@
           <target>1.7</target>
         </configuration>
       </plugin>
-<!-- 
+<!--
       <plugin>
         <artifactId>maven-dependency-plugin</artifactId>
         <executions>
@@ -46,7 +46,7 @@
           </archive>
         </configuration>
       </plugin>
-<!-- 
+<!--
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>
@@ -98,22 +98,22 @@
       </plugin>
     </plugins>
   </build>
-  
+
   <dependencies>
-	<dependency>
-	    <groupId>jai</groupId>
-	    <artifactId>jai_codec</artifactId>
-	    <version>1.0</version>
-	    <scope>system</scope>
-	    <systemPath>${project.basedir}/lib/jai_codec.jar</systemPath>
-	</dependency>
-	<dependency>
-	    <groupId>jai</groupId>
-	    <artifactId>jai_core</artifactId>
-	    <version>1.0</version>
-	    <scope>system</scope>
-	    <systemPath>${project.basedir}/lib/jai_core.jar</systemPath>
-	</dependency>
+<!-- 	<dependency> -->
+<!-- 	    <groupId>jai</groupId> -->
+<!-- 	    <artifactId>jai_codec</artifactId> -->
+<!-- 	    <version>1.0</version> -->
+<!-- 	    <scope>system</scope> -->
+<!-- 	    <systemPath>${project.basedir}/lib/jai_codec.jar</systemPath> -->
+<!-- 	</dependency> -->
+<!-- 	<dependency> -->
+<!-- 	    <groupId>jai</groupId> -->
+<!-- 	    <artifactId>jai_core</artifactId> -->
+<!-- 	    <version>1.0</version> -->
+<!-- 	    <scope>system</scope> -->
+<!-- 	    <systemPath>${project.basedir}/lib/jai_core.jar</systemPath> -->
+<!-- 	</dependency> -->
 	<dependency>
 	    <groupId>swing</groupId>
 	    <artifactId>swing-layout</artifactId>
@@ -121,7 +121,7 @@
 	    <scope>system</scope>
 	    <systemPath>${project.basedir}/lib/swing-layout-1.0.4.jar</systemPath>
 	</dependency>
- 
+
   	<dependency>
   		<groupId>com.sun.xml.ws</groupId>
   		<artifactId>jaxws-rt</artifactId>

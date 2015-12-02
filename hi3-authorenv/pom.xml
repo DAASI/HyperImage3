@@ -16,7 +16,7 @@
           <target>1.7</target>
         </configuration>
       </plugin>
-      
+
       <plugin>
         <artifactId>maven-war-plugin</artifactId>
         <version>2.4</version>
@@ -81,20 +81,20 @@
           			<include>eclipselink.jar</include>
           		</includes>
           	</webResource>
-          	<webResource>
-          		<directory>src/lib</directory>
-          		<targetPath>WEB-INF/lib</targetPath>
-          		<includes>
-          			<include>jai_codec.jar</include>
-          		</includes>
-          	</webResource>
-          	<webResource>
-          		<directory>src/lib</directory>
-          		<targetPath>WEB-INF/lib</targetPath>
-          		<includes>
-          			<include>jai_core.jar</include>
-          		</includes>
-          	</webResource>
+<!--           	<webResource> -->
+<!--           		<directory>src/lib</directory> -->
+<!--           		<targetPath>WEB-INF/lib</targetPath> -->
+<!--           		<includes> -->
+<!--           			<include>jai_codec.jar</include> -->
+<!--           		</includes> -->
+<!--           	</webResource> -->
+<!--           	<webResource> -->
+<!--           		<directory>src/lib</directory> -->
+<!--           		<targetPath>WEB-INF/lib</targetPath> -->
+<!--           		<includes> -->
+<!--           			<include>jai_core.jar</include> -->
+<!--           		</includes> -->
+<!--           	</webResource> -->
           	<webResource>
           		<directory>src/lib</directory>
           		<targetPath>WEB-INF/lib</targetPath>
@@ -108,7 +108,7 @@
 	          		<exclude>doc/**.*</exclude>
           		</excludes>
           	</webResource>
-<!-- 
+<!--
           	<webResource>
           		<directory>src/lib</directory>
           		<targetPath>sysop/lib</targetPath>
@@ -120,7 +120,7 @@
           </webResources>
         </configuration>
       </plugin>
-<!--       
+<!--
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jarsigner-plugin</artifactId>
@@ -153,7 +153,7 @@
   </build>
 
   <dependencies>
-<!-- 
+<!--
   	<dependency>
   		<groupId>aspectj</groupId>
   		<artifactId>aspectjrt</artifactId>
@@ -180,7 +180,7 @@
   		<version>5.2.1</version>
   	</dependency>
  -->
- 
+
 	<dependency>
 	    <groupId>aspectj</groupId>
 	    <artifactId>aspectjrt</artifactId>
@@ -217,20 +217,20 @@
 	    <systemPath>${project.basedir}/src/lib/lucene-core-2.4.0.jar</systemPath>
 	</dependency>
 
-	<dependency>
-	    <groupId>jai</groupId>
-	    <artifactId>jai_codec</artifactId>
-	    <version>1.0</version>
-	    <scope>system</scope>
-	    <systemPath>${project.basedir}/src/lib/jai_codec.jar</systemPath>
-	</dependency>
-	<dependency>
-	    <groupId>jai</groupId>
-	    <artifactId>jai_core</artifactId>
-	    <version>1.0</version>
-	    <scope>system</scope>
-	    <systemPath>${project.basedir}/src/lib/jai_core.jar</systemPath>
-	</dependency>
+<!-- 	<dependency> -->
+<!-- 	    <groupId>jai</groupId> -->
+<!-- 	    <artifactId>jai_codec</artifactId> -->
+<!-- 	    <version>1.0</version> -->
+<!-- 	    <scope>system</scope> -->
+<!-- 	    <systemPath>${project.basedir}/src/lib/jai_codec.jar</systemPath> -->
+<!-- 	</dependency> -->
+<!-- 	<dependency> -->
+<!-- 	    <groupId>jai</groupId> -->
+<!-- 	    <artifactId>jai_core</artifactId> -->
+<!-- 	    <version>1.0</version> -->
+<!-- 	    <scope>system</scope> -->
+<!-- 	    <systemPath>${project.basedir}/src/lib/jai_core.jar</systemPath> -->
+<!-- 	</dependency> -->
 	<dependency>
 	    <groupId>swing</groupId>
 	    <artifactId>swing-layout</artifactId>
@@ -238,13 +238,13 @@
 	    <scope>system</scope>
 	    <systemPath>${project.basedir}/src/lib/swing-layout-1.0.4.jar</systemPath>
 	</dependency>
- 
+
  	<dependency>
 		<groupId>org.hyperimage</groupId>
 		<artifactId>HI3Author-EditorClient</artifactId>
 		<version>3.0</version>
  	</dependency>
- 
+
   	<dependency>
   		<groupId>org.eclipse.persistence</groupId>
   		<artifactId>javax.persistence</artifactId>

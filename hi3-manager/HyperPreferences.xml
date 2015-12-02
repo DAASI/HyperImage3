@@ -9,7 +9,7 @@
         <map/>
         <node name="hieditor">
           <map>
-            <entry key="serverlist" value="http://hyperimage.rir.prj:8080,localhost"/>
+            <entry key="serverlist" value="http://hyperimage.rir.prj:8080/HI3Author/,http://hyperimage.rir.prj:8080,localhost"/>
           </map>
         </node>
       </node>

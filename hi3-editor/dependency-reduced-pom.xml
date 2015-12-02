@@ -64,20 +64,20 @@
     </plugins>
   </build>
   <dependencies>
-    <dependency>
-      <groupId>jai</groupId>
-      <artifactId>jai_codec</artifactId>
-      <version>1.0</version>
-      <scope>system</scope>
-      <systemPath>${project.basedir}/lib/jai_codec.jar</systemPath>
-    </dependency>
-    <dependency>
-      <groupId>jai</groupId>
-      <artifactId>jai_core</artifactId>
-      <version>1.0</version>
-      <scope>system</scope>
-      <systemPath>${project.basedir}/lib/jai_core.jar</systemPath>
-    </dependency>
+<!--     <dependency> -->
+<!--       <groupId>jai</groupId> -->
+<!--       <artifactId>jai_codec</artifactId> -->
+<!--       <version>1.0</version> -->
+<!--       <scope>system</scope> -->
+<!--       <systemPath>${project.basedir}/lib/jai_codec.jar</systemPath> -->
+<!--     </dependency> -->
+<!--     <dependency> -->
+<!--       <groupId>jai</groupId> -->
+<!--       <artifactId>jai_core</artifactId> -->
+<!--       <version>1.0</version> -->
+<!--       <scope>system</scope> -->
+<!--       <systemPath>${project.basedir}/lib/jai_core.jar</systemPath> -->
+<!--     </dependency> -->
     <dependency>
       <groupId>swing</groupId>
       <artifactId>swing-layout</artifactId>

@@ -31,13 +31,13 @@ import java.awt.Color;
 import java.awt.datatransfer.Transferable;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.media.jai.PlanarImage;
 import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
 import javax.swing.TransferHandler;
@@ -55,8 +55,8 @@ import org.hyperimage.client.gui.dialogs.RepositoryDataDialog;
 import org.hyperimage.client.gui.dnd.RepositoryTransferable;
 import org.hyperimage.client.gui.lists.GroupContentsCellRenderer;
 import org.hyperimage.client.gui.lists.GroupContentsList;
-import org.hyperimage.client.gui.lists.QuickInfoCell;
 import org.hyperimage.client.gui.lists.GroupContentsList.HI_ListDisplayStyles;
+import org.hyperimage.client.gui.lists.QuickInfoCell;
 import org.hyperimage.client.gui.views.RepositoryBrowserView;
 import org.hyperimage.client.gui.views.RepositoryContentsView;
 import org.hyperimage.client.gui.views.RepositoryMetadataView;
@@ -93,7 +93,8 @@ public class RepositoryImport extends HIComponent implements TreeSelectionListen
 	private TreePath lastPath = null;
 	private HI_ListDisplayStyles userSelectedStyle = HI_ListDisplayStyles.ICON_STYLE;
 	private HIRepositoryLevelLoader levelLoader;
-	private HashMap<String, PlanarImage> previewCache;
+//	private HashMap<String, PlanarImage> previewCache;
+	private HashMap<String, BufferedImage> previewCache;
 
     private RepositoryDataDialog dataDialog = new RepositoryDataDialog(HIRuntime.getGui(), true);
 
@@ -243,7 +244,8 @@ public class RepositoryImport extends HIComponent implements TreeSelectionListen
 		super(Messages.getString("RepositoryImport.0"), Messages.getString("RepositoryImport.1")); //$NON-NLS-1$ //$NON-NLS-2$
 
 		levelLoader = new HIRepositoryLevelLoader();
-		previewCache = new HashMap<String, PlanarImage>();
+//		previewCache = new HashMap<String, PlanarImage>();
+		previewCache = new HashMap<String, BufferedImage>();
 
 		// init views
 		try {

@@ -30,14 +30,14 @@ package org.hyperimage.client.gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.image.BufferedImage;
 
-import javax.media.jai.JAI;
-import javax.media.jai.PlanarImage;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
+import org.hyperimage.client.image.HiImageConfig;
 import org.hyperimage.client.util.LoadableImage;
 import org.hyperimage.client.util.MetadataHelper;
 import org.hyperimage.client.ws.HiObjectContent;
@@ -84,7 +84,8 @@ public class ObjectContentCell extends JPanel implements LoadableImage {
     	return needsPreview;
     }
     
-    public void setPreviewImage(PlanarImage image) {
+//    public void setPreviewImage(PlanarImage image) {
+    public void setPreviewImage(BufferedImage image) {
     	if ( needsPreview ) 
     		if ( image != null ) {
     			if ( image.getWidth() <= 128 && image.getHeight() <= 128 ) {
@@ -96,8 +97,10 @@ public class ObjectContentCell extends JPanel implements LoadableImage {
     			}
     		} else {
     			// preview not found or load error
-				PlanarImage errorImage = 
-					JAI.create("url", getClass().getResource("/resources/icons/preview-loaderror.png")); 
+//				PlanarImage errorImage = 
+//					JAI.create("url", getClass().getResource("/resources/icons/preview-loaderror.png"));
+    			BufferedImage errorImage =
+    					HiImageConfig.getHiImage().createImageFromUrl(getClass().getResource("/resources/icons/preview-loaderror.png"));
 				viewPanel.removeAll();
 				viewPanel.set(errorImage);
 				needsPreview = false;
@@ -153,8 +156,10 @@ public class ObjectContentCell extends JPanel implements LoadableImage {
 
 		// attach temp picture
 		if ( needsPreview ) {
-	        PlanarImage image = 
-	        	JAI.create("url", getClass().getResource("/resources/icons/preview-loading.png")); 
+//	        PlanarImage image = 
+//	        	JAI.create("url", getClass().getResource("/resources/icons/preview-loading.png")); 
+	        BufferedImage image = 
+		        	HiImageConfig.getHiImage().createImageFromUrl(getClass().getResource("/resources/icons/preview-loading.png")); 
             viewPanel.set(image);
 		}
 		

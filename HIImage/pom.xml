@@ -8,12 +8,10 @@
   	<relativePath>../../../../../usr/local/tamim/workspace_HI/hi3-parent</relativePath>
   </parent>
 
-  <artifactId>HI3SystemManager</artifactId>
+  <artifactId>HiImage</artifactId>
 
   <build>
     <sourceDirectory>src</sourceDirectory>
-    <finalName>${project.artifactId}</finalName>  
-
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -24,19 +22,28 @@
         </configuration>
       </plugin>
 
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-        <configuration>
-          <archive>
-            <manifest>
-              <addClasspath>true</addClasspath>
-              <classpathPrefix>lib/</classpathPrefix>
-              <mainClass>org.hyperimage.sysop.client.Main</mainClass>
-            </manifest>
-          </archive>
-        </configuration>
-      </plugin>
+	  <plugin>
+	    <groupId>org.apache.maven.plugins</groupId>
+	    <artifactId>maven-assembly-plugin</artifactId>
+	    <version>2.5.5</version>
+	    <configuration>
+	      <descriptorRefs>
+	        <descriptorRef>jar-with-dependencies</descriptorRef>
+	      </descriptorRefs>
+	      <archive>
+	        <manifest>
+	        </manifest>
+	      </archive>
+	    </configuration>
+	    <executions>
+	      <execution>
+	        <phase>package</phase>
+	        <goals>
+	          <goal>single</goal>
+	        </goals>
+	      </execution>
+	    </executions>
+	  </plugin>
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -64,33 +71,13 @@
           <storepass>changeit</storepass>
         </configuration>
       </plugin>
-    </plugins>
+	</plugins>
   </build>
-  
   <dependencies>
-
-        <dependency>
-          <groupId>org.hyperimage</groupId>
-          <artifactId>HI3Author-EditorClient</artifactId>
-          <version>3.0</version>
-        </dependency>
-          
-	<dependency>
-	    <groupId>aspectj</groupId>
-	    <artifactId>aspectjrt</artifactId>
-	    <version>1.0</version>
-	    <scope>system</scope>
-	    <systemPath>${project.basedir}/lib/aspectjrt.jar</systemPath>
-	</dependency>
-
-
-	<dependency>
-	    <groupId>swing</groupId>
-	    <artifactId>swing-layout</artifactId>
-	    <version>1.0.4</version>
-	    <scope>system</scope>
-	    <systemPath>${project.basedir}/lib/swing-layout-1.0.4.jar</systemPath>
-	</dependency>
- 
+  	<dependency>
+  		<groupId>org.imgscalr</groupId>
+  		<artifactId>imgscalr-lib</artifactId>
+  		<version>4.2</version>
+  	</dependency>
   </dependencies>
 </project>

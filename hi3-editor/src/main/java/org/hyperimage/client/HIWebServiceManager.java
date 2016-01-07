@@ -53,7 +53,7 @@
 package org.hyperimage.client;
 
 import java.awt.Color;
-import java.awt.image.renderable.RenderableImage;
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -69,7 +69,6 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.media.jai.PlanarImage;
 import javax.swing.JOptionPane;
 import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilder;
@@ -78,9 +77,9 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.ws.wsaddressing.W3CEndpointReference;
 
 import org.hyperimage.client.exception.HIWebServiceException;
+import org.hyperimage.client.image.HiImageConfig;
 import org.hyperimage.client.model.RelativePolygon;
 import org.hyperimage.client.model.RelativePolygon.HiPolygonTypes;
-import org.hyperimage.client.util.ImageHelper;
 import org.hyperimage.client.util.MetadataHelper;
 import org.hyperimage.client.ws.GroupTypes;
 import org.hyperimage.client.ws.HIEditor;
@@ -136,7 +135,8 @@ public class HIWebServiceManager {
 	private Vector<Color> projectColors;
 	private Vector<String> projectPolygons;
 	
-	private HashMap<Long, PlanarImage> thumbnailCache;
+//	private HashMap<Long, PlanarImage> thumbnailCache;
+	private HashMap<Long, BufferedImage> thumbnailCache;
 	
 	private String username, password;
 	private HiRoles curRole = null;
@@ -150,7 +150,8 @@ public class HIWebServiceManager {
 	
 	public HIWebServiceManager(String serverURL) throws MalformedURLException {
 		HIRuntime.setManager(this);
-		this.thumbnailCache = new HashMap<Long, PlanarImage>();
+//		this.thumbnailCache = new HashMap<Long, PlanarImage>();
+		this.thumbnailCache = new HashMap<Long, BufferedImage>();
 		this.projectColors = new Vector<Color>();
 		this.projectPolygons = new Vector<String>();
 		if ( !serverURL.endsWith("/") ) serverURL = serverURL+"/";
@@ -707,12 +708,15 @@ public class HIWebServiceManager {
 		}		
 	}
 	
-	public PlanarImage getImage(HiView view, HiImageSizes size) throws HIWebServiceException {
+//	public PlanarImage getImage(HiView view, HiImageSizes size) throws HIWebServiceException {
+	public BufferedImage getImage(HiView view, HiImageSizes size) throws HIWebServiceException {
 		return getImage(view.getId(), size, true);
 	}
 		
-	public PlanarImage getImage(HiQuickInfo info, HiImageSizes size) throws HIWebServiceException {
-		PlanarImage image = null;
+//	public PlanarImage getImage(HiQuickInfo info, HiImageSizes size) throws HIWebServiceException {
+//		PlanarImage image = null;
+	public BufferedImage getImage(HiQuickInfo info, HiImageSizes size) throws HIWebServiceException {
+		BufferedImage image = null;
 		
 		if ( info.getContentType() == HiBaseTypes.HI_OBJECT )
 			image = getImage(info.getRelatedID(), size, true);
@@ -724,8 +728,10 @@ public class HIWebServiceManager {
 		return image;
 	}
 
-	public PlanarImage getImage(long viewID, HiImageSizes size, boolean cacheImage) throws HIWebServiceException {
-		PlanarImage image = null;
+//	public PlanarImage getImage(long viewID, HiImageSizes size, boolean cacheImage) throws HIWebServiceException {
+//		PlanarImage image = null;
+	public BufferedImage getImage(long viewID, HiImageSizes size, boolean cacheImage) throws HIWebServiceException {
+		BufferedImage image = null;
 
 
 		// TODO handle low memory - manage cache
@@ -737,8 +743,10 @@ public class HIWebServiceManager {
 		// if not, load from webservice
 		if ( image == null ) {
 			try {
-				image = ImageHelper.convertByteArrayToPlanarImage(
-						editor.getImage(viewID, size));
+//				image = ImageHelper.convertByteArrayToPlanarImage(
+//						editor.getImage(viewID, size));
+				image = HiImageConfig.getHiImage().createImageFromStream(
+						new ByteArrayInputStream(editor.getImage(viewID, size)));
 
 				// cache thumbnail if content was view, don�t cache objects as the default view might change
 				if ( size == HiImageSizes.HI_THUMBNAIL && cacheImage )
@@ -755,13 +763,17 @@ public class HIWebServiceManager {
 	
 	// ----------------------------------
 		
-	public RenderableImage getRenderableImage(long viewID) throws HIWebServiceException {
-		RenderableImage image = null;
+//	public RenderableImage getRenderableImage(long viewID) throws HIWebServiceException {
+//		RenderableImage image = null;
+	public BufferedImage getRenderableImage(long viewID) throws HIWebServiceException {
+		BufferedImage image = null;
 
 
 		try {
-			image = ImageHelper.convertByteArrayToRenderableImage(
-					editor.getImage(viewID, HiImageSizes.HI_FULL));
+//			image = ImageHelper.convertByteArrayToRenderableImage(
+//					editor.getImage(viewID, HiImageSizes.HI_FULL));
+			image = HiImageConfig.getHiImage().createImageFromStream(new ByteArrayInputStream(
+					editor.getImage(viewID, HiImageSizes.HI_FULL)));
 		} catch (Exception se) {
 			throw new HIWebServiceException(se);
 		}

@@ -32,7 +32,6 @@
 
 package org.hyperimage.client.gui;
 
-import com.sun.media.jai.widget.DisplayJAI;
 import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -53,22 +52,24 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Vector;
+
 import javax.imageio.ImageIO;
-import javax.media.jai.PlanarImage;
 import javax.swing.JPopupMenu;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
+
 import org.hyperimage.client.HIRuntime;
 import org.hyperimage.client.gui.views.LayerPolygonEditorView;
+import org.hyperimage.client.image.HiImageConfig;
 import org.hyperimage.client.model.HILayer;
 import org.hyperimage.client.model.HIRichText;
 import org.hyperimage.client.model.RelativePolygon;
 import org.hyperimage.client.model.RelativePolygon.HiPolygonTypes;
 import org.hyperimage.client.model.RelativePolygon.PolygonResizeCorners;
-import org.hyperimage.client.util.ImageHelper;
 import org.hyperimage.client.util.MetadataHelper;
+
+import com.sun.media.jai.widget.DisplayJAI;
 
 
 /**
@@ -95,7 +96,8 @@ public class PolygonEditorControl extends DisplayJAI implements PopupMenuListene
 	private static final long serialVersionUID = 584425494646670381L;
 
 	
-	private PlanarImage image;
+//	private PlanarImage image;
+	private BufferedImage image;
 	private float scale = 1.0f;
 	private Vector<HILayer> layers;
 	
@@ -134,7 +136,8 @@ public class PolygonEditorControl extends DisplayJAI implements PopupMenuListene
         private boolean isolationMode; // if true, only display polygons of user selected layer
 	private boolean placeFirstAnchorMode;
 		
-	public PolygonEditorControl(PlanarImage image, Vector<HILayer> layers) {
+//	public PolygonEditorControl(PlanarImage image, Vector<HILayer> layers) {
+	public PolygonEditorControl(BufferedImage image, Vector<HILayer> layers) {
 		this.image = image;
 		this.layers = layers;
 		this.selectedPolygon = null;
@@ -212,12 +215,13 @@ public class PolygonEditorControl extends DisplayJAI implements PopupMenuListene
 			this.scale = scale;
 
 			// scale layers
-			PlanarImage scaledImg = ImageHelper.scaleImageTo(image, scale);
+//			PlanarImage scaledImg = ImageHelper.scaleImageTo(image, scale);
+			BufferedImage scaledImg = HiImageConfig.getHiImage().scaleImage(image, scale);
 			for (HILayer layer : layers)
 				layer.setScale(scaledImg.getWidth(),scaledImg.getHeight());
 			// display image
 			this.set(scaledImg);
-			scaledImg.dispose();
+//			scaledImg.dispose();
 		}
 	}
 	

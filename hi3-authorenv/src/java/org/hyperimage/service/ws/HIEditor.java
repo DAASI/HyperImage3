@@ -52,8 +52,6 @@
 
 package org.hyperimage.service.ws;
 
-import com.sun.media.jai.codec.JPEGEncodeParam;
-import com.sun.xml.ws.developer.StatefulWebServiceManager;
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Composite;
@@ -61,29 +59,27 @@ import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.geom.GeneralPath;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.net.URLConnection;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.annotation.Resource;
 import javax.ejb.Stateful;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
-import javax.media.jai.JAI;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceUnit;
@@ -96,6 +92,8 @@ import javax.transaction.UserTransaction;
 import javax.xml.ws.BindingType;
 import javax.xml.ws.WebServiceContext;
 import javax.xml.ws.soap.Addressing;
+
+import org.hyperimage.client.image.HiImageConfig;
 import org.hyperimage.service.exception.HIEntityException;
 import org.hyperimage.service.exception.HIEntityNotFoundException;
 import org.hyperimage.service.exception.HIMaintenanceModeException;
@@ -131,10 +129,11 @@ import org.hyperimage.service.model.render.HILayerRenderer;
 import org.hyperimage.service.model.render.RelativePolygon;
 import org.hyperimage.service.search.HIIndexer;
 import org.hyperimage.service.storage.FileStorageManager;
-import org.hyperimage.service.util.ImageHelper;
 import org.hyperimage.service.util.MetadataHelper;
 import org.hyperimage.service.util.PRrest;
 import org.hyperimage.service.util.ServerPreferences;
+
+import com.sun.xml.ws.developer.StatefulWebServiceManager;
 
 /**
  *
@@ -385,7 +384,7 @@ public class HIEditor {
             state = WSstates.AUTHENTICATED;
             throw new HIServiceException("Mandatory project groups not found!");
         }
-        Logger.getLogger(HIEditor.class.getName()).log(Level.INFO, "set project id: "+curProject.getId()+" for user: "+curUser.getUserName());
+        m_logger.log(Level.INFO, "set project id: "+curProject.getId()+" for user: "+curUser.getUserName());
 
 
         // DEBUG find orphaned content and add it to the import group
@@ -500,7 +499,7 @@ public class HIEditor {
 
             utx.commit();
         } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-            Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+        	m_logger.log(Level.SEVERE, null, ex);
         }
 
         // attach Prometheus specific metadata template
@@ -637,7 +636,7 @@ public class HIEditor {
             em.flush();
             utx.commit();
         } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-            Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+        	m_logger.log(Level.SEVERE, null, ex);
         }
 
         return user;
@@ -723,7 +722,7 @@ public class HIEditor {
             em.flush();
             utx.commit();
         } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-            Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+        	m_logger.log(Level.SEVERE, null, ex);
         }
 
         return true;
@@ -763,7 +762,7 @@ public class HIEditor {
             em.flush();
             utx.commit();
         } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-            Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+        	m_logger.log(Level.SEVERE, null, ex);
         }
 
         return true;
@@ -816,7 +815,7 @@ public class HIEditor {
             em.flush();
             utx.commit();
         } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-            Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+        	m_logger.log(Level.SEVERE, null, ex);
             return false;
         }
 
@@ -893,7 +892,7 @@ public class HIEditor {
             em.flush();
             utx.commit();
         } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-            Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+        	m_logger.log(Level.SEVERE, null, ex);
         }
 
         return true;
@@ -944,7 +943,7 @@ public class HIEditor {
             }
             utx.commit();
         } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-            Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+        	m_logger.log(Level.SEVERE, null, ex);
         }
 
         return true;
@@ -987,7 +986,7 @@ public class HIEditor {
             em.flush();
             utx.commit();
         } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-            Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+        	m_logger.log(Level.SEVERE, null, ex);
             return false;
         }
 
@@ -1040,7 +1039,7 @@ public class HIEditor {
             }
             utx.commit();
         } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-            Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+        	m_logger.log(Level.SEVERE, null, ex);
         }
 
         return true;
@@ -1084,7 +1083,7 @@ public class HIEditor {
             em.flush();
             utx.commit();
         } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-            Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+        	m_logger.log(Level.SEVERE, null, ex);
             return false;
         }
 
@@ -1242,7 +1241,7 @@ public class HIEditor {
             em.flush();
             utx.commit();
         } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-            Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+        	m_logger.log(Level.SEVERE, null, ex);
         }
 
         // attach base internal templates
@@ -1318,7 +1317,7 @@ public class HIEditor {
             }
             utx.commit();
         } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-            Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+        	m_logger.log(Level.SEVERE, null, ex);
         }
 
         return true;
@@ -1420,7 +1419,7 @@ public class HIEditor {
 
             utx.commit();
         } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-            Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+        	m_logger.log(Level.SEVERE, null, ex);
         }
 
         return true;
@@ -1545,7 +1544,7 @@ public class HIEditor {
             }
             utx.commit();
         } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-            Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+        	m_logger.log(Level.SEVERE, null, ex);
             return false;
         }
 
@@ -1585,7 +1584,7 @@ public class HIEditor {
             em.flush();
             utx.commit();
         } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-            Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+        	m_logger.log(Level.SEVERE, null, ex);
         }
 
         return true;
@@ -1621,7 +1620,7 @@ public class HIEditor {
             em.flush();
             utx.commit();
         } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-            Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+        	m_logger.log(Level.SEVERE, null, ex);
             return false;
         }
 
@@ -1689,7 +1688,7 @@ public class HIEditor {
         } catch (NoResultException e) {
             // no objects in project
         } catch (RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException | SystemException | NotSupportedException ex) {
-            Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+        	m_logger.log(Level.SEVERE, null, ex);
             return false;
         }
 
@@ -1765,7 +1764,7 @@ public class HIEditor {
             }
             utx.commit();
         } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-            Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+        	m_logger.log(Level.SEVERE, null, ex);
         }
 
         return newSet;
@@ -1830,7 +1829,7 @@ public class HIEditor {
             }
             utx.commit();
         } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-            Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+        	m_logger.log(Level.SEVERE, null, ex);
         }
 
         return newName;
@@ -1887,7 +1886,7 @@ public class HIEditor {
             em.flush();
             utx.commit();
         } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-            Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+        	m_logger.log(Level.SEVERE, null, ex);
         }
     }
 
@@ -1964,7 +1963,7 @@ public class HIEditor {
         } catch (NoResultException e) {
             // no objects in project
         } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-            Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+        	m_logger.log(Level.SEVERE, null, ex);
             return false;
         }
 
@@ -1998,6 +1997,7 @@ public class HIEditor {
 
         for (HIProjectMetadata metadata : curProject.getMetadata()) {
             if (metadata.getLanguageID().compareTo(languageID) == 0) {
+            	m_logger.log(Level.INFO, "Updating " + title);
                 metadata.setTitle(title);
                 try {
                     utx.begin();
@@ -2008,7 +2008,7 @@ public class HIEditor {
                     em.flush();
                     utx.commit();
                 } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-                    Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+                	m_logger.log(Level.SEVERE, null, ex);
                     return false;
                 }
                 return true;
@@ -2043,7 +2043,7 @@ public class HIEditor {
             em.flush();
             utx.commit();
         } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-            Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+        	m_logger.log(Level.SEVERE, null, ex);
             return false;
         }
 
@@ -2084,7 +2084,7 @@ public class HIEditor {
             em.flush();
             utx.commit();
         } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-            Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+        	m_logger.log(Level.SEVERE, null, ex);
             return false;
         }
 
@@ -2121,7 +2121,7 @@ public class HIEditor {
                 em.flush();
                 utx.commit();
             } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-                Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+            	m_logger.log(Level.SEVERE, null, ex);
             }
         }
         return newPref;
@@ -2154,7 +2154,7 @@ public class HIEditor {
             em.flush();
             utx.commit();
         } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-            Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+        	m_logger.log(Level.SEVERE, null, ex);
             return false;
         }
 
@@ -2191,7 +2191,7 @@ public class HIEditor {
             em.flush();
             utx.commit();
         } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-            Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+        	m_logger.log(Level.SEVERE, null, ex);
             return false;
         }
 
@@ -2232,9 +2232,9 @@ public class HIEditor {
                     deleteFromProject(hiObject.getId());
                 } else hiImages.add(image.getPID());
             } catch (HIMaintenanceModeException ex) {
-                Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+            	m_logger.log(Level.SEVERE, null, ex);
             } catch (HIParameterException | HIEntityException | HIPrivilegeException ex) {
-                Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+            	m_logger.log(Level.SEVERE, null, ex);
             }
         }
         
@@ -2249,7 +2249,7 @@ public class HIEditor {
         try {
             updatePreference(MetadataHelper.findPreference(curProject, "PRPIDList").getId(), pidString);
         } catch (HIParameterException | HIEntityNotFoundException | HIPrivilegeException ex) {
-            Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+        	m_logger.log(Level.SEVERE, null, ex);
         }
     }
 
@@ -2272,7 +2272,7 @@ public class HIEditor {
                 em.flush();
                 utx.commit();
             } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-                Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+            	m_logger.log(Level.SEVERE, null, ex);
             }
         }
 
@@ -2295,7 +2295,7 @@ public class HIEditor {
                 em.flush();
                 utx.commit();
             } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-                Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+            	m_logger.log(Level.SEVERE, null, ex);
             }
         }
         
@@ -2376,7 +2376,7 @@ public class HIEditor {
             em.flush();
             utx.commit();
         } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-            Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+        	m_logger.log(Level.SEVERE, null, ex);
             return false;
         }
 
@@ -2405,7 +2405,7 @@ public class HIEditor {
             em.flush();
             utx.commit();
         } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-            Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+        	m_logger.log(Level.SEVERE, null, ex);
         }
         
     }
@@ -2517,7 +2517,7 @@ public class HIEditor {
             utx.commit();
 
         } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-            Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+        	m_logger.log(Level.SEVERE, null, ex);
             return false;
         }
 
@@ -2661,7 +2661,7 @@ public class HIEditor {
                 }
                 utx.commit();
             } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-                Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+            	m_logger.log(Level.SEVERE, null, ex);
             }
 
             // update lucene index
@@ -2733,7 +2733,7 @@ public class HIEditor {
                 em.flush();
                 utx.commit();
             } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-                Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+            	m_logger.log(Level.SEVERE, null, ex);
             }
         }
 
@@ -2813,7 +2813,7 @@ public class HIEditor {
                 }
                 utx.commit();
             } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-                Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+            	m_logger.log(Level.SEVERE, null, ex);
             }
 
             // update lucene index
@@ -2854,7 +2854,7 @@ public class HIEditor {
             em.flush();
             utx.commit();
         } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-            Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+        	m_logger.log(Level.SEVERE, null, ex);
         }
 
         addToImportGroup(object);
@@ -2893,7 +2893,7 @@ public class HIEditor {
             em.flush();
             utx.commit();
         } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-            Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+        	m_logger.log(Level.SEVERE, null, ex);
         }
     }
 
@@ -2978,7 +2978,7 @@ public class HIEditor {
             em.flush();
             utx.commit();
         } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-            Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+        	m_logger.log(Level.SEVERE, null, ex);
         }
 
         indexer.storeElement(view, curProject); // update lucene index
@@ -3031,7 +3031,7 @@ public class HIEditor {
                 em.flush();
                 utx.commit();
             } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-                Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+            	m_logger.log(Level.SEVERE, null, ex);
                 return false;
             }
             return true;
@@ -3096,7 +3096,7 @@ public class HIEditor {
             em.flush();
             utx.commit();
         } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-            Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+        	m_logger.log(Level.SEVERE, null, ex);
             return false;
         }
 
@@ -3126,7 +3126,7 @@ public class HIEditor {
             em.flush();
             utx.commit();
         } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-            Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+        	m_logger.log(Level.SEVERE, null, ex);
         }
 
     }
@@ -3159,7 +3159,7 @@ public class HIEditor {
             em.flush();
             utx.commit();
         } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-            Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+        	m_logger.log(Level.SEVERE, null, ex);
         }
     }
 
@@ -3234,7 +3234,8 @@ public class HIEditor {
             } else {
                 if (base instanceof HILayer) {
                     // if base element was layer, render layer on top of image
-                    BufferedImage previewImage = ImageHelper.convertByteArrayToBufferedImage(storageManager.getPreview(view));
+//                    BufferedImage previewImage = ImageHelper.convertByteArrayToBufferedImage(storageManager.getPreview(view));
+                    BufferedImage previewImage = HiImageConfig.getHiImage().createImageFromStream(new ByteArrayInputStream(storageManager.getPreview(view)));
                     HILayerRenderer renderLayer = new HILayerRenderer((HILayer) base, previewImage.getWidth(), previewImage.getHeight());
                     Graphics2D g2d = previewImage.createGraphics();
 
@@ -3279,13 +3280,15 @@ public class HIEditor {
                     // clip image to layer bounds
                     previewImage = previewImage.getSubimage(x, y, width, height);
                     // scale image back to thumbnail size
-                    previewImage = ImageHelper.scaleImageTo(previewImage, new Dimension(128, 128)).getAsBufferedImage();
+//                    previewImage = ImageHelper.scaleImageTo(previewImage, new Dimension(128, 128)).getAsBufferedImage();
+                    previewImage = HiImageConfig.getHiImage().scaleImage(previewImage, new Dimension(128, 128));
 
                     // convert back to bytes
-                    ByteArrayOutputStream outThumbnail = new ByteArrayOutputStream();
-                    JPEGEncodeParam jpegParam = new JPEGEncodeParam();
-                    jpegParam.setQuality(0.8f); // set encoding quality
-                    JAI.create("encode", previewImage, outThumbnail, "JPEG", jpegParam);
+//                    ByteArrayOutputStream outThumbnail = new ByteArrayOutputStream();
+//                    JPEGEncodeParam jpegParam = new JPEGEncodeParam();
+//                    jpegParam.setQuality(0.8f); // set encoding quality
+//                    JAI.create("encode", previewImage, outThumbnail, "JPEG", jpegParam);
+                    ByteArrayOutputStream outThumbnail = HiImageConfig.getHiImage().convertToJpeg(previewImage);
                     bitstream = outThumbnail.toByteArray();
 
                 } else {
@@ -3369,15 +3372,18 @@ public class HIEditor {
         double minScale = Math.max((128d/view.getWidth()),(128d/view.getHeight()));
         scale = Math.max(scale, minScale);
         
-        BufferedImage previewImage = ImageHelper.convertByteArrayToBufferedImage(storageManager.getHiRes(view));
+//        BufferedImage previewImage = ImageHelper.convertByteArrayToBufferedImage(storageManager.getHiRes(view));
+        BufferedImage previewImage = HiImageConfig.getHiImage().createImageFromStream(new ByteArrayInputStream(storageManager.getHiRes(view)));
         // scale image back to thumbnail size
-        previewImage = ImageHelper.scaleImageTo(previewImage, new Dimension((int)Math.round(view.getWidth()*scale), (int)Math.round(view.getHeight()*scale))).getAsBufferedImage();
+//        previewImage = ImageHelper.scaleImageTo(previewImage, new Dimension((int)Math.round(view.getWidth()*scale), (int)Math.round(view.getHeight()*scale))).getAsBufferedImage();
+        previewImage = HiImageConfig.getHiImage().scaleImage(previewImage, new Dimension((int)Math.round(view.getWidth()*scale), (int)Math.round(view.getHeight()*scale)));
 
         // convert back to bytes
-        ByteArrayOutputStream outImage = new ByteArrayOutputStream();
-        JPEGEncodeParam jpegParam = new JPEGEncodeParam();
-        jpegParam.setQuality(0.8f); // set encoding quality
-        JAI.create("encode", previewImage, outImage, "JPEG", jpegParam);
+//        ByteArrayOutputStream outImage = new ByteArrayOutputStream();
+//        JPEGEncodeParam jpegParam = new JPEGEncodeParam();
+//        jpegParam.setQuality(0.8f); // set encoding quality
+//        JAI.create("encode", previewImage, outImage, "JPEG", jpegParam);
+        ByteArrayOutputStream outImage = HiImageConfig.getHiImage().convertToJpeg(previewImage);
         bitstream = outImage.toByteArray();
 
 
@@ -3431,7 +3437,7 @@ public class HIEditor {
             em.flush();
             utx.commit();
         } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-            Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+        	m_logger.log(Level.SEVERE, null, ex);
         }
 
 
@@ -3489,7 +3495,7 @@ public class HIEditor {
             em.flush();
             utx.commit();
         } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-            Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+        	m_logger.log(Level.SEVERE, null, ex);
         }
 
         indexer.storeElement(layer, curProject); // update lucene index
@@ -3529,7 +3535,7 @@ public class HIEditor {
             em.flush();
             utx.commit();
         } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-            Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+        	m_logger.log(Level.SEVERE, null, ex);
         }
 
         return true;
@@ -3569,7 +3575,7 @@ public class HIEditor {
             em.flush();
             utx.commit();
         } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-            Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+        	m_logger.log(Level.SEVERE, null, ex);
             return false;
         }
 
@@ -3629,7 +3635,7 @@ public class HIEditor {
             em.flush();
             utx.commit();
         } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-            Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+        	m_logger.log(Level.SEVERE, null, ex);
             return false;
         }
 
@@ -3662,7 +3668,7 @@ public class HIEditor {
             em.flush();
             utx.commit();
         } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-            Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+        	m_logger.log(Level.SEVERE, null, ex);
             return false;
         }
 
@@ -3707,7 +3713,7 @@ public class HIEditor {
             em.flush();
             utx.commit();
         } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-            Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+        	m_logger.log(Level.SEVERE, null, ex);
         }
 
         addToImportGroup(hiUrl);
@@ -3792,7 +3798,7 @@ public class HIEditor {
             em.flush();
             utx.commit();
         } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-            Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+        	m_logger.log(Level.SEVERE, null, ex);
         }
 
         addToImportGroup(text);
@@ -3840,7 +3846,7 @@ public class HIEditor {
             em.flush();
             utx.commit();
         } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-            Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+        	m_logger.log(Level.SEVERE, null, ex);
         }
 
         addToImportGroup(lightTable);
@@ -3916,7 +3922,7 @@ public class HIEditor {
             em.flush();
             utx.commit();
         } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-            Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+        	m_logger.log(Level.SEVERE, null, ex);
         }
 
         return userRepos;
@@ -3962,7 +3968,7 @@ public class HIEditor {
             em.flush();
             utx.commit();
         } catch ( NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-            Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+        	m_logger.log(Level.SEVERE, null, ex);
             return false;
         }
 
@@ -3998,7 +4004,7 @@ public class HIEditor {
                     em.flush();
                     utx.commit();
                 } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-                    Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+                	m_logger.log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -4039,7 +4045,7 @@ public class HIEditor {
             indexer.storeElement(tagGroup, curProject); // update lucene index
 
         } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-            Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+        	m_logger.log(Level.SEVERE, null, ex);
         }
         tagGroup = em.find(HIGroup.class, tagGroup.getId());
         return tagGroup;
@@ -4126,7 +4132,7 @@ public class HIEditor {
                     em.flush();
                     utx.commit();
                 } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-                    Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+                	m_logger.log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -4185,7 +4191,7 @@ public class HIEditor {
             em.flush();
             utx.commit();
         } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-            Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+        	m_logger.log(Level.SEVERE, null, ex);
         }
         group = em.find(HIGroup.class, group.getId());
         return group;
@@ -4219,7 +4225,7 @@ public class HIEditor {
             em.flush();
             utx.commit();
         } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-            Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+        	m_logger.log(Level.SEVERE, null, ex);
         }
 
         return true;
@@ -4256,7 +4262,7 @@ public class HIEditor {
             em.flush();
             utx.commit();
         } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-            Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+        	m_logger.log(Level.SEVERE, null, ex);
         }
 
     }
@@ -4313,7 +4319,7 @@ public class HIEditor {
             em.flush();
             utx.commit();
         } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-            Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+        	m_logger.log(Level.SEVERE, null, ex);
         }
 
         // remove group from all other groups and delete group
@@ -4360,7 +4366,7 @@ public class HIEditor {
             em.flush();
             utx.commit();
         } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-            Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+        	m_logger.log(Level.SEVERE, null, ex);
         }
 
         return true;
@@ -4402,7 +4408,7 @@ public class HIEditor {
                     em.flush();
                     utx.commit();
                 } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-                    Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+                	m_logger.log(Level.SEVERE, null, ex);
                 }
             }
             info = createContentQuickInfo(content);
@@ -4439,7 +4445,7 @@ public class HIEditor {
                 em.flush();
                 utx.commit();
             } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-                Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+            	m_logger.log(Level.SEVERE, null, ex);
             }
         }
         
@@ -4511,7 +4517,7 @@ public class HIEditor {
                                 em.flush();
                                 utx.commit();
                             } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-                                Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+                            	m_logger.log(Level.SEVERE, null, ex);
                             }
                         } else if (fieldPref.getValue().indexOf(".") < 0) {
                             fieldPref.setValue("dc.title");
@@ -4523,7 +4529,7 @@ public class HIEditor {
                                 em.flush();
                                 utx.commit();
                             } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-                                Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+                            	m_logger.log(Level.SEVERE, null, ex);
                             }
                         }
                     }
@@ -4710,7 +4716,7 @@ public class HIEditor {
             em.flush();
             utx.commit();
         } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-            Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+        	m_logger.log(Level.SEVERE, null, ex);
         }
 
         return true;
@@ -4854,7 +4860,7 @@ public class HIEditor {
                 em.flush();
                 utx.commit();
             } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-                Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+            	m_logger.log(Level.SEVERE, null, ex);
             }
 
             // add element to trash group
@@ -4877,7 +4883,7 @@ public class HIEditor {
                 em.flush();
                 utx.commit();
             } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-                Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+            	m_logger.log(Level.SEVERE, null, ex);
             }
         }
 
@@ -5042,7 +5048,7 @@ public class HIEditor {
                 em.flush();
                 utx.commit();
             } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-                Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+            	m_logger.log(Level.SEVERE, null, ex);
             }
         } else {
             return false;
@@ -5076,7 +5082,7 @@ public class HIEditor {
                 utx.commit();
                 base = em.find(HIBase.class, base.getId());
             } catch (HIPrivilegeException | HIEntityNotFoundException | NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-                Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+            	m_logger.log(Level.SEVERE, null, ex);
             }
         
         
@@ -5091,7 +5097,7 @@ public class HIEditor {
                 utx.commit();
                 base = em.find(HIBase.class, base.getId());
             } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-                Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+            	m_logger.log(Level.SEVERE, null, ex);
             }
         }
 
@@ -5109,7 +5115,7 @@ public class HIEditor {
                 em.flush();
                 utx.commit();
             } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-                Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+            	m_logger.log(Level.SEVERE, null, ex);
             }
         }
     }
@@ -5236,7 +5242,7 @@ public class HIEditor {
             rec = createFlexMetadataRecord(em, base, language);
             utx.commit();
         } catch ( NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-            Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+        	m_logger.log(Level.SEVERE, null, ex);
         }
 
         return rec;
@@ -5300,7 +5306,7 @@ public class HIEditor {
             em.flush();
 /*            utx.commit();
         } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-            Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+            m_logger.log(Level.SEVERE, null, ex);
         }
 */
         indexer.storeElement(base, curProject); // update lucene index
@@ -5392,7 +5398,7 @@ public class HIEditor {
             em.flush();
             utx.commit();
         } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-            Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+        	m_logger.log(Level.SEVERE, null, ex);
         }
 
         indexer.storeElement(owner, curProject); // update lucene index
@@ -5475,7 +5481,7 @@ public class HIEditor {
             }
             utx.commit();
         } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-            Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+        	m_logger.log(Level.SEVERE, null, ex);
         }
     }
 
@@ -5780,7 +5786,7 @@ public class HIEditor {
 
             utx.commit();
         } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-            Logger.getLogger(HIEditor.class.getName()).log(Level.SEVERE, null, ex);
+        	m_logger.log(Level.SEVERE, null, ex);
         }
 
     }

@@ -52,9 +52,8 @@
 
 package org.hyperimage.service.storage;
 
-import com.sun.media.jai.codec.JPEGEncodeParam;
-import com.sun.media.jai.codec.SeekableStream;
 import java.awt.Dimension;
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -64,11 +63,10 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import javax.media.jai.JAI;
-import javax.media.jai.PlanarImage;
+
+import org.hyperimage.client.image.HiImageConfig;
 import org.hyperimage.service.model.HIProject;
 import org.hyperimage.service.model.HIView;
-import org.hyperimage.service.util.ImageHelper;
 
 /**
  *
@@ -130,8 +128,9 @@ public class FileStorageManager {
         if (view.getMimeType().startsWith("image")) {
             // load byte array as image
             try {
-                PlanarImage viewImage = JAI.create("stream", SeekableStream.wrapInputStream(
-                        new ByteArrayInputStream(data), true));
+//                PlanarImage viewImage = JAI.create("stream", SeekableStream.wrapInputStream(
+//                        new ByteArrayInputStream(data), true));
+            	BufferedImage viewImage = HiImageConfig.getHiImage().createImageFromStream(new ByteArrayInputStream(data));
 
                 // set bitstream info
                 view.setWidth(viewImage.getWidth());
@@ -141,23 +140,32 @@ public class FileStorageManager {
                 navWidth = navWidth / (12800 / view.getHeight());
 
                 // render preview and thumbnail image
-                PlanarImage previewImage = ImageHelper.scaleImageTo(viewImage, new Dimension(400, 400));
-                PlanarImage navImage = ImageHelper.scaleImageTo(viewImage, new Dimension(navWidth, 128));
-                PlanarImage thumbImage = ImageHelper.scaleImageTo(viewImage, new Dimension(128, 128));
+//                PlanarImage previewImage = ImageHelper.scaleImageTo(viewImage, new Dimension(400, 400));
+//                PlanarImage navImage = ImageHelper.scaleImageTo(viewImage, new Dimension(navWidth, 128));
+//                PlanarImage thumbImage = ImageHelper.scaleImageTo(viewImage, new Dimension(128, 128));
+                BufferedImage previewImage = HiImageConfig.getHiImage().scaleImage(viewImage, new Dimension(400, 400));
+                BufferedImage navImage = HiImageConfig.getHiImage().scaleImage(viewImage, new Dimension(navWidth, 128));
+                BufferedImage thumbImage = HiImageConfig.getHiImage().scaleImage(viewImage, new Dimension(128, 128));
 
                 // create jpeg files from PlanarImages		    
-                ByteArrayOutputStream outHiRes = new ByteArrayOutputStream();
-                ByteArrayOutputStream outPreview = new ByteArrayOutputStream();
-                ByteArrayOutputStream outNav = new ByteArrayOutputStream();
-                ByteArrayOutputStream outThumbnail = new ByteArrayOutputStream();
+//                ByteArrayOutputStream outHiRes = new ByteArrayOutputStream();
+//                ByteArrayOutputStream outPreview = new ByteArrayOutputStream();
+//                ByteArrayOutputStream outNav = new ByteArrayOutputStream();
+//                ByteArrayOutputStream outThumbnail = new ByteArrayOutputStream();
+//
+//                JPEGEncodeParam jpegParam = new JPEGEncodeParam();
+//                // set encoding quality
+//                jpegParam.setQuality(0.8f);
+//                JAI.create("encode", viewImage, outHiRes, "JPEG", jpegParam);
+//                JAI.create("encode", previewImage, outPreview, "JPEG", jpegParam);
+//                JAI.create("encode", navImage, outNav, "JPEG", jpegParam);
+//                JAI.create("encode", thumbImage, outThumbnail, "JPEG", jpegParam);
+                ByteArrayOutputStream outHiRes = HiImageConfig.getHiImage().convertToJpeg(viewImage);
+                ByteArrayOutputStream outPreview = HiImageConfig.getHiImage().convertToJpeg(previewImage);
+                ByteArrayOutputStream outNav = HiImageConfig.getHiImage().convertToJpeg(navImage);
+                ByteArrayOutputStream outThumbnail = HiImageConfig.getHiImage().convertToJpeg(thumbImage);
 
-                JPEGEncodeParam jpegParam = new JPEGEncodeParam();
-                // set encoding quality
-                jpegParam.setQuality(0.8f);
-                JAI.create("encode", viewImage, outHiRes, "JPEG", jpegParam);
-                JAI.create("encode", previewImage, outPreview, "JPEG", jpegParam);
-                JAI.create("encode", navImage, outNav, "JPEG", jpegParam);
-                JAI.create("encode", thumbImage, outThumbnail, "JPEG", jpegParam);
+                
                 hiresData = outHiRes.toByteArray();
                 previewData = outPreview.toByteArray();
                 navData = outNav.toByteArray();
@@ -328,22 +336,25 @@ public class FileStorageManager {
             if (view.getMimeType().startsWith("image")) {
                 // load byte array as image
                 try {
-                    PlanarImage viewImage = JAI.create("stream", SeekableStream.wrapInputStream(
-                            new FileInputStream(getDir(view) + view.getHash() + ".original"), true));
+//                    PlanarImage viewImage = JAI.create("stream", SeekableStream.wrapInputStream(
+//                            new FileInputStream(getDir(view) + view.getHash() + ".original"), true));
+                	BufferedImage viewImage = HiImageConfig.getHiImage().createImageFromStream(new FileInputStream(getDir(view) + view.getHash() + ".original"));
 
                     int navWidth = view.getWidth();
                     navWidth = navWidth / (12800 / view.getHeight());
 
                     // render nav image
-                    PlanarImage navImage = ImageHelper.scaleImageTo(viewImage, new Dimension(navWidth, 128));
+//                    PlanarImage navImage = ImageHelper.scaleImageTo(viewImage, new Dimension(navWidth, 128));
+                    BufferedImage navImage = HiImageConfig.getHiImage().scaleImage(viewImage, new Dimension(navWidth, 128));
 
                     // create jpeg files from PlanarImages		    
-                    ByteArrayOutputStream outNav = new ByteArrayOutputStream();
-
-                    JPEGEncodeParam jpegParam = new JPEGEncodeParam();
-                    // set encoding quality
-                    jpegParam.setQuality(0.8f);
-                    JAI.create("encode", navImage, outNav, "JPEG", jpegParam);
+//                    ByteArrayOutputStream outNav = new ByteArrayOutputStream();
+//
+//                    JPEGEncodeParam jpegParam = new JPEGEncodeParam();
+//                    // set encoding quality
+//                    jpegParam.setQuality(0.8f);
+//                    JAI.create("encode", navImage, outNav, "JPEG", jpegParam);
+                    ByteArrayOutputStream outNav = HiImageConfig.getHiImage().convertToJpeg(navImage);
                     navData = outNav.toByteArray();
 
                     FileOutputStream fos;

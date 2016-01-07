@@ -27,12 +27,14 @@
 
 package org.hyperimage.client.util;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.util.HashMap;
 
-import javax.media.jai.PlanarImage;
 import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
 
+import org.hyperimage.client.image.HiImageConfig;
 import org.hyperimage.connector.fedora3.ws.HIFedora3Connector;
 
 /**
@@ -49,7 +51,8 @@ public class WSRepositoryImageLoaderThread extends Thread {
 		private HIFedora3Connector proxy;
 		private LoadableImage imageComponent;
 		private JComponent container;
-		private HashMap<String, PlanarImage> previewCache;
+//		private HashMap<String, PlanarImage> previewCache;
+		private HashMap<String, BufferedImage> previewCache;
 		
 
 		public WSRepositoryImageLoaderThread()
@@ -57,7 +60,8 @@ public class WSRepositoryImageLoaderThread extends Thread {
 			this.thread = new Thread(this); 
 		}
 
-		public void loadImage(HIFedora3Connector proxy, String urn, LoadableImage imageComponent, JComponent container, HashMap<String, PlanarImage> previewCache) {
+//		public void loadImage(HIFedora3Connector proxy, String urn, LoadableImage imageComponent, JComponent container, HashMap<String, PlanarImage> previewCache) {
+		public void loadImage(HIFedora3Connector proxy, String urn, LoadableImage imageComponent, JComponent container, HashMap<String, BufferedImage> previewCache) {
 			this.proxy = proxy;
 			this.urn = urn;
 			this.imageComponent = imageComponent;
@@ -69,11 +73,14 @@ public class WSRepositoryImageLoaderThread extends Thread {
 		public void run() 
 		{
 			try {
-				final PlanarImage thumbnail;
+//				final PlanarImage thumbnail;
+				final BufferedImage thumbnail;
 				// DEBUG caching strategy for repositories
-				PlanarImage cachedImage = previewCache.get(urn);
+//				PlanarImage cachedImage = previewCache.get(urn);
+				BufferedImage cachedImage = previewCache.get(urn);
 				if ( cachedImage == null ) {
-					thumbnail = ImageHelper.convertByteArrayToPlanarImage(proxy.getAssetPreviewData(null, urn));
+//					thumbnail = ImageHelper.convertByteArrayToPlanarImage(proxy.getAssetPreviewData(null, urn));
+					thumbnail = HiImageConfig.getHiImage().createImageFromStream(new ByteArrayInputStream(proxy.getAssetPreviewData(null, urn)));
 					previewCache.put(urn, thumbnail);
 				} else
 					thumbnail = cachedImage;

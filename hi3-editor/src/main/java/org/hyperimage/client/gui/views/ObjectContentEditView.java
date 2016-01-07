@@ -55,21 +55,29 @@ package org.hyperimage.client.gui.views;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.net.URLConnection;
 
-import javax.media.jai.JAI;
-import javax.media.jai.PlanarImage;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
+import org.hyperimage.client.HIRuntime;
 import org.hyperimage.client.Messages;
 import org.hyperimage.client.gui.InscriptionViewerControl;
 import org.hyperimage.client.gui.LayerViewerControl;
+import org.hyperimage.client.gui.TagsButton;
+import org.hyperimage.client.gui.dialogs.HIBaseTagsEditorDialog;
+import org.hyperimage.client.image.HiImageConfig;
 import org.hyperimage.client.util.LoadableImage;
+import org.hyperimage.client.util.MetadataHelper;
 import org.hyperimage.client.ws.HiInscription;
 import org.hyperimage.client.ws.HiObjectContent;
 import org.hyperimage.client.ws.HiView;
@@ -77,14 +85,6 @@ import org.jdesktop.layout.GroupLayout;
 import org.jdesktop.layout.LayoutStyle;
 
 import com.sun.media.jai.widget.DisplayJAI;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.net.URLConnection;
-import javax.swing.JScrollPane;
-import org.hyperimage.client.HIRuntime;
-import org.hyperimage.client.gui.TagsButton;
-import org.hyperimage.client.gui.dialogs.HIBaseTagsEditorDialog;
-import org.hyperimage.client.util.MetadataHelper;
 
 /**
  * @author Jens-Martin Loebel
@@ -108,7 +108,8 @@ public class ObjectContentEditView extends GUIView implements LoadableImage, Act
     private JPanel editPanel;
     private JProgressBar loadingIndicator;
     
-    private PlanarImage noPreview;
+//    private PlanarImage noPreview;
+    private BufferedImage noPreview;
     private DisplayJAI viewPanel;
     private InscriptionViewerControl inscriptionViewer;
     private LayerViewerControl layerViewer = null;
@@ -383,7 +384,8 @@ public class ObjectContentEditView extends GUIView implements LoadableImage, Act
         // no view panel (empty)
         viewPanel = new DisplayJAI();
         noPreview  = 
-            JAI.create("url", getClass().getResource("/resources/hyperimage-nopreview.png")); //$NON-NLS-1$ //$NON-NLS-2$
+//            JAI.create("url", getClass().getResource("/resources/hyperimage-nopreview.png")); //$NON-NLS-1$ //$NON-NLS-2$
+        		HiImageConfig.getHiImage().createImageFromUrl(getClass().getResource("/resources/hyperimage-nopreview.png"));
         // inscription panel
         inscriptionViewer = new InscriptionViewerControl(defLang);
         // view panel (layer viewer)
@@ -397,7 +399,8 @@ public class ObjectContentEditView extends GUIView implements LoadableImage, Act
 		return layerViewer.needsPreview();
 	}
 
-	public void setPreviewImage(PlanarImage image) {
+//	public void setPreviewImage(PlanarImage image) {
+	public void setPreviewImage(BufferedImage image) {
 		layerViewer.setPreviewImage(image);
 		
 		updateStatusBar();

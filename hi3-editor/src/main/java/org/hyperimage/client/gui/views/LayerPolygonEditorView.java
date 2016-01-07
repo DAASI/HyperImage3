@@ -34,8 +34,6 @@ package org.hyperimage.client.gui.views;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.KeyEventDispatcher;
-import java.awt.KeyboardFocusManager;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -46,8 +44,9 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
+import java.awt.image.BufferedImage;
 import java.util.Vector;
-import javax.media.jai.PlanarImage;
+
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBoxMenuItem;
@@ -63,6 +62,7 @@ import javax.swing.JToggleButton;
 import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
 import org.hyperimage.client.HIRuntime;
 import org.hyperimage.client.Messages;
 import org.hyperimage.client.gui.PolygonEditorControl;
@@ -94,7 +94,8 @@ public class LayerPolygonEditorView extends GUIView implements ChangeListener, M
 
 	private Vector<HILayer> layers;
 	private HILayer userSelectedLayer = null;
-	private PlanarImage image;
+//	private PlanarImage image;
+	private BufferedImage image;
 	private Vector<String> projectPolygons;
 
 	private float scale = 1.0f;
@@ -126,7 +127,8 @@ public class LayerPolygonEditorView extends GUIView implements ChangeListener, M
         private JToggleButton flowingFreeformButton;
         private JToggleButton arrowButton;
 
-	public LayerPolygonEditorView(Vector<HILayer> layers, PlanarImage image, Vector<String> projectPolygons) {
+//	public LayerPolygonEditorView(Vector<HILayer> layers, PlanarImage image, Vector<String> projectPolygons) {
+    	public LayerPolygonEditorView(Vector<HILayer> layers, BufferedImage image, Vector<String> projectPolygons) {
 		super(new Color(0x91, 0xB9, 0xFA));
 		this.layers = layers;
 		this.image = image;

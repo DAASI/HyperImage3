@@ -20,8 +20,11 @@
     <resources>
         <j2se version="1.7+" java-vm-args="-Xms500m -Xmx1000m" max-heap-size="1000m" initial-heap-size="500m" />
         <jar href="HI3Author-EditorClient_3.0.jar" main="true"/>
+<%-- 
       <jar href="lib/jai_codec.jar"/>
 <jar href="lib/jai_core.jar"/>
+--%>
+<jar href="lib/HiImage-0.0.1-SNAPSHOT-jar-with-dependencies.jar"/>
 <jar href="lib/jaxb-impl.jar"/>
 <jar href="lib/jaxb-xjc.jar"/>
 <jar href="lib/FastInfoset.jar"/>

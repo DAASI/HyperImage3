@@ -37,21 +37,20 @@ import java.awt.event.HierarchyBoundsListener;
 import java.awt.event.HierarchyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.geom.GeneralPath;
+import java.awt.image.BufferedImage;
 import java.util.List;
 import java.util.Vector;
 
-import javax.media.jai.JAI;
-import javax.media.jai.PlanarImage;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JSeparator;
 
 import org.hyperimage.client.HIRuntime;
 import org.hyperimage.client.Messages;
+import org.hyperimage.client.image.HiImageConfig;
 import org.hyperimage.client.model.HILayer;
 import org.hyperimage.client.model.HIRichText;
 import org.hyperimage.client.model.RelativePolygon;
-import org.hyperimage.client.util.ImageHelper;
 import org.hyperimage.client.util.LoadableImage;
 import org.hyperimage.client.util.MetadataHelper;
 import org.hyperimage.client.ws.HiLayer;
@@ -73,7 +72,8 @@ public class LayerViewerControl extends DisplayJAI implements LoadableImage, Hie
 	private Vector<HILayer> layers;
 	private HILayer activeLayer = null;
 	private HILayer selectedLayer = null;
-	private PlanarImage image = null;
+//	private PlanarImage image = null;
+	private BufferedImage image = null;
 
 	// static constants, used to draw the outline of a polygon
 	private static final BasicStroke solidStroke = new BasicStroke(1);
@@ -95,7 +95,8 @@ public class LayerViewerControl extends DisplayJAI implements LoadableImage, Hie
 	public LayerViewerControl() {
 		this.layers = new Vector<HILayer>();
 		this.addMouseMotionListener(this);
-		this.set(JAI.create("url", getClass().getResource("/resources/hyperimage-preview_loading.png"))); //$NON-NLS-1$ //$NON-NLS-2$
+//		this.set(JAI.create("url", getClass().getResource("/resources/hyperimage-preview_loading.png"))); //$NON-NLS-1$ //$NON-NLS-2$
+		this.set(HiImageConfig.getHiImage().createImageFromUrl(getClass().getResource("/resources/hyperimage-preview_loading.png")));
 		
 		initMenus();
 		updateLanguage();
@@ -134,7 +135,8 @@ public class LayerViewerControl extends DisplayJAI implements LoadableImage, Hie
 		
 		if ( needsPreview() ) {
 			displayLayers = false;
-			this.set(JAI.create("url", getClass().getResource("/resources/hyperimage-preview_loading.png"))); //$NON-NLS-1$ //$NON-NLS-2$
+//			this.set(JAI.create("url", getClass().getResource("/resources/hyperimage-preview_loading.png"))); //$NON-NLS-1$ //$NON-NLS-2$
+			this.set(HiImageConfig.getHiImage().createImageFromUrl(getClass().getResource("/resources/hyperimage-preview_loading.png")));
 		} else scalePreviewImage();
 	}
 
@@ -202,7 +204,8 @@ public class LayerViewerControl extends DisplayJAI implements LoadableImage, Hie
 		return needsPreview;
 	}
 
-	public void setPreviewImage(PlanarImage image) {
+//	public void setPreviewImage(PlanarImage image) {
+	public void setPreviewImage(BufferedImage image) {
 		if ( image != null ) {
 			this.set(image);
 			this.image = image;
@@ -212,8 +215,10 @@ public class LayerViewerControl extends DisplayJAI implements LoadableImage, Hie
 			updateScale();
 		} else {
 			// preview not found or load error
-			PlanarImage errorImage = 
-				JAI.create("url", getClass().getResource("/resources/icons/preview-loaderror.png"));  //$NON-NLS-1$ //$NON-NLS-2$
+//			PlanarImage errorImage = 
+//				JAI.create("url", getClass().getResource("/resources/icons/preview-loaderror.png"));  //$NON-NLS-1$ //$NON-NLS-2$
+			BufferedImage errorImage =
+					HiImageConfig.getHiImage().createImageFromUrl(getClass().getResource("/resources/icons/preview-loaderror.png"));
 			this.set(errorImage);
 			needsPreview = false;
 		}	
@@ -309,7 +314,8 @@ public class LayerViewerControl extends DisplayJAI implements LoadableImage, Hie
 	
 	private void scalePreviewImage() {
 		if ( displayLayers ) {
-			PlanarImage scaledImage = ImageHelper.scaleImageTo(image, curScale);
+//			PlanarImage scaledImage = ImageHelper.scaleImageTo(image, curScale);
+			BufferedImage scaledImage = HiImageConfig.getHiImage().scaleImage(image, curScale);
 			this.set(scaledImage);
 			for ( HILayer layer : layers )
 				layer.setScale(scaledImage.getWidth(), scaledImage.getHeight());

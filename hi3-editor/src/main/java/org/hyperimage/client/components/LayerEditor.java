@@ -39,12 +39,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 
-import javax.media.jai.PlanarImage;
 import javax.swing.DefaultListModel;
 import javax.swing.JComponent;
 import javax.swing.JList;
@@ -497,7 +497,8 @@ public class LayerEditor extends HIComponent implements ListSelectionListener, A
 
 	
 
-	public LayerEditor(HiView view, PlanarImage image, long layerID) {
+//	public LayerEditor(HiView view, PlanarImage image, long layerID) {
+	public LayerEditor(HiView view, BufferedImage image, long layerID) {
 
 		super(Messages.getString("LayerEditor.8")+" ("+
                         (view.getUUID() == null ? "V"+view.getId() : view.getUUID())+
@@ -584,7 +585,8 @@ public class LayerEditor extends HIComponent implements ListSelectionListener, A
 
 	
 	
-	public LayerEditor(HiView view, PlanarImage image) {
+//	public LayerEditor(HiView view, PlanarImage image) {
+	public LayerEditor(HiView view, BufferedImage image) {
 		this(view, image, -1);
 	}
 

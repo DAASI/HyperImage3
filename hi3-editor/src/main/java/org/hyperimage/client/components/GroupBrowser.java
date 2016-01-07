@@ -52,9 +52,6 @@
 
 package org.hyperimage.client.components;
 
-import com.sun.media.jai.codec.JPEGEncodeParam;
-import com.sun.media.jai.codec.SeekableStream;
-import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -63,19 +60,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.ByteArrayInputStream;
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
-import javax.media.jai.JAI;
-import javax.media.jai.PlanarImage;
+
 import javax.swing.DefaultListModel;
 import javax.swing.DropMode;
 import javax.swing.JComponent;
@@ -85,6 +80,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.TransferHandler;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+
 import org.hyperimage.client.HIRuntime;
 import org.hyperimage.client.HIWebServiceManager;
 import org.hyperimage.client.Messages;
@@ -104,6 +100,7 @@ import org.hyperimage.client.gui.lists.QuickInfoCell;
 import org.hyperimage.client.gui.views.GroupContentsView;
 import org.hyperimage.client.gui.views.GroupListView;
 import org.hyperimage.client.gui.views.GroupPropertyEditorView;
+import org.hyperimage.client.image.HiImageConfig;
 import org.hyperimage.client.model.HILayer;
 import org.hyperimage.client.util.MetadataHelper;
 import org.hyperimage.client.util.WSImageLoaderThread;
@@ -577,14 +574,16 @@ public class GroupBrowser extends HIComponent
                                             } else tempFile.createNewFile();
 
                                             // convert image file
-                                            PlanarImage viewImage = JAI.create("stream",SeekableStream.wrapInputStream(
-						new FileInputStream(file), true));
-                                            FileOutputStream outJPEG = new FileOutputStream(tempFile);
-
-                                            JPEGEncodeParam jpegParam = new JPEGEncodeParam();
-                                            // set encoding quality
-                                            jpegParam.setQuality(0.9f);
-                                            JAI.create("encode",viewImage, outJPEG, "JPEG", jpegParam);
+//                                            PlanarImage viewImage = JAI.create("stream",SeekableStream.wrapInputStream(
+//						new FileInputStream(file), true));
+											BufferedImage viewImage = HiImageConfig.getHiImage().createImageFromStream(new FileInputStream(file));
+//                                            FileOutputStream outJPEG = new FileOutputStream(tempFile);
+//
+//                                            JPEGEncodeParam jpegParam = new JPEGEncodeParam();
+//                                            // set encoding quality
+//                                            jpegParam.setQuality(0.9f);
+//                                            JAI.create("encode",viewImage, outJPEG, "JPEG", jpegParam);
+											ByteArrayOutputStream outJPEG = HiImageConfig.getHiImage().convertToJpeg(viewImage);	// TODO:Does this make sense at all?! 
                                             outJPEG.close();
                                             
                                             importFile = tempFile;

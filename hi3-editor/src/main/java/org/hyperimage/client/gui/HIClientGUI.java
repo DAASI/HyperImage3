@@ -70,6 +70,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.awt.image.BufferedImage;
 import java.beans.PropertyVetoException;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -83,14 +84,13 @@ import java.util.Locale;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.imageio.ImageIO;
-import javax.media.jai.PlanarImage;
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComponent;
 import javax.swing.JDesktopPane;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 import javax.swing.JMenu;
@@ -107,7 +107,7 @@ import javax.swing.event.InternalFrameListener;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.ws.WebServiceException;
+
 import org.hyperimage.client.HIRuntime;
 import org.hyperimage.client.HIWebServiceManager;
 import org.hyperimage.client.Messages;
@@ -1619,7 +1619,8 @@ public class HIClientGUI extends JFrame implements WindowListener, ActionListene
         new Thread() {
             public void run() {
                 startIndicatingServiceActivity();
-                PlanarImage image;
+//                PlanarImage image;
+                BufferedImage image;
                 try {
                     image = HIRuntime.getManager().getImage(view.getId(), HiImageSizes.HI_FULL, true);
                     stopIndicatingServiceActivity();

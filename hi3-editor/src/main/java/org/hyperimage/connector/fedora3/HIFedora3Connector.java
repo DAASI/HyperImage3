@@ -29,19 +29,8 @@
 
 package org.hyperimage.connector.fedora3;
 
-import info.fedora.definitions._1._0.api.FedoraAPIA;
-import info.fedora.definitions._1._0.api.FedoraAPIAService;
-import info.fedora.definitions._1._0.types.ArrayOfString;
-import info.fedora.definitions._1._0.types.ComparisonOperator;
-import info.fedora.definitions._1._0.types.Condition;
-import info.fedora.definitions._1._0.types.DatastreamDef;
-import info.fedora.definitions._1._0.types.FieldSearchQuery;
-import info.fedora.definitions._1._0.types.FieldSearchResult;
-import info.fedora.definitions._1._0.types.MIMETypedStream;
-import info.fedora.definitions._1._0.types.ObjectFields;
-import info.fedora.definitions._1._0.types.RepositoryInfo;
-
 import java.awt.Dimension;
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -57,8 +46,6 @@ import java.util.logging.Logger;
 
 import javax.jws.WebParam;
 import javax.jws.WebService;
-import javax.media.jai.JAI;
-import javax.media.jai.PlanarImage;
 import javax.xml.bind.JAXBElement;
 import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilder;
@@ -67,6 +54,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.soap.SOAPFaultException;
 
+import org.hyperimage.client.image.HiImageConfig;
 import org.hyperimage.connector.HIHierarchyLevel;
 import org.hyperimage.connector.HIMetadataRecord;
 import org.hyperimage.connector.HITypedDatastream;
@@ -78,15 +66,24 @@ import org.hyperimage.connector.exception.HIWSNotBinaryException;
 import org.hyperimage.connector.exception.HIWSUTF8EncodingException;
 import org.hyperimage.connector.exception.HIWSXMLParserException;
 import org.hyperimage.connector.utility.ConnectorPreferences;
-import org.hyperimage.connector.utility.ImageHelper;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import com.sun.media.jai.codec.JPEGEncodeParam;
-import com.sun.media.jai.codec.SeekableStream;
 import com.sun.xml.ws.client.ClientTransportException;
+
+import info.fedora.definitions._1._0.api.FedoraAPIA;
+import info.fedora.definitions._1._0.api.FedoraAPIAService;
+import info.fedora.definitions._1._0.types.ArrayOfString;
+import info.fedora.definitions._1._0.types.ComparisonOperator;
+import info.fedora.definitions._1._0.types.Condition;
+import info.fedora.definitions._1._0.types.DatastreamDef;
+import info.fedora.definitions._1._0.types.FieldSearchQuery;
+import info.fedora.definitions._1._0.types.FieldSearchResult;
+import info.fedora.definitions._1._0.types.MIMETypedStream;
+import info.fedora.definitions._1._0.types.ObjectFields;
+import info.fedora.definitions._1._0.types.RepositoryInfo;
 
 
 /**
@@ -289,13 +286,16 @@ public class HIFedora3Connector {
 			// This is a workaround because at this stage there are no preview images in our Fedora repos.
 			// Needed for JAI headless (to avoid problems with PELauncher).
 			System.setProperty("java.awt.headless", "true");
-			PlanarImage viewImage = JAI.create("stream",SeekableStream.wrapInputStream(new ByteArrayInputStream(dstream.getStream()), true));
-			PlanarImage thumbImage = ImageHelper.scaleImageTo(viewImage, new Dimension(128,128));
-			ByteArrayOutputStream outThumbnail = new ByteArrayOutputStream();
-			JPEGEncodeParam jpegParam = new JPEGEncodeParam();
-			// set encoding quality
-			jpegParam.setQuality(0.8f);
-			JAI.create("encode", thumbImage, outThumbnail, "JPEG", jpegParam);
+//			PlanarImage viewImage = JAI.create("stream",SeekableStream.wrapInputStream(new ByteArrayInputStream(dstream.getStream()), true));
+//			PlanarImage thumbImage = ImageHelper.scaleImageTo(viewImage, new Dimension(128,128));
+//			ByteArrayOutputStream outThumbnail = new ByteArrayOutputStream();
+//			JPEGEncodeParam jpegParam = new JPEGEncodeParam();
+//			// set encoding quality
+//			jpegParam.setQuality(0.8f);
+//			JAI.create("encode", thumbImage, outThumbnail, "JPEG", jpegParam);
+			BufferedImage viewImage = HiImageConfig.getHiImage().createImageFromStream(new ByteArrayInputStream(dstream.getStream()));
+			BufferedImage thumbImage = HiImageConfig.getHiImage().scaleImage(viewImage, new Dimension(128,128));
+			ByteArrayOutputStream outThumbnail = HiImageConfig.getHiImage().convertToJpeg(thumbImage);
 			// create thumbnail
 			bytes = outThumbnail.toByteArray();
 		} else {

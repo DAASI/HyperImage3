@@ -27,7 +27,7 @@
 
 package org.hyperimage.client.util;
 
-import javax.media.jai.PlanarImage;
+import java.awt.image.BufferedImage;
 
 /**
  * @author Jens-Martin Loebel
@@ -35,5 +35,6 @@ import javax.media.jai.PlanarImage;
 public interface LoadableImage {
 
 	 public boolean needsPreview();
-	 public void setPreviewImage(PlanarImage image);
+//	 public void setPreviewImage(PlanarImage image);
+	 public void setPreviewImage(BufferedImage image);
 }

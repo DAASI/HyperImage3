@@ -1,12 +1,20 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.hyperimage</groupId>
+  <parent>
+  	<groupId>org.hyperimage</groupId>
+  	<artifactId>hi3-parent</artifactId>
+  	<version>0.0.1-SNAPSHOT</version>
+  	<relativePath>../../../../../usr/local/tamim/workspace_HI/hi3-parent</relativePath>
+  </parent>
+
   <artifactId>HI3Author-EditorClient</artifactId>
   <version>3.0</version>
   
   <build>
     <sourceDirectory>src</sourceDirectory>
+    <finalName>${project.artifactId}_${project.version}</finalName>  
+    
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -91,7 +99,7 @@
         <configuration>
           <verbose>true</verbose>
           <certs>true</certs>
-          <keystore>src/main/resources/resources/security/hyper_cacerts.jks</keystore>
+          <keystore>../hi3-parent/src/security/hyper_cacerts.jks</keystore>
           <alias>hyperimage</alias>
           <storepass>changeit</storepass>
         </configuration>
@@ -100,6 +108,7 @@
   </build>
   
   <dependencies>
+<!-- 
 	<dependency>
 	    <groupId>jai</groupId>
 	    <artifactId>jai_codec</artifactId>
@@ -114,6 +123,12 @@
 	    <scope>system</scope>
 	    <systemPath>${project.basedir}/lib/jai_core.jar</systemPath>
 	</dependency>
+ -->
+  	<dependency>
+  		<groupId>org.hyperimage</groupId>
+  		<artifactId>HiImage</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
 	<dependency>
 	    <groupId>swing</groupId>
 	    <artifactId>swing-layout</artifactId>

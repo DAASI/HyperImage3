@@ -30,21 +30,21 @@ package org.hyperimage.client.gui.lists;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.image.BufferedImage;
 
-import javax.media.jai.JAI;
-import javax.media.jai.PlanarImage;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import org.hyperimage.client.Messages;
+import org.hyperimage.client.image.HiImageConfig;
 import org.hyperimage.client.util.LoadableImage;
 import org.hyperimage.client.util.MetadataHelper;
 import org.hyperimage.client.ws.HiBaseTypes;
 import org.hyperimage.client.ws.HiQuickInfo;
 
 import com.sun.media.jai.widget.DisplayJAI;
-import org.hyperimage.client.Messages;
 
 /**
  * @author Jens-Martin Loebel
@@ -82,7 +82,8 @@ public class QuickInfoCell extends JPanel implements LoadableImage {
     	return needsPreview;
     }
     
-    public void setPreviewImage(PlanarImage image) {
+//    public void setPreviewImage(PlanarImage image) {
+    public void setPreviewImage(BufferedImage image) {
     	if ( needsPreview ) 
     		if ( image != null ) {
     			if ( image.getWidth() <= 128 && image.getHeight() <= 128 ) {
@@ -94,8 +95,10 @@ public class QuickInfoCell extends JPanel implements LoadableImage {
     			}
     		} else {
     			// preview not found or load error
-				PlanarImage errorImage = 
-					JAI.create("url", getClass().getResource("/resources/icons/preview-loaderror.png")); 
+//				PlanarImage errorImage = 
+//					JAI.create("url", getClass().getResource("/resources/icons/preview-loaderror.png")); 
+				BufferedImage errorImage = 
+						HiImageConfig.getHiImage().createImageFromUrl(getClass().getResource("/resources/icons/preview-loaderror.png")); 
 				previewPanel.removeAll();
 				previewPanel.set(errorImage);
 				needsPreview = false;
@@ -121,18 +124,24 @@ public class QuickInfoCell extends JPanel implements LoadableImage {
 		// TODO caching strategy and handling of views
 		
 		if ( info.getContentType() == HiBaseTypes.HI_GROUP ) {
-	        PlanarImage image = 
-	            JAI.create("url", getClass().getResource("/resources/icons/preview-group.png")); 
+//	        PlanarImage image = 
+//	            JAI.create("url", getClass().getResource("/resources/icons/preview-group.png")); 
+	        BufferedImage image = 
+		            HiImageConfig.getHiImage().createImageFromUrl(getClass().getResource("/resources/icons/preview-group.png")); 
 	        previewPanel.set(image);
 	        found = true;
 		} else if ( info.getContentType() == HiBaseTypes.HIURL ) {
-	        PlanarImage image = 
-	            JAI.create("url", getClass().getResource("/resources/icons/preview-url.png")); 
+//	        PlanarImage image = 
+//	            JAI.create("url", getClass().getResource("/resources/icons/preview-url.png")); 
+	        BufferedImage image = 
+	        		HiImageConfig.getHiImage().createImageFromUrl(getClass().getResource("/resources/icons/preview-url.png")); 
 	        previewPanel.set(image);
 	        found = true;
 		} else if ( info.getContentType() == HiBaseTypes.HI_LIGHT_TABLE ) {
-	        PlanarImage image = 
-	            JAI.create("url", getClass().getResource("/resources/icons/preview-lighttable.png")); 
+//	        PlanarImage image = 
+//	            JAI.create("url", getClass().getResource("/resources/icons/preview-lighttable.png")); 
+	        BufferedImage image = 
+	        		HiImageConfig.getHiImage().createImageFromUrl(getClass().getResource("/resources/icons/preview-lighttable.png")); 
 	        previewPanel.set(image);
 	        found = true;
 		} else if ( info.getContentType() == HiBaseTypes.HI_LAYER ) {
@@ -144,8 +153,10 @@ public class QuickInfoCell extends JPanel implements LoadableImage {
 				needsPreview = true;
 			else {
 				// object has no views attached
-				PlanarImage image = 
-					JAI.create("url", getClass().getResource("/resources/icons/preview-noview.png")); 
+//				PlanarImage image = 
+//					JAI.create("url", getClass().getResource("/resources/icons/preview-noview.png")); 
+				BufferedImage image = 
+						HiImageConfig.getHiImage().createImageFromUrl(getClass().getResource("/resources/icons/preview-noview.png")); 
 				previewPanel.set(image);
 				found = true;
 			}
@@ -154,9 +165,11 @@ public class QuickInfoCell extends JPanel implements LoadableImage {
 		}
 		// attach temp picture
 		if ( needsPreview ) {
-	        PlanarImage image = 
-	        	JAI.create("url", getClass().getResource("/resources/icons/preview-loading.png")); 
-            previewPanel.set(image);
+//	        PlanarImage image = 
+//	        	JAI.create("url", getClass().getResource("/resources/icons/preview-loading.png")); 
+ 	        BufferedImage image = 
+ 	        		HiImageConfig.getHiImage().createImageFromUrl(getClass().getResource("/resources/icons/preview-loading.png")); 
+           previewPanel.set(image);
 		}
 		
 		return found;

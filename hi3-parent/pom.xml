@@ -1,0 +1,13 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.hyperimage</groupId>
+  <artifactId>hi3-parent</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <modules>
+  	<module>../../../../../home/tamim/git/HyperImage3/HIImage</module>
+  	<module>../../../../../home/tamim/git/HyperImage3/hi3-editor</module>
+  	<module>../../../../../home/tamim/git/HyperImage3/hi3-manager</module>
+  	<module>../../../../../home/tamim/git/HyperImage3/hi3-authorenv</module>
+  </modules>
+</project>

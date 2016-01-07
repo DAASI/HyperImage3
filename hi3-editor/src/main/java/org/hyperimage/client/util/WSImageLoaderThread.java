@@ -27,7 +27,8 @@
 
 package org.hyperimage.client.util;
 
-import javax.media.jai.PlanarImage;
+import java.awt.image.BufferedImage;
+
 import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
 
@@ -77,7 +78,8 @@ public class WSImageLoaderThread extends Thread {
 	{
 		try {
 			// caching is done by the web service manager
-			final PlanarImage thumbnail = HIRuntime.getManager().getImage(viewID, imgSize, cacheImage);
+//			final PlanarImage thumbnail = HIRuntime.getManager().getImage(viewID, imgSize, cacheImage);
+			final BufferedImage thumbnail = HIRuntime.getManager().getImage(viewID, imgSize, cacheImage);
 
 			SwingUtilities.invokeLater(new Runnable()  {
 				public void run() {

@@ -37,6 +37,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Vector;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
@@ -312,6 +313,10 @@ public class HIIndexer {
 
 	}
 	
+	public void removeIndex(HIProject project) throws IOException {
+		remDir(project);
+	}
+
 	
 
 	private Document getOrCreateDocument(HIBase base, HIProject project) {
@@ -392,4 +397,14 @@ public class HIIndexer {
 		return true;
 	}
 
+	private boolean remDir(HIProject project) throws IOException {
+		File dir = new File(directoryLocation+"P"+project.getId());
+		boolean result = false;
+		if ( dir.exists() ) {
+			FileUtils.deleteDirectory(dir);
+			result = true;
+		}
+		return result;
+	}
+	
 }

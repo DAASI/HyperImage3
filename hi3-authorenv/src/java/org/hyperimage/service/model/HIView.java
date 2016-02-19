@@ -92,6 +92,9 @@ public class HIView extends HIObjectContent {
             this.repositoryID = repositoryID;
             this.object = object;
             this.mimeType = URLConnection.guessContentTypeFromName(filename);
+            if (this.mimeType == null && filename != null && filename.toLowerCase().endsWith(".svg")) {
+            	this.mimeType = "image/svg+xml";
+            }
             // MimetypesFileTypeMap.getDefaultFileTypeMap().getContentType(filename);
             this.sortOrder = "";
             if ( uuid == null ) this.uuid = UUID.randomUUID().toString();

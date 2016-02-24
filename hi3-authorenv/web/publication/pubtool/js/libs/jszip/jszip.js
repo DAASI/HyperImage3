@@ -921,7 +921,7 @@ var JSZipBase64 = (function() {
 
          input = input.replace(/[^A-Za-z0-9\+\/\=]/g, "");
 
-         while (i < input.length) {
+         while (i < (input.length - 4)) {
 
             enc1 = _keyStr.indexOf(input.charAt(i++));
             enc2 = _keyStr.indexOf(input.charAt(i++));

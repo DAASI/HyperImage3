@@ -5,7 +5,7 @@
   	<groupId>org.hyperimage</groupId>
   	<artifactId>hi3-parent</artifactId>
   	<version>0.0.1-SNAPSHOT</version>
-  	<relativePath>../../../../../usr/local/tamim/workspace_HI/hi3-parent</relativePath>
+  	<relativePath>../hi3-parent</relativePath>
   </parent>
 
   <artifactId>HI3Author-EditorClient</artifactId>

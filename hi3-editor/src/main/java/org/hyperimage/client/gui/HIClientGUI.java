@@ -589,8 +589,13 @@ public class HIClientGUI extends JFrame implements WindowListener, ActionListene
                             }
                             HiView view = projectViews.get(index);
                             setMessage(Messages.getString("HIClientGUI.6") + " " + (index + 1) + " " + Messages.getString("HIClientGUI.11") + " " + projectViews.size()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
-                            if (view.getFilename() != null && view.getFilename().length() > 0) {
-                                view.setMimeType(URLConnection.guessContentTypeFromName((view.getFilename())));
+                            String filename = view.getFilename();
+                            if (filename != null && filename.length() > 0) {
+                                String mimetype = URLConnection.guessContentTypeFromName((filename));
+                                if (mimetype == null && filename != null && filename.toLowerCase().endsWith(".svg")) {
+                                	mimetype = "image/svg+xml";
+                                }
+                                view.setMimeType(mimetype);
                             }
                             if (view.getMimeType() == null) {
                                 view.setMimeType("");

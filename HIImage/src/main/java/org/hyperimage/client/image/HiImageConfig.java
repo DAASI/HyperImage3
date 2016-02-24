@@ -6,7 +6,7 @@ public class HiImageConfig {
 	}
 	
 	public static HiImage getHiImage() {
-		return HiImageImpl.geitInstance();
+		return HiImageImplScalr.getInstance();
 	}
 
 }

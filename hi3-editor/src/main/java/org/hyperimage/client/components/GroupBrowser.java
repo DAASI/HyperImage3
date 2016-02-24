@@ -531,7 +531,11 @@ public class GroupBrowser extends HIComponent
                     // detect non jpeg image files
                     boolean needConversion = false;
                     for (File file : importFiles) {
-                        String mimetype = URLConnection.guessContentTypeFromName(file.getName());
+                    	String filename = file.getName();
+                        String mimetype = URLConnection.guessContentTypeFromName(filename);
+                        if (mimetype == null && filename != null && filename.toLowerCase().endsWith(".svg")) {
+                        	mimetype = "image/svg+xml";
+                        }
                         if ( mimetype == null ) mimetype = "application/octet-stream";
                         if ( mimetype.startsWith("image/") && !mimetype.endsWith("/jpeg") ) {
                             needConversion = true;
@@ -558,7 +562,10 @@ public class GroupBrowser extends HIComponent
                             try {
                                 File importFile = file;
                                 filename = file.getName();
-                                String mimetype = URLConnection.guessContentTypeFromName(file.getName());
+                                String mimetype = URLConnection.guessContentTypeFromName(filename);
+                                if (mimetype == null && filename != null && filename.toLowerCase().endsWith(".svg")) {
+                                	mimetype = "image/svg+xml";
+                                }
                                 if ( mimetype == null ) mimetype = "application/octet-stream";
                                 if ( mimetype.startsWith("image/") && !mimetype.endsWith("/jpeg") ) {
                                     // convert image to jpeg if possible                                    
@@ -583,7 +590,7 @@ public class GroupBrowser extends HIComponent
 //                                            // set encoding quality
 //                                            jpegParam.setQuality(0.9f);
 //                                            JAI.create("encode",viewImage, outJPEG, "JPEG", jpegParam);
-											ByteArrayOutputStream outJPEG = HiImageConfig.getHiImage().convertToJpeg(viewImage);	// TODO:Does this make sense at all?! 
+											ByteArrayOutputStream outJPEG = HiImageConfig.getHiImage().convertToStream(viewImage);	// TODO:Does this make sense at all?! 
                                             outJPEG.close();
                                             
                                             importFile = tempFile;

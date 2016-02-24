@@ -130,7 +130,7 @@ public class FileStorageManager {
             try {
 //                PlanarImage viewImage = JAI.create("stream", SeekableStream.wrapInputStream(
 //                        new ByteArrayInputStream(data), true));
-            	BufferedImage viewImage = HiImageConfig.getHiImage().createImageFromStream(new ByteArrayInputStream(data));
+            	BufferedImage viewImage = HiImageConfig.getHiImage().createImageFromStream(new ByteArrayInputStream(data), view.getMimeType());
 
                 // set bitstream info
                 view.setWidth(viewImage.getWidth());
@@ -143,9 +143,9 @@ public class FileStorageManager {
 //                PlanarImage previewImage = ImageHelper.scaleImageTo(viewImage, new Dimension(400, 400));
 //                PlanarImage navImage = ImageHelper.scaleImageTo(viewImage, new Dimension(navWidth, 128));
 //                PlanarImage thumbImage = ImageHelper.scaleImageTo(viewImage, new Dimension(128, 128));
-                BufferedImage previewImage = HiImageConfig.getHiImage().scaleImage(viewImage, new Dimension(400, 400));
-                BufferedImage navImage = HiImageConfig.getHiImage().scaleImage(viewImage, new Dimension(navWidth, 128));
-                BufferedImage thumbImage = HiImageConfig.getHiImage().scaleImage(viewImage, new Dimension(128, 128));
+                BufferedImage previewImage = HiImageConfig.getHiImage().scaleImage(viewImage, new Dimension(400, 400), view.getRepositoryID());
+                BufferedImage navImage = HiImageConfig.getHiImage().scaleImage(viewImage, new Dimension(navWidth, 128), view.getRepositoryID());
+                BufferedImage thumbImage = HiImageConfig.getHiImage().scaleImage(viewImage, new Dimension(128, 128), view.getRepositoryID());
 
                 // create jpeg files from PlanarImages		    
 //                ByteArrayOutputStream outHiRes = new ByteArrayOutputStream();
@@ -160,10 +160,10 @@ public class FileStorageManager {
 //                JAI.create("encode", previewImage, outPreview, "JPEG", jpegParam);
 //                JAI.create("encode", navImage, outNav, "JPEG", jpegParam);
 //                JAI.create("encode", thumbImage, outThumbnail, "JPEG", jpegParam);
-                ByteArrayOutputStream outHiRes = HiImageConfig.getHiImage().convertToJpeg(viewImage);
-                ByteArrayOutputStream outPreview = HiImageConfig.getHiImage().convertToJpeg(previewImage);
-                ByteArrayOutputStream outNav = HiImageConfig.getHiImage().convertToJpeg(navImage);
-                ByteArrayOutputStream outThumbnail = HiImageConfig.getHiImage().convertToJpeg(thumbImage);
+                ByteArrayOutputStream outHiRes = HiImageConfig.getHiImage().convertToStream(viewImage);
+                ByteArrayOutputStream outPreview = HiImageConfig.getHiImage().convertToStream(previewImage);
+                ByteArrayOutputStream outNav = HiImageConfig.getHiImage().convertToStream(navImage);
+                ByteArrayOutputStream outThumbnail = HiImageConfig.getHiImage().convertToStream(thumbImage);
 
                 
                 hiresData = outHiRes.toByteArray();
@@ -345,7 +345,7 @@ public class FileStorageManager {
 
                     // render nav image
 //                    PlanarImage navImage = ImageHelper.scaleImageTo(viewImage, new Dimension(navWidth, 128));
-                    BufferedImage navImage = HiImageConfig.getHiImage().scaleImage(viewImage, new Dimension(navWidth, 128));
+                    BufferedImage navImage = HiImageConfig.getHiImage().scaleImage(viewImage, new Dimension(navWidth, 128), view.getRepositoryID());
 
                     // create jpeg files from PlanarImages		    
 //                    ByteArrayOutputStream outNav = new ByteArrayOutputStream();
@@ -354,7 +354,7 @@ public class FileStorageManager {
 //                    // set encoding quality
 //                    jpegParam.setQuality(0.8f);
 //                    JAI.create("encode", navImage, outNav, "JPEG", jpegParam);
-                    ByteArrayOutputStream outNav = HiImageConfig.getHiImage().convertToJpeg(navImage);
+                    ByteArrayOutputStream outNav = HiImageConfig.getHiImage().convertToStream(navImage);
                     navData = outNav.toByteArray();
 
                     FileOutputStream fos;

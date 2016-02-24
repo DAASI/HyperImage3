@@ -315,7 +315,7 @@ public class LayerViewerControl extends DisplayJAI implements LoadableImage, Hie
 	private void scalePreviewImage() {
 		if ( displayLayers ) {
 //			PlanarImage scaledImage = ImageHelper.scaleImageTo(image, curScale);
-			BufferedImage scaledImage = HiImageConfig.getHiImage().scaleImage(image, curScale);
+			BufferedImage scaledImage = HiImageConfig.getHiImage().scaleImage(image, curScale, null);
 			this.set(scaledImage);
 			for ( HILayer layer : layers )
 				layer.setScale(scaledImage.getWidth(), scaledImage.getHeight());

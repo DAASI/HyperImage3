@@ -852,7 +852,8 @@ function generateImageFiles() {
 			if ( isPreview ) $('#previewImage').attr('src', pubtool.canvas.toDataURL('image/jpeg', 0.8));
 			pubtool.zip.file(filename, pubtool.canvas.toDataURL('image/jpeg', 0.8).substring(23), {base64: true});
 			pubtool.project.processCounter--;
-			if ( pubtool.project.processCounter == 0 && pubtool.project.imagesProcessed ) generateLayerImageFiles();
+//			if ( pubtool.project.processCounter == 0 && pubtool.project.imagesProcessed ) generateLayerImageFiles();
+			if ( pubtool.project.imagesProcessed ) generateLayerImageFiles();
 		};
 		img.src = data;
 	}
@@ -871,6 +872,7 @@ function generateImageFiles() {
 	}
 	
 	if ( !pubtool.project.processCounter ) pubtool.project.processCounter = 0;
+	if ( !pubtool.project.imagesProcessed ) pubtool.project.imagesProcessed = false;
 
 	// gather views to load
 	if ( !pubtool.project.loadViews ) {
@@ -891,7 +893,13 @@ function generateImageFiles() {
 		var item = pubtool.project.loadViews.pop();
 		pubtool.service.HIEditor.getImage(
 			function (cb) { 
-				processImage(item, 'data:image/jpeg;base64,'+cb.getReturn());
+				var bitstream = cb.getReturn();
+				if (bitstream != null && bitstream.length > 0) {
+					processImage(item, 'data:image/jpeg;base64,' + bitstream);
+				} else {
+					console.log("Got empty image for item " + item);
+				}
+					
 				$('#progressbar').progressbar( "option", "value", $('#progressbar').progressbar( "option", "value" )+1 ); // update progress bar
 				window.setTimeout(generateImageFiles(), 200);
 			}, 
@@ -912,7 +920,7 @@ function generateImageFiles() {
 }
 
 function saveSortedFields(sortedFields) {
-	var name = "SortedFields";
+	var name = pubtool.project.title[pubtool.project.langs[0]] + "_SortedFields";
 	var expiration = 1000 * 60 * 60 * 24 * 30;
 	var now = new Date();
 	var expires = new Date(now.getTime() + expiration);
@@ -921,13 +929,23 @@ function saveSortedFields(sortedFields) {
 }
 
 function restoreSortedFields(sortedFields) {
-	var name = "SortedFields";
+	var name_suffix = "_SortedFields";
+	var name = pubtool.project.title[pubtool.project.langs[0]] + name_suffix;
 	var values = new Array();
 
 	if (document.cookie) {
-		var valueStart = document.cookie.indexOf(name + "=") + name.length + 1;
-		var valueEnd = document.cookie.indexOf(";");
+		var valueStart = document.cookie.indexOf(name + "=");
 
+		if (valueStart == -1) {
+			// No cookie for this project found: try to take it from another project.
+			valueStart = document.cookie.indexOf(name_suffix + "=") + name_suffix.length + 1;
+		} else {
+			valueStart += name.length + 1;
+		}
+		
+		var valueEnd = document.cookie.indexOf(";", valueStart);
+
+		
 		if (valueEnd == -1) {
 			valueEnd = document.cookie.length;
 		}

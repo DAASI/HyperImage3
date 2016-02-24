@@ -216,7 +216,7 @@ public class PolygonEditorControl extends DisplayJAI implements PopupMenuListene
 
 			// scale layers
 //			PlanarImage scaledImg = ImageHelper.scaleImageTo(image, scale);
-			BufferedImage scaledImg = HiImageConfig.getHiImage().scaleImage(image, scale);
+			BufferedImage scaledImg = HiImageConfig.getHiImage().scaleImage(image, scale, null);
 			for (HILayer layer : layers)
 				layer.setScale(scaledImg.getWidth(),scaledImg.getHeight());
 			// display image

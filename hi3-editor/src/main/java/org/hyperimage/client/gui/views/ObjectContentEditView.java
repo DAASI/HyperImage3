@@ -211,7 +211,11 @@ public class ObjectContentEditView extends GUIView implements LoadableImage, Act
 				count = Messages.getString("ObjectContentEditView.9"); //$NON-NLS-1$
 			} else if ( ((HiView)content).getLayers().size() > 1 )
 				count = Integer.toString( ((HiView)content).getLayers().size() );
-			String mimetype = URLConnection.guessContentTypeFromName(((HiView)content).getFilename());
+			String filename = ((HiView)content).getFilename();
+			String mimetype = URLConnection.guessContentTypeFromName(filename);
+            if (mimetype == null && filename != null && filename.toLowerCase().endsWith(".svg")) {
+            	mimetype = "image/svg+xml";
+            }
 			if ( mimetype.startsWith("image/") )  //$NON-NLS-1$
 				layerCountLabel.setText("<html>"
                                         +Messages.getString("ObjectContentEditView.viewLastChanged")+":&nbsp;"

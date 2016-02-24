@@ -5,13 +5,14 @@
   	<groupId>org.hyperimage</groupId>
   	<artifactId>hi3-parent</artifactId>
   	<version>0.0.1-SNAPSHOT</version>
-  	<relativePath>../../../../../usr/local/tamim/workspace_HI/hi3-parent</relativePath>
+  	<relativePath>../hi3-parent</relativePath>
   </parent>
 
   <artifactId>HI3Author</artifactId>
   <packaging>war</packaging>
 
   <build>
+
     <sourceDirectory>src</sourceDirectory>
     <finalName>${project.artifactId}</finalName>  
     
@@ -40,6 +41,11 @@
         <artifactId>maven-war-plugin</artifactId>
         <version>2.4</version>
         <configuration>
+          <archive>
+            <manifestEntries>
+                <Build-Time>${maven.build.timestamp}</Build-Time>
+            </manifestEntries>
+          </archive>
           <warSourceDirectory>web</warSourceDirectory>
           <failOnMissingWebXml>false</failOnMissingWebXml>
           <webResources>

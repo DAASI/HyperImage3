@@ -24,7 +24,6 @@ package org.hyperimage.client.xmlimportexport;
 import java.awt.Color;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -40,6 +39,8 @@ import java.util.TimeZone;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import org.apache.batik.parser.PathParser;
 import org.hyperimage.client.HIRuntime;
 import org.hyperimage.client.Messages;
 import org.hyperimage.client.exception.HIWebServiceException;
@@ -64,8 +65,6 @@ import org.hyperimage.client.ws.HiQuickInfo;
 import org.hyperimage.client.ws.HiText;
 import org.hyperimage.client.ws.HiView;
 import org.hyperimage.client.ws.Hiurl;
-import static org.hyperimage.client.xmlimportexport.XMLImporter.PeTAL_3_0_XMLNS;
-import static org.hyperimage.client.xmlimportexport.XMLImporter.XLINK_XMLNS;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -96,12 +95,15 @@ public class PeTAL3Importer extends XMLImporter {
     }
     
     private long parseTimestamp(String timestamp) {
-        try {
-            return utcFormat.parse(timestamp).getTime();
-        } catch (ParseException ex) {
-            Logger.getLogger(PeTAL3Importer.class.getName()).log(Level.SEVERE, null, ex);
-            return 0;
-        }
+    	long result = 0;
+    	if (timestamp != null && !timestamp.isEmpty()) {
+    		try {
+    			result = utcFormat.parse(timestamp).getTime();
+    		} catch (ParseException ex) {
+    			Logger.getLogger(PeTAL3Importer.class.getName()).log(Level.SEVERE, null, ex);
+    		}
+    	}
+        return result;
     }
     
     private String getSingleLineTextContent(Element element, String namespace, String tagName) {
@@ -851,8 +853,12 @@ public class PeTAL3Importer extends XMLImporter {
                         /*
                          * create view
                          */
-                        HIRuntime.getGui().setMessage(Messages.getString("PeTALImporter.24") + " "
-                                + counter + ": " + Messages.getString("PeTALImporter.27"));
+//                        HIRuntime.getGui().setMessage(Messages.getString("PeTALImporter.24") + " "
+//                                + counter + ": " + Messages.getString("PeTALImporter.27"));
+                        HIRuntime.getGui().setMessage(Messages.getString("PeTALImporter.24")
+                                + " " + counter + " " + Messages.getString("PeTALImporter.25") + " "
+                                + objects.size() + ": " + Messages.getString("PeTALImporter.27"));
+
                         Element origElement = (Element) contentElement.getElementsByTagNameNS(PeTAL_3_0_XMLNS, "original").item(0);
                         Element imgElement = (Element) contentElement.getElementsByTagNameNS(PeTAL_3_0_XMLNS, "img").item(0);
                         
@@ -1067,6 +1073,12 @@ public class PeTAL3Importer extends XMLImporter {
                                         Element pathElement = (Element) pathElements.item(p);
                                         String path = pathElement.getAttribute("d");
                                         if (path != null && path.length() > 0) {
+                                        	try {
+												path = convert2simplePath(path);
+											} catch (ParseException e) {
+												Logger.getLogger(PeTAL3Importer.class.getName()).log(Level.SEVERE, "Bad SVG path", e);
+												throw new HIWebServiceException(e);
+											}
                                             path = path.replaceAll("z", "");
                                             path = path.replaceAll("Z", "");
                                             for (String points : path.split("M")) {
@@ -1173,6 +1185,14 @@ public class PeTAL3Importer extends XMLImporter {
         }
     }
     
+	private static String convert2simplePath(String s) throws ParseException {
+        PathParser pp = new PathParser();
+        SVGPathHandler ph = new SVGPathHandler();
+        pp.setPathHandler(ph);
+        pp.parse(s);
+        return ph.getSimplifiedPath();
+    }
+
     // DEBUG switch to new SVG-based light table format
     public void importLegacyLightTables() throws HIWebServiceException {
         HIRuntime.getGui().setMessage(Messages.getString("PeTALImporter.22"));

@@ -815,7 +815,11 @@ public class PeTAL3Exporter {
 
         // original image size
         String extension = ".original";
-        view.setMimeType(URLConnection.guessContentTypeFromName((view.getFilename())));
+        String filename = view.getFilename();
+        view.setMimeType(URLConnection.guessContentTypeFromName(filename));
+        if (view.getMimeType() == null && filename != null && filename.toLowerCase().endsWith(".svg")) {
+        	view.setMimeType("image/svg+xml");
+        }
         if ( view.getMimeType() == null ) view.setMimeType("");
         if ( view.getMimeType().equalsIgnoreCase("image/jpeg") ) extension = ".jpg";
         if ( view.getMimeType().equalsIgnoreCase("image/png") ) extension = ".png";

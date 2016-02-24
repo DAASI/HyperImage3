@@ -294,8 +294,8 @@ public class HIFedora3Connector {
 //			jpegParam.setQuality(0.8f);
 //			JAI.create("encode", thumbImage, outThumbnail, "JPEG", jpegParam);
 			BufferedImage viewImage = HiImageConfig.getHiImage().createImageFromStream(new ByteArrayInputStream(dstream.getStream()));
-			BufferedImage thumbImage = HiImageConfig.getHiImage().scaleImage(viewImage, new Dimension(128,128));
-			ByteArrayOutputStream outThumbnail = HiImageConfig.getHiImage().convertToJpeg(thumbImage);
+			BufferedImage thumbImage = HiImageConfig.getHiImage().scaleImage(viewImage, new Dimension(128,128), null);
+			ByteArrayOutputStream outThumbnail = HiImageConfig.getHiImage().convertToStream(thumbImage);
 			// create thumbnail
 			bytes = outThumbnail.toByteArray();
 		} else {

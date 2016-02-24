@@ -10,12 +10,14 @@ public interface HiImage {
 
 	public BufferedImage createImageFromStream(InputStream stream);
 	
+	public BufferedImage createImageFromStream(InputStream stream, String mimeType);
+	
 	public BufferedImage createImageFromUrl(URL url);
 	
-	public BufferedImage scaleImage(BufferedImage image, Dimension dimension);
+	public BufferedImage scaleImage(BufferedImage image, Dimension dimension, String repositoryID);
 	
-	public BufferedImage scaleImage(BufferedImage image, Float scale);
+	public BufferedImage scaleImage(BufferedImage image, Float scale, String repositoryID);
 	
-	public ByteArrayOutputStream convertToJpeg(BufferedImage image);
+	public ByteArrayOutputStream convertToStream(BufferedImage image);
 	
 }

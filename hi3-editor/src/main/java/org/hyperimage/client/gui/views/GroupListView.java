@@ -304,14 +304,18 @@ public class GroupListView extends GUIView implements ListSelectionListener {
 
 	public void setSelectedGroup(HiGroup group) {
 		for ( int i=0; i < groupListModel.getSize(); i++ )
-			if ( ((HiGroup)groupListModel.get(i)).getId() == group.getId() )
-				groupList.setSelectedIndex(i);		
+			if ( ((HiGroup)groupListModel.get(i)).getId() == group.getId() ) {
+				groupList.setSelectedIndex(i);
+				break;
+			}
 	}
 
 	public void updateGroup(HiGroup group) {
 		for ( int i=0; i < groupListModel.size() ; i++ )
-			if ( ((HiGroup)groupListModel.getElementAt(i)).getId() == group.getId() )
+			if ( ((HiGroup)groupListModel.getElementAt(i)).getId() == group.getId() ) {
 				groupListModel.setElementAt(group, i);
+				break;
+			}
 		updateContent();
 	}
 	

@@ -427,6 +427,8 @@ public class PeTAL3Importer extends XMLImporter {
 
         // import groups
         for (Element groupElement : groups) {
+            HIRuntime.getGui().setMessage(Messages.getString("PeTALImporter.23") + " (" + groupElement.getAttribute("id") + ")");
+            
             // incremental import --> check if object already exists in project
             HiGroup group = null;
             try {
@@ -624,6 +626,7 @@ public class PeTAL3Importer extends XMLImporter {
         projElements = rootElement.getElementsByTagNameNS(PeTAL_3_0_XMLNS, "object");
         for (int i = 0; i < projElements.getLength(); i++) {
             Element objectElement = (Element) projElements.item(i);
+            HIRuntime.getGui().setMessage(Messages.getString("PeTALImporter.12") + " (" + objectElement.getAttribute("id") + ")");
             objects.add(objectElement);
         }
 
@@ -632,6 +635,7 @@ public class PeTAL3Importer extends XMLImporter {
         projElements = rootElement.getElementsByTagNameNS(PeTAL_3_0_XMLNS, "view");
         for (int i = 0; i < projElements.getLength(); i++) {
             Element viewElement = (Element) projElements.item(i);
+            HIRuntime.getGui().setMessage(Messages.getString("PeTALImporter.13") + " (" + viewElement.getAttribute("id") + ")");
             views.add(viewElement);
         }
         // Compile list of inscriptions.
@@ -639,6 +643,7 @@ public class PeTAL3Importer extends XMLImporter {
         projElements = rootElement.getElementsByTagNameNS(PeTAL_3_0_XMLNS, "inscription");
         for (int i = 0; i < projElements.getLength(); i++) {
             Element inscriptionElement = (Element) projElements.item(i);
+            HIRuntime.getGui().setMessage(Messages.getString("PeTALImporter.14") + " (" + inscriptionElement.getAttribute("id") + ")");
             inscriptions.add(inscriptionElement);
         }
 
@@ -647,6 +652,7 @@ public class PeTAL3Importer extends XMLImporter {
         projElements = rootElement.getElementsByTagNameNS(PeTAL_3_0_XMLNS, "layer");
         for (int i = 0; i < projElements.getLength(); i++) {
             Element layerElement = (Element) projElements.item(i);
+            HIRuntime.getGui().setMessage(Messages.getString("PeTALImporter.15") + " (" + layerElement.getAttribute("id") + ")");
             layers.add(layerElement);
         }
     }
@@ -740,6 +746,7 @@ public class PeTAL3Importer extends XMLImporter {
         HIRuntime.getGui().setMessage(Messages.getString("PeTALImporter.19"));
         corruptViews.clear();
         for (Element viewElement : views) {
+            HIRuntime.getGui().setMessage(Messages.getString("PeTALImporter.19") + " (" + viewElement.getAttribute("id") + ")");
             if (!(viewElement.getElementsByTagNameNS(PeTAL_3_0_XMLNS, "original").getLength() > 0)
                     || !(viewElement.getElementsByTagNameNS(PeTAL_3_0_XMLNS, "img").getLength() > 0)) {
                 corruptViews.add(viewElement.getAttribute("id"));

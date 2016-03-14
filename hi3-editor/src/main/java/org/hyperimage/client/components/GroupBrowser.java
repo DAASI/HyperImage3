@@ -1119,7 +1119,7 @@ public class GroupBrowser extends HIComponent
 					// scan items and load/attach previews from WS if necessary
 					if ( groupContentsView.getContentsList().getDisplayStyle() == GroupContentsList.HI_ListDisplayStyles.ICON_STYLE)
 						loadContentPreviews();
-
+					groupListView.getList().requestFocus();
 				}
 			});
 

@@ -728,7 +728,7 @@ public class PeTAL3Importer extends XMLImporter {
                 remoteFile.href = fileURL;
 
             } else {
-                System.out.println("HTTP error code: " + responseCode);
+            	Logger.getLogger(PeTAL3Importer.class.getName()).log(Level.SEVERE, String.format("Error getting from %s. HTTP error code: %s", fileURL, responseCode));
                 remoteFile.data = null;
             }
             httpConn.disconnect();
@@ -1179,6 +1179,7 @@ public class PeTAL3Importer extends XMLImporter {
                     try {
                         info = HIRuntime.getManager().getBaseQuickInfo(defaultView);
                     } catch (HIWebServiceException e) {
+                    	Logger.getLogger(PeTAL3Importer.class.getName()).log(Level.WARNING, "Error getting base quick info for default view " + defaultView, e);
                         // ignore
                     }
                     if ( info != null ) HIRuntime.getManager().setDefaultView(object.getId(), info.getBaseID());
@@ -1269,9 +1270,7 @@ public class PeTAL3Importer extends XMLImporter {
     private void setStartRef() throws HIWebServiceException {
         startRef = xmlDocument.getDocumentElement().getAttribute("startRef");
         if (startRef == null || startRef.length() == 0) {
-            if (DEBUG) {
-                System.out.println(DBGIND + " unable so set start reference.");
-            }
+        	Logger.getLogger(PeTAL3Importer.class.getName()).log(Level.FINE, DBGIND + " unable so set start reference.");
             return;
         }
 
@@ -1280,6 +1279,7 @@ public class PeTAL3Importer extends XMLImporter {
         try {
             info = HIRuntime.getManager().getBaseQuickInfo(startRef);
         } catch (HIWebServiceException e) {
+        	Logger.getLogger(PeTAL3Importer.class.getName()).log(Level.WARNING, "Error getting base quick info for start ref " + startRef, e);
             // ignore
         }
                 
@@ -1324,11 +1324,11 @@ public class PeTAL3Importer extends XMLImporter {
                     /*
                      * set group memberships
                      */
-                    NodeList projElements = null;
                     int counter = 1;
 
                     HIRuntime.getGui().setMessage(Messages.getString("PeTALImporter.32"));
                     for (Element groupElement : groups ) {
+                        HIRuntime.getGui().setMessage(Messages.getString("PeTALImporter.32") + " (" + counter + " " + Messages.getString("PeTALImporter.25") + " " + groups.size() + ")");
                         String sortOrder = "";
                         HiGroup group = (HiGroup) HIRuntime.getManager().getBaseElement(groupElement.getAttribute("id"));
                         if ( group != null && group.getSortOrder() != null ) sortOrder = group.getSortOrder();
@@ -1345,30 +1345,36 @@ public class PeTAL3Importer extends XMLImporter {
                                 info = HIRuntime.getManager().getBaseQuickInfo(ref);
                             } catch (HIWebServiceException e) {
                                 // ignore
+                            	Logger.getLogger(PeTAL3Importer.class.getName()).log(Level.WARNING, "Error getting base quick info for ref " + ref, e);
                             }
-                            boolean containsElement = false;
-                            for ( HiQuickInfo content : contents ) 
-                                if ( content.getBaseID() == info.getBaseID() ) containsElement = true;
-                            if ( info != null && !containsElement ) {
-                                HIRuntime.getManager().addToGroup(info.getBaseID(), group.getId());
-                                sortOrder = sortOrder + "," + info.getBaseID();
-                                if (sortOrder.startsWith(",")) {
-                                    sortOrder = sortOrder.substring(1);
-                                }
+                            if ( info != null) {
+	                            boolean containsElement = false;
+	                            for ( HiQuickInfo content : contents ) {
+	                                if ( content.getBaseID() == info.getBaseID() ) containsElement = true;
+	                            }
+	                            if ( !containsElement ) {
+	                                HIRuntime.getManager().addToGroup(info.getBaseID(), group.getId());
+	                                sortOrder = sortOrder + "," + info.getBaseID();
+	                                if (sortOrder.startsWith(",")) {
+	                                    sortOrder = sortOrder.substring(1);
+	                                }
+	                            }
                             }
                         }
                         // update group membership sort order
                         HIRuntime.getManager().updateGroupSortOrder(group.getId(), sortOrder);
+                        
+                        counter++;
                     }
 
                     /*
                      * set tag memberships
                      */
-                    projElements = null;
                     counter = 1;
 
                     HIRuntime.getGui().setMessage(Messages.getString("PeTALImporter.tagmembership"));
                     for (Element tagElement : tags ) {
+                        HIRuntime.getGui().setMessage(Messages.getString("PeTALImporter.tagmembership") + " (" + counter + " " + Messages.getString("PeTALImporter.25") + " " + tags.size() + ")");
                         HiGroup tag = (HiGroup) HIRuntime.getManager().getBaseElement(tagElement.getAttribute("id"));
                         List<HiQuickInfo> contents = HIRuntime.getManager().getGroupContents(tag);
 
@@ -1382,6 +1388,7 @@ public class PeTAL3Importer extends XMLImporter {
                             try {
                                 info = HIRuntime.getManager().getBaseQuickInfo(ref);
                             } catch (HIWebServiceException e) {
+                            	Logger.getLogger(PeTAL3Importer.class.getName()).log(Level.WARNING, "Error getting base quick info for ref " + ref, e);
                                 // ignore
                             }
                             boolean containsElement = false;
@@ -1391,13 +1398,17 @@ public class PeTAL3Importer extends XMLImporter {
                                 HIRuntime.getManager().addToGroup(info.getBaseID(), tag.getId());
                             }
                         }
-                    }                   
+                        counter++;
+                    }
                     
                     /*
                      * set layer links
                      */
+                    counter = 1;
+                    
                     HIRuntime.getGui().setMessage(Messages.getString("PeTALImporter.33"));
                     for (Element layerElement : layers ) {
+                        HIRuntime.getGui().setMessage(Messages.getString("PeTALImporter.33") + " (" + counter + " " + Messages.getString("PeTALImporter.25") + " " + layers.size() + ")");
                         HiLayer layer = layerIDMap.get(layerElement.getAttribute("id"));
 
                         String href = layerElement.getAttributeNS(XLINK_XMLNS, "href");
@@ -1408,10 +1419,12 @@ public class PeTAL3Importer extends XMLImporter {
                             try {
                                 info = HIRuntime.getManager().getBaseQuickInfo(href);
                             } catch (HIWebServiceException e) {
+                            	Logger.getLogger(PeTAL3Importer.class.getName()).log(Level.WARNING, "Error getting base quick info for ref " + href, e);
                                 // ignore
                             }
                             if ( info != null ) HIRuntime.getManager().setLayerLink(layer.getId(), info.getBaseID());
                         }
+                        counter++;
                     }
 
                     setStartRef();

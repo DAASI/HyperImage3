@@ -5,9 +5,10 @@
   <version>0.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
   <modules>
-  	<module>../../../../../home/tamim/git/HyperImage3/HIImage</module>
-  	<module>../../../../../home/tamim/git/HyperImage3/hi3-editor</module>
-  	<module>../../../../../home/tamim/git/HyperImage3/hi3-manager</module>
-  	<module>../../../../../home/tamim/git/HyperImage3/hi3-authorenv</module>
+  	<module>../HIImage</module>
+  	<module>../hi3-editor</module>
+  	<module>../hi3-manager</module>
+  	<module>../hi3-reader</module>
+  	<module>../hi3-authorenv</module>
   </modules>
 </project>

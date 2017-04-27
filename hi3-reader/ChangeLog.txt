@@ -1,0 +1,376 @@
+CHANGE LOG  
+version 3X
+NEW INTERFACE DESIGN IMPLEMENTATION HYPERIMAGE READER 
+(changes from HyperImage 3 - Static Reader v3.0 (PostPeTAL 1.2 compatible)
+
+2015-01 to 2105-07   
+By Renee Carmichael
+
+
++ ADDED
+
+- REMOVED
+
+* FIXED or CHANGED
+
+
+###################
+
+UNRELEASED
+
+###################
+
+STILL TO DO: 
+
+*Debug when [object Object] appears
+
+*Add hover info of tooltips on taphold in mobile/tablet version
+
+*Add zoom in and pan on images in iPad version 
+
+*Light-table debugging and functionality in Mobile versions
+  
+*Fix resolution of group images
+
+
+###########################################
+
+GENERAL CHANGES AND FILE STRUCTURE CHANGES
+
+############################################
+
++ADDED: font folder to file structure to include typicon fonts for mobile/tablet
+
+*CHANGED: reader > css > smoothness >  jquery-ui-1.10.2.custom.min.css to fit design scheme
+
+
+
+################
+
+INDEX.HTML
+
+################
+
++ADDED: icon Typicon fonts for mobile/tablets
+	+ line 47: <link rel='stylesheet' href="font/typicons.min.css" />
+
++ADDED: jquery mobile for mobile/tablet touch features
+	+ line 57: <script type="text/javascript" src=“reader/js/libs/jquery/jquery.mobile.custom.js"></script>
+
++ADDED: jquery-touchpunch.js for drag and scroll features on mobile/tablet
+	+line 58
+
++ADDED: panzoom.js plugin for mobile zoom feature
+	+ line 59: <script type="text/javascript" src=“reader/js/libs/panzoom.js"></script>
+
++ADDED: custom.js for additional js functions (see custom.js file)
+	+ line 72:  <script type="text/javascript" src="reader/js/custom.js"></script>
+
++ADDED: href=javascript:urlFunction(); to prevent url changes
+	+Line 96, 116, 117, 152, 331
+
++ADDED: project title to mainmenu
+	+ lines 88-94:
+	+<li class="PROJECT_TITLE_DEFAULT">
+	+	<a class="startitem title-default" href="#">&nbsp;</a>
+	+</li>
+	+<li class="PROJECT_TITLE_TRANSLATE">
+	+	<a class="startitem title" href="#">&nbsp;</a>
+	+	<a class="startitem title-2" href="#">&nbsp;</a>
+	+</li>
+
++ADDED: sub-menu icon 
+	+lines 95-97: 
+	+<li class="sub-menu">
+	+	<a class="menu-icon" href="javascript:urlFunction();"><span class="typcn typcn-th-menu"><span></a>
+	+</li>
+
++ADDED: right-nav div 
+	+line 99: <ul id="right-nav">
+
+*CHANGED: moved main-menu items: logo, language about and imprint  to #right-nav
+-REMOVED: .MENU_FILE
+-REMOVED: .startitem from .MENU_NAVIGATION
++ADDED: icons for about and imprint for mobile/tablet
+	*+ lines 100 - 106: 
+	*+ <li class=“right-nav-about"><a class="MENU_ABOUT"href="javascript:aboutReader();">About</a></li>
+	*+ <li class="right-nav-imprint"><a class="MENU_IMPRINT" href="#imprint/">&nbsp;</a></li>
+	*+ <li class="right-nav-mobile"><a class=“about-reader-mobile" href="javascript:aboutReader();"><span class="typcn typcn-info-large"><span></a></li>
+	*+ <li class="right-nav-mobile"><a class="about-reader-mobile" href="#imprint/">§</a></li>
+	*+ <div id="projectlogo"><a  class="startitem" href="#"><img src="resource/home.png" alt="" /></a></div>
+
+*FIXED: moved main-menu and right-nav into header div to prevent overflow-x screen scroll 
+	*lines 84-110
+
+*CHANGED: moved #infotext in order to display properly with mobile changes
+	*lines: 111-115  
+
++ADDED: icons to show and hide side bar in mobile/tablet
+	+lines 116-117: 
+	+<div class="mobile-sidebar-icon"><a href="javascript:urlFunction();" class="sidebar-icon sidebar-display"><span class="typcn typcn-chevron-left"></span>&nbsp;</a></div>
+	+<div class="mobile-sidebar-back"><a href="javascript:urlFunction();" class="sidebar-icon-back sidebar-display"><span class="typcn typcn-chevron-right”></span>&nbsp;</a></div>
+
++ADDED: #canvas_menu for mainmenu items
+*CHANGED: moved main items to #content to show / hide on .sub-menu click 
+	+* lines 120-183
+
++ADDED: #layer-context and #lita-context for context menu on taphold on mobile/tablet
+	+ lines 329-347
+	+<div id="layer-context">
+	+	<ul>
+	+		<li id="layer-to-lita" class=“layer-context-list"><a href="javascript:urlFunction();"><span class='MENU_LAYER_TO_LITA'>&nbsp;</span></a></li>
+	+		<hr>
+	+		<li id="layer-tracking" class="layer-context-list"><a href="#"><span class='MENU_SITES_LAYER'>&nbsp;</span></a></li>
+	+		<li id="layer-ref" class="layer-context-list"><a href="#"><span class='MENU_REFS_LAYER'>&nbsp;</span></a></li>
+	+	</ul>
+	+</div>
+	+<div id="lita-context">
+	+	<ul>
+	+		<li id="lita-view-select" class="lita-context-list"><a href="#" style="color:#00000;"><span class='MENULITA_BROWSER'>&nbsp;</span></a></li>
+	+		<hr>
+	+		<li id="lita-fit-frame" class="lita-context-list"><a href="#"><span class='MENULITA_FIT_FRAME'>&nbsp;</span></a></li>
+	+		<li id="lita-fit-thumb" class="lita-context-list"><a href="#"><span class='MENULITA_THUMBNAIL'>&nbsp;</span></a></li>
+	+		<li id="lita-duplicate" class="lita-context-list"><a href="#"><span class='MENULITA_DUPLICATE_ELEMENT'>&nbsp;</span></a></li>
+	+		<hr>
+	+		<li id="lita-delete" class="lita-context-list"><a href="#"><span class='MENULITA_DELETE_ELEMENT'>&nbsp;</span></a></li>
+	+	</ul>
+	+</div>
+
+*CHANGED/FIXED: moved #canvasTooltip so it displays on taphold on mobile/tablet
+	*lines: 184-186
+
+*CHANGED/FIXED: copyright info
+	*lines: 275 - 277
+
+*CHANGED/FIXED: .aboutText
+	*lines: 281 - 285
+
+*ADDED: panzoom.js library
+	*lines 291 - 305
+
+*ADDED: jquery-mobile library
+	*lines  
+
+
+################
+
+MAIN.CSS
+
+################
+
+OVERALL: *CHANGED: all font-family cases to 'Josefin Sans', and color scheme to #ffffff and #00cc99
+
++ADDED: to prevent default mobile touch behaviours
+	+line 25: -webkit-touch-callout: none!important;
+
++ADDED: Josefin Sans and Typicons fonts
+	+lines 33-44
+
+*CHANGED: hr to match design scheme
+	*lines 68-75
+
++ADDED: img height and width
+	+lines: 81-85
+
++ADDED: clear 
+	+lines 107-109
+
++ADDED: header styles 
+	+lines 241-248
+
+*CHANGED: project logo, to float right and no background etc. 
+	*lines 250-260
+
++ADDED: #project-title styles
+	+lines 270-274
+
++ADDED: #lang styles
+	+lines 276-278
+
++ADDED: nav style
+	+line 279-281
+
+*CHANGED: overall #mainmenu styles
+	*lines 283-391
+
++ADDED: .MENU_LANGUAGE styles
+	+lines 411-425
+
++ADDED: #right-nav styles
+	+lines 428-475
+
++ADDED / * CHANGED : #CANVAS_MENU and .overlay styles
+	+*lines 477-549
+
+*CHANGED: .tabmenu styles
+	*lines: 551-584
+
+*CHANGED: .disabled styles
+	*lines 586-599
+
+*CHANGED: #grouplist styles
+	*lines 611-624
+
+*CHANGED: #textContent styles	
+	*lines 677-696
+
+*CHANGED: #lighttableContent styles
+	*lines 709-717
+
++ADDED: #inscriptionContent styles
+	+lines 849-852
+
++ADDED: #content styles
+	+lines 854-863
+
+*CHANGED: #canvasWrapper stylers
+	*lines 864-872
+
+*CHANGED: .tooltip styles 
+	*lines 893-928
+
+*CHANGED: #canvas styles
+	*lines 930-940
+
++ADDED: #tabs style
+	+lines 942-949
+
++ADDED: .mobile-sidebar-icon styles
+	+lines 950-969
+
+*CHANGED: #sidebar styles
+	*lines 970-994
+
+*CHANGED: .mdkey styles
+	*lines 1012-1018
+
+*CHANGED: #loadingIndicator styles
+	*lines 1027-1040
+
+*CHANGED: #infotext styles
+	*lines 1042-1051
+
++ADDED: .infocanvas styles 
+	+lines 1053-1072
+
++ADDED: more info text styles
+	+lines 1075-1107
+
+*CHANGED: #searchInput styles
+	*lines 1114-1125
+
+*CHANGED: .hiButton styles
+	*lines 1126-1134
+
++ADDED / *CHANGED: input and label styles
+	+*lines 1179-1215
+
++ADDED: #overlay styles
+	+lines 1217-1226
+
++ADDED: #layer-context and #lita-context styles for mobile/tablet
+	+lines 1228-1282
+
++ADDED: responsive styles starting at 1024px @media only screen and (max-device-width : 1024px)
+	+lines 1395 - 1712
+
++ADDED: media query for less than 800px @media only screen and (max-device-width : 800px)
+	+lines 1713- 17770
+
+
++ADDED: media query for less than 480px @media only screen and (max-device-width : 480px) 
+	+lines 1772 - 1804
+
++ADDED: media query for less than 360px @media only screen and (max-device-width : 360px)
+	+lines 1806 - 1917
+
++ADDED: media query for less than 320px @media only screen and (max-device-width : 320px)
+	+lines 1919 - 1990
+
+
+################
+
+CUSTOM.JS
+
+################
+
++ADDED: custom.js file for additional js functionality 
+	+project title translation
+	+show/hide #CANVAS_MENU
+	+hide #CANVAS_MENU on menu item click
+	+urlFunction()
+	+SVG margin fixes
+	+lita menu functionality on tap (mobile/tablet)
+
+################
+
+READER.INIT.JS
+
+################
+
+OVERALL: *CHANGED pref fonts to 'Josefin Sans' and font colors to match color scheme (#00cc99), and header/link styles to remain in design scheme
+	*lines 222-246
+
++ADDED: in function loadProjectFile extraction of title in project languages
+	+lines 295-298
+
++ADDED: in function initContextMenus() function to add view menu on mobile/tablet taphole 
+	+lines 621-650
+	
++ADDED: function initPanzom () to initiate panzoom on load
+	+lines: 791 - 793
+
++ADDED: in function showTab(tab) function to disable inscription tab unless clicked
+	+lines: 969 - 978
+
++ADDED: in initGui() the initPanzoom() function
+	+line 1018
+
+
+	
+
+################
+
+READER.MAIN.JS 
+
+################
+
+*FIXED: DEBUGGED in function parseMDField (), debugged .html() method to .append() so it works cross browser (safari and chrome) 
+	*line 111: var htmlText = $(field).append();
+
++ADDED: context menu for my lightTable for mobile/tablet
+	+lines 1380-1432
+
++ADDED: in function calcImageScales () variable reader.zoom.mobile for mobile/tablet full size images
+	+lines 1536-1540
+
++ADDED: in function calcImageScales () call panzoom function
+	+lines 1549 - 1585
+
++ADDED: in function calcImageScales () function for context menu for mobile/tablet
+	+lines 1586 - 1618
+
+
++ADDED: in function displayInscription() function to show hide inscription properly in mobile/tablet
+	+lines 1813 - 1842
+	
+
++ADDED: #sidebar css for screen sizes less than 1024px
+	+lines 1964 - 1969
+	
+
+*CHANGED: debugged for cross browser (.html() to .append()
+	*line 2084:  $('#infotext').append(infotext);
+
++ADDED: function to scale view image to mobile and loadHiResIfNeeded on screens less than 1024px
+	+lines 2105-2107
+
++ADDED: function to prevent .startitem being clicked when on .startitem page
+	+lines 2151 - 2160 
+	
+
++ADDED: function to add layer context menu on taphold for mobile/tablet (to do: add tooltip on taphole)
+	+lines 2162 - 2196
+	
+
+

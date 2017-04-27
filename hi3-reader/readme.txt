@@ -1,22 +1,18 @@
-The HyperImage Reader is used to publish projects compiled with HyperImage Editor and is included in the HyperImage 3 authoring environment.
-Copyright 2013 Leuphana Universität Lüneburg.
-Copyright 2014, 2015 bitGilde IT Solutions UG (haftungsbeschränkt).
-All rights reserved. Use is subject to terms of the Apache License, Version 2.0.
-See the included LICENSE file or http://www.apache.org/licenses/LICENSE-2.0.html for license details.
+HyperImage Reader version 3X, which includes a new design and functions on mobile and tablets. The HyperImage Reader is used to publish projects compiled with the HyperImage Editor.
  
-NOTE: For detailed instructions on how to prepare your HyperImage project for use with this Reader and customize layout and on-screen languages please refer to the  documentation located in "reader/docs".
-NOTE: Versions 3.0.x are the last versions of the static reader to support the deprecated PeTAL 1.2 format.
+13-August-2015
+
+The in­no­va­ti­ve re­se­arch en­vi­ron­ment al­lows any num­ber of de­tails, or sub­re­gi­ons, wi­t­hin an image to be high­ligh­ted and de­scri­bed. It links an­no­ta­ti­ons wi­t­hin a cor­pus to each other, ma­king them ac­ces­si­ble in in­di­ces. In­te­rim re­sults as well as fi­nal ver­si­ons can be com­pi­led at any time as an on­line/​off­line hy­per­me­dia pu­bli­ca­ti­on.
+
+For more information see the HyperImage project on Leuphana (http://www.leuphana.de/institute/icam/forschung-projekte/hyperimage.html)
+
+In order to use the new design with HyperImage projects, you will need to download and add these finals to any post petal export from the HyperImage Editor. 
+
+To add to HyperImage projects that already include the HI Reader, you can do the following: 
+
+1. replace the index.html file in your HyperImage project with the one included in this repository
+2. replace the reader folder in your HyperImage project with the one included in this repository
+3. Add the fonts folder included in this repository to the top leve directory of your HyperImage project folder 
+4. Pubish to a server or CD-Rom as normal 
 
 
-Features include:
-• the interactive display of image-based media elements (views, layers, groups and light tables),
-• the meaningful assignment of texts (metadata, annotations and transcriptions),
-• and the provision of interactive functions.
-
-Its main functions consist in retracing project-specific structures set up by the HyperImage author. Cross-reference can be followed up by clicking on sensitive areas in images or on text links.
-
-Particular features of the HyperImage Reader include various navigation aids (back references, logs, bookmarks, etc.), the search function and an editor for light tables. Light tables are collections of images, thumbnails, enlarged details and written annotations, applied for example when providing comments in image comparisons. Such light tables can be exported and then integrated in HyperImage projects with the help of the HyperImage Editor.
-
-This is a complete re-implementation using HTML5 and JavaScript technologies allowing for a modern viewing experience without needing any plug-ins (i.e. Adobe Flash) and enabling the application to directly work on mobile devices.
-
-The data is based on XML meta-language. The HyperImage Editor exports the structures, metadata and texts in the XML format PeTAL (Picture Text Annotation Language). The PeTAL file is prepared by a converter for use in the HyperImage Reader, is fully indexed and secured in ‘postPeTAL’ format. This format works without a database. To publish a project it is sufficient to load the converted HyperImage project as a data package on to a web server or burn it on to a CD-ROM.

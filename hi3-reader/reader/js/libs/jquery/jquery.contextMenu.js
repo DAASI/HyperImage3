@@ -790,8 +790,8 @@ var // currently active contextMenu trigger
                 offset,
                 css = {};
 
-            // hide any open menus
-            $('#context-menu-layer').trigger('mousedown');
+            
+            $('#context-menu-layer').trigger('mousedown'); 
 
             // backreference for callbacks
             opt.$trigger = $trigger;

@@ -75,7 +75,7 @@ import org.hyperimage.client.gui.HIClientGUI;
 public abstract class HIRuntime {
 
 	private static final String clientVersion = "3.0";
-	private static final String minorRev = "beta2";
+	private static final String minorRev = "beta3";
         
         public static boolean betaWarningDisplayed = false;
 	

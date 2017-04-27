@@ -18,7 +18,7 @@
 <all-permissions/>
 </security>
     <resources>
-        <j2se version="1.7+" java-vm-args="-Xms500m -Xmx1000m" max-heap-size="1000m" initial-heap-size="500m" />
+        <j2se version="1.7+" java-vm-args="-Xms500m -Xmx4000m" max-heap-size="4000m" initial-heap-size="500m" />
         <jar href="HI3Author-EditorClient_3.0.jar" main="true"/>
 <%-- 
       <jar href="lib/jai_codec.jar"/>

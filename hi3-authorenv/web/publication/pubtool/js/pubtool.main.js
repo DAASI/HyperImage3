@@ -22,6 +22,9 @@
 /* @author Jens-Martin Loebel */
 
 function initPubTool() {
+	
+	console.log("consolenausgabe tut");
+	
 	var isSafari = navigator.userAgent.indexOf("Safari") > -1 && navigator.userAgent.indexOf("Chrome") == -1;
 	
 	// load i18n
@@ -66,18 +69,25 @@ function initPubTool() {
 		var pubtool = {};
 		window.pubtool = pubtool;
 		pubtool.canvas = document.createElement('canvas');
-	    pubtool.stopwords = window.stopwords;
-	    pubtool.hiThemes = window.hiThemes;
+	  pubtool.stopwords = window.stopwords;
+	  pubtool.hiThemes = window.hiThemes;
             
-            pubtool.version = 'v3.0.beta2';
+    pubtool.version = 'v3.0.beta3';
 	
+			
+
+		// this solution is not really clean. the JSZip utils comes from an older version of JSZip and is deprected. but it still seems to do the job.
 		JSZipUtils.getBinaryContent('pubtool/reader-base.zip', function(err, data) {
-			if ( err ) {
-    			throw err; // or handle err
+			if(err) {
+				throw err; // or handle err
 			}
 
-			pubtool.zip = new JSZip(data);
+					pubtool.zip = new JSZip();
+					pubtool.zip.loadAsync(data);
 		});
+
+
+		
 	
 		pubtool.service = {};
 		pubtool.serializer = new XMLSerializer(); 
@@ -101,12 +111,13 @@ function initPubTool() {
 				parseItem(importGroup.getReturn());
 				pubtool.project.groups['G' + importGroup.getReturn().getId()] = pubtool.project.items['G' + importGroup.getReturn().getId()];
 				pubtool.project.importGroup = 'G'+importGroup.getReturn().getId();
+				console.log("Vor setProjectMetadata-Aufruf");
 				setProjectMetadata(result.getReturn());
 				for (lang in pubtool.project.langs) {
 					pubtool.project.groups['G'+importGroup.getReturn().getId()].title[pubtool.project.langs[lang]] = '(Import)';
 					pubtool.project.groups['G'+importGroup.getReturn().getId()].annotation[pubtool.project.langs[lang]] = '';
 				}
-
+				console.log("Nach for-inportgroup-schleife");
 			}, HIExceptionHandler);
 		}, HIExceptionHandler );
 		
@@ -126,8 +137,13 @@ if (!String.prototype.encodeXML) {
 
 function HIExceptionHandler(status, exception) {
 	console.log("HIServiceException:", exception);
-	if ( exception.type == "HISessionExpiredException" ) reportError(t("sessionExpired"));
-	if ( exception.type == "HIServerException" ) reportError(t("serverNetworkError")+exception.text);
+	if ( exception.type == "HISessionExpiredException" ) {
+		reportError(t("sessionExpired"));
+	} else if ( exception.type == "HIServerException" ) {
+		reportError(t("serverNetworkError")+exception.text);
+	} else {
+		reportError(exception.text);
+	}
 }
 
 function reportError(error) {
@@ -743,6 +759,9 @@ function getItemLinks(item) {
 
 
 function showSaveZIPDialog() {
+	
+	console.log("show save dialog");
+	
 	$('#pageinit').hide();
 	
 	$('#zipdialog').dialog({
@@ -760,15 +779,21 @@ function saveZIPFile() {
 	if ( !pubtool.zipContent ) return;
 	saveAs(pubtool.zipContent, "HI-Export.zip");
 }
-
 function generateZIPFile() {
 	if ( $('#progressbar').progressbar( "option", "value" ) != false ) {
 		$('#progressbar').progressbar({value: false});
 		$('.progress-label').html(t("createZIP"));
+		console.log("status: creatZIP");
 		$('#previewImage').attr('src', 'pubtool/img/hyperimage-logo-pubtool.png');
 		window.setTimeout(generateZIPFile(), 1000);
 	} else {
-		pubtool.zipContent = pubtool.zip.generate({type:"blob"});
+		console.log("test 1");
+		//pubtool.zipContent = pubtool.zip.generate({type:"blob"}); (jszip v2)
+		pubtool.zip.generateAsync({type:"blob"}).then(function (content) {   //jszip v3
+			pubtool.zipContent = content;
+			console.log("test2");
+		});
+		console.log("test3");
 		showSaveZIPDialog();
 		console.log("done");
 	}
@@ -796,8 +821,10 @@ function generateLayerImageFiles() {
 		$('#progressbar').progressbar( "option", "max", itemcount );
 		$('#progressbar').progressbar( "option", "value", 0 );
 		$('.progress-label').html(t("loadingLayers"));
+		console.log("status: loadingLayers");
 		
 		if ( itemcount == 0 ) { // no layers in project
+			console.log("zeile 810: hier duerftest du nicht rein kommen");
 			pubtool.project.layersProcessed = true;
 			generateZIPFile();
 			return;
@@ -835,7 +862,6 @@ function generateLayerImageFiles() {
 }
 
 function generateImageFiles() {
-	
 	function imageToDataUri(filename, data, width, height, isPreview) {
 		pubtool.project.processCounter++;
 		var img = new Image();
@@ -886,6 +912,8 @@ function generateImageFiles() {
 		$('#progressbar').progressbar( "option", "max", itemcount );
 		$('#progressbar').progressbar( "option", "value", 0 );
 		$('.progress-label').html(t("loadingViews"));
+		console.log("status: loadingViews");
+
 	}
 
 	// load and process view from view load list
@@ -980,6 +1008,7 @@ function restoreSortedFields(sortedFields) {
 }
 
 function setProjectMetadata(project) {
+	console.log("bin in setprojectMetadata");
 	pubtool.project.id = 'P'+project.getId();
 	pubtool.project.items = typeof(pubtool.project.items) == 'undefined' ? {} : pubtool.project.items;
 	pubtool.project.groups = typeof(pubtool.project.groups) == 'undefined' ? {} : pubtool.project.groups;
@@ -1017,7 +1046,7 @@ function setProjectMetadata(project) {
 		pubtool.start = pubtool.project.importGroup.id;
 	else
 		pubtool.start = GetIDModifierFromContentType(project.getStartObjectInfo().getContentType()) + project.getStartObjectInfo().getBaseID();
-
+console.log("bin in zeile 1030");
 	/* extract and sort template fields */
 	templates = project.getTemplates();
 	sortedFields = new Array();
@@ -1053,7 +1082,7 @@ function setProjectMetadata(project) {
 	}
 //	pubtool.project.sortedFields = sortedFields;
 	pubtool.project.sortedFields = restoreSortedFields(sortedFields);
-	
+console.log("bin in zeile 1066");	
 	// populate UI
 	for ( var i in Object.keys(pubtool.project.sortedFields) ) {
 		var field = pubtool.project.templates[pubtool.project.sortedFields[i]];
@@ -1064,7 +1093,7 @@ function setProjectMetadata(project) {
 			fieldTitle = t('HIInternal'+field.key)+' ('+t('HIInternal')+')'; 
 		$('#metadataSortable').append('<li data-key="'+field.template+'_'+field.key+'" class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>'+fieldTitle+'</li>');
 	}
-	
+console.log("bin in zeile 1077");	
 	$('#pageinit').hide();
 	
 
@@ -1074,7 +1103,7 @@ function setProjectMetadata(project) {
 	pubtool.service.HIEditor.getGroups(function(result) {pubtool.project.groupsLoaded = true;setListTabContent(result.getReturn(), 'G', pubtool.project.groups, '#groupSortable');$('.grouploader').hide();$('#tabs').tabs('enable', 1);loadProjectContents();}, HIExceptionHandler);
 	pubtool.service.HIEditor.getProjectTextElements(function(result) {pubtool.project.textsLoaded = true;setListTabContent(result.getReturn(), 'T', pubtool.project.texts, '#textSortable');$('.textloader').hide();$('#tabs').tabs('enable', 2);loadProjectContents();}, HIExceptionHandler);
 	pubtool.service.HIEditor.getProjectLightTableElements(function(result) {pubtool.project.litasLoaded = true;setListTabContent(result.getReturn(), 'X', pubtool.project.litas, '#litaSortable');$('.litaloader').hide();$('#tabs').tabs('enable', 3);loadProjectContents();}, HIExceptionHandler);
-
+console.log("bin in zeile 1077");	
 }
 
 function setListTabContent(serverContents, prefix, contents, tagname) {
@@ -1087,13 +1116,18 @@ function setListTabContent(serverContents, prefix, contents, tagname) {
 		var content = contents[Object.keys(contents)[i]];
 		var contentTitle = content.title[pubtool.project.defaultLang];
 		if ( contentTitle == null || contentTitle.length == 0 ) contentTitle = '('+content.id+')';
-		$(tagname).append('<li data-baseid="'+content.id+'" class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>'+contentTitle+'<input style="float: right;" checked="checked" type="checkbox" name="'+content.id+'" value="'+content.id+'" /></li>');
+		$(tagname).append('<li data-baseid="'+content.id+'" class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>'+contentTitle+'<input style="float: right;" checked="false" type="checkbox" name="'+content.id+'" value="'+content.id+'" /></li>');
 	}
 	if ( Object.keys(contents).length == 0 ) $(tagname).parent().append('<strong>Keine Elemente vorhanden.</strong>');
 }
 
 function loadProjectContents() {
-	if ( !pubtool.project.groupsLoaded || !pubtool.project.textsLoaded || !pubtool.project.litasLoaded ) return;
+	if ( !pubtool.project.groupsLoaded || !pubtool.project.textsLoaded || !pubtool.project.litasLoaded ) {
+		console.log("Groups, texts and litas are not fully loaded so I leave function loadProjetContents immediately");
+		return;
+	}
+	console.log("Groups, texts and litas were all fully loaded so I don't leave function loadProjetContents immediately");
+	
 	$('#startbutton').button("option", "disabled", false);
 
 	if ( !pubtool.project.tagsLoaded ) {
@@ -1135,7 +1169,7 @@ function loadProjectContents() {
 					
 				}, HIExceptionHandler);
             
-        } else if ( !pubtool.project.groupContentsLoaded ) {
+	} else if ( !pubtool.project.groupContentsLoaded ) {
 		$('#progressbar').progressbar( "option", "max", Object.keys(pubtool.project.groups).length + Object.keys(pubtool.project.tags).length );
 		$('#progressbar').progressbar( "option", "value", 0 );
 		$('.progress-label').html(t("loadingGroupContents"));
@@ -1145,53 +1179,55 @@ function loadProjectContents() {
 		var itemsToLoad = {};
 		pubtool.project.itemsToLoad = itemsToLoad;
 		$(Object.keys(pubtool.project.groups)).each(
-			function(i, groupID) {
-				var groupContents = [];
-				pubtool.service.HIEditor.getGroupContentQuickInfo(
-				function(result) {
-					var serverContents = result.getReturn();
-					$('#progressbar').progressbar( "option", "value", $('#progressbar').progressbar( "option", "value" )+1 ); // update progress bar
-					$(serverContents).each(
-						function(index, member) {
-							var contentID = GetIDModifierFromContentType(member.getContentType())+member.getBaseID();
-							if ( member.getContentType() == 'HIObject' || member.getContentType() == 'HIURL' ) itemsToLoad[contentID] = {};
-							groupContents.push(contentID);
-					});					
-					pubtool.project.groups[groupID].members = groupContents;
-				
-					// load remaining project items when finished
-					if ( $('#progressbar').progressbar( "option", "value" ) == (Object.keys(pubtool.project.groups).length + Object.keys(pubtool.project.tags).length) ) {
-						pubtool.project.groupContentsLoaded = true;
-						loadProjectContents();
-					}
-				}, HIExceptionHandler, groupID.substring(1));		
-		});
-                // tag groups
-                $(Object.keys(pubtool.project.tags)).each(
-			function(i, tagID) {
-				pubtool.service.HIEditor.getGroupContentQuickInfo(
-				function(result) {
-					var serverContents = result.getReturn();
-					$('#progressbar').progressbar( "option", "value", $('#progressbar').progressbar( "option", "value" )+1 ); // update progress bar
-					$(serverContents).each(
-						function(index, member) {
-                                                    var contentID = GetIDModifierFromContentType(member.getContentType())+member.getBaseID();
-                                                    pubtool.project.tags[tagID].keymembers[contentID] = contentID;
-                                                    pubtool.project.tags[tagID].members.push(contentID);
-                                                    pubtool.project.tags[tagID].sortOrder.push(contentID.substring(1));
-					});					
-				
-					// load remaining project items when finished
-					if ( $('#progressbar').progressbar( "option", "value" ) == (Object.keys(pubtool.project.groups).length + Object.keys(pubtool.project.tags).length) ) {
-                                                // attach tags to groups
-                                                $(Object.keys(pubtool.project.groups)).each(function(index, groupID) { attachTags(pubtool.project.groups[groupID]); });
-                                                // continue loading ptoject contents
-						pubtool.project.groupContentsLoaded = true;
-						loadProjectContents();
-					}
-				}, HIExceptionHandler, tagID.substring(1));		
-		});
-            } else if ( !pubtool.project.projectContentsLoaded ) {
+				function(i, groupID) {
+					var groupContents = [];
+					pubtool.service.HIEditor.getGroupContentQuickInfo(
+							function(result) {
+								var serverContents = result.getReturn();
+								$('.progress-label').html(t("loadingGroupContents") + "(" + groupID + ")");
+								$('#progressbar').progressbar( "option", "value", $('#progressbar').progressbar( "option", "value" )+1 ); // update progress bar
+								$(serverContents).each(
+										function(index, member) {
+											var contentID = GetIDModifierFromContentType(member.getContentType())+member.getBaseID();
+											if ( member.getContentType() == 'HIObject' || member.getContentType() == 'HIURL' ) itemsToLoad[contentID] = {};
+											groupContents.push(contentID);
+										});					
+								pubtool.project.groups[groupID].members = groupContents;
+
+								// load remaining project items when finished
+								if ( $('#progressbar').progressbar( "option", "value" ) == (Object.keys(pubtool.project.groups).length + Object.keys(pubtool.project.tags).length) ) {
+									pubtool.project.groupContentsLoaded = true;
+									loadProjectContents();
+								}
+							}, HIExceptionHandler, groupID.substring(1));		
+				});
+		// tag groups
+		$(Object.keys(pubtool.project.tags)).each(
+				function(i, tagID) {
+					pubtool.service.HIEditor.getGroupContentQuickInfo(
+							function(result) {
+								var serverContents = result.getReturn();
+								$('.progress-label').html(t("loadingGroupContents") + "(" + tagID + ")");
+								$('#progressbar').progressbar( "option", "value", $('#progressbar').progressbar( "option", "value" )+1 ); // update progress bar
+								$(serverContents).each(
+										function(index, member) {
+											var contentID = GetIDModifierFromContentType(member.getContentType())+member.getBaseID();
+											pubtool.project.tags[tagID].keymembers[contentID] = contentID;
+											pubtool.project.tags[tagID].members.push(contentID);
+											pubtool.project.tags[tagID].sortOrder.push(contentID.substring(1));
+										});					
+
+								// load remaining project items when finished
+								if ( $('#progressbar').progressbar( "option", "value" ) == (Object.keys(pubtool.project.groups).length + Object.keys(pubtool.project.tags).length) ) {
+									// attach tags to groups
+									$(Object.keys(pubtool.project.groups)).each(function(index, groupID) { attachTags(pubtool.project.groups[groupID]); });
+									// continue loading ptoject contents
+									pubtool.project.groupContentsLoaded = true;
+									loadProjectContents();
+								}
+							}, HIExceptionHandler, tagID.substring(1));		
+				});
+	} else if ( !pubtool.project.projectContentsLoaded ) {
 		// load remaining objects and urls
 		$('#progressbar').progressbar( "option", "max", Object.keys(pubtool.project.itemsToLoad).length );
 		$('#progressbar').progressbar( "option", "value", 0 );
@@ -1199,19 +1235,23 @@ function loadProjectContents() {
 		
 		// load objects and external urls
 		var itemcount = Object.keys(pubtool.project.itemsToLoad).length;
-		for (var i=0; i < Object.keys(pubtool.project.itemsToLoad).length; i++)
+		for (var i=0; i < Object.keys(pubtool.project.itemsToLoad).length; i++) {
+			console.log(i + "/" + itemcount);
 			pubtool.service.HIEditor.getBaseElement(
 				function(result) {
+
 					parseItem(result.getReturn());
+					$('.progress-label').html(t("loadingProjectContents") + "(" + i + ")");
 					$('#progressbar').progressbar( "option", "value", $('#progressbar').progressbar( "option", "value" )+1 ); // update progress bar
 					if ( $('#progressbar').progressbar( "option", "value" ) == Object.keys(pubtool.project.itemsToLoad).length ) {
 						pubtool.project.projectContentsLoaded = true;
 						if ( pubtool.userStartedPPGeneration ) generatePeTALDocs();
 						console.log("continue");
 					}
+
 				}, HIExceptionHandler, Object.keys(pubtool.project.itemsToLoad)[i].substring(1)
 			);
-
+		}
 	}
 
 }
@@ -1469,8 +1509,10 @@ function generatePeTALDocs() {
 	if ( !pubtool.project.projectContentsLoaded ) {
 		$('#pageinit').show();
 		pubtool.userStartedPPGeneration = true;
+		console.log("I left the function in line 1480");
 		return;
 	}
+	console.log("I continued the fnc in line 1483");
 	
 	$('#pageinit').show();
 	$('#progressbar').progressbar({value: false});
@@ -1722,6 +1764,7 @@ function generatePeTALDocs() {
 		xmlIndex += '</table></index></petal>';
 
 		pubtool.zip.file("postPetal/index_"+lang+".xml", xmlIndex);
+		console.log("creating xml geklappt (zip)");
 	}
 
 	// persist user selected theme to PeTAL xml

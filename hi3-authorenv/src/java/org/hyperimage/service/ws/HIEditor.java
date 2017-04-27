@@ -1637,7 +1637,7 @@ public class HIEditor {
 
 			// remove template from project
 			if (!curProject.getTemplates().remove(template)) {
-				m_logger.info("Warning: Could not remove template from project!");
+				m_logger.warning("Could not remove template from project!");
 			}
 			em.remove(template);
 			em.persist(curProject);
@@ -2490,11 +2490,12 @@ public class HIEditor {
 			em.flush();
 			utx.commit();
 
-			// update lucene index
+			// Remove project directory
 			try {
+				m_logger.log(Level.INFO, "Removing project directory...");
 				indexer.removeIndex(project);
 			} catch (IOException e) {
-				m_logger.log(Level.SEVERE, "Index directory could not be deleted", e);
+				m_logger.log(Level.SEVERE, "Project directory could not be deleted", e);
 			}
 
 		} catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException
@@ -2839,7 +2840,7 @@ public class HIEditor {
 		if (uuid != null) {
 			if ((Long) em.createQuery("SELECT count(b) FROM HIBase b WHERE b.project=:project AND b.uuid=:uuid")
 					.setParameter("project", curProject).setParameter("uuid", uuid).getSingleResult() != 0)
-				throw new HIEntityException("Element with UUID already exists in project!");
+				throw new HIEntityException(String.format("Element with UUID '%s' already exists in project!", uuid));
 		}
 
 		object.setProject(curProject);
@@ -2957,7 +2958,7 @@ public class HIEditor {
 		if (uuid != null) {
 			if ((Long) em.createQuery("SELECT count(b) FROM HIBase b WHERE b.project=:project AND b.uuid=:uuid")
 					.setParameter("project", curProject).setParameter("uuid", uuid).getSingleResult() != 0)
-				throw new HIEntityException("Element with UUID already exists in project!");
+				throw new HIEntityException(String.format("Element with UUID '%s' already exists in project!", uuid));
 		}
 
 		// create new view
@@ -3174,7 +3175,7 @@ public class HIEditor {
 	public synchronized byte[] getImage(@WebParam(name = "baseID") long baseID, HI_ImageSizes size)
 			throws HIPrivilegeException, HIEntityNotFoundException, HIMaintenanceModeException {
 
-		m_logger.info(String.format("getImage called with baseID %s and size %s", baseID, size));
+		m_logger.fine(String.format("getImage called with baseID %s and size %s", baseID, size));
 
 		byte[] bitstream = null;
 
@@ -3442,8 +3443,7 @@ public class HIEditor {
 		if (uuid != null) {
 			if ((Long) em.createQuery("SELECT count(b) FROM HIBase b WHERE b.project=:project AND b.uuid=:uuid")
 					.setParameter("project", curProject).setParameter("uuid", uuid).getSingleResult() != 0)
-				throw new HIEntityException("Element with UUID already exists in project!");
-		}
+				throw new HIEntityException(String.format("Element with UUID '%s' already exists in project!", uuid));		}
 
 		// create new inscription
 		inscription = new HIInscription(object, uuid);
@@ -3500,7 +3500,7 @@ public class HIEditor {
 		if (uuid != null) {
 			if ((Long) em.createQuery("SELECT count(b) FROM HIBase b WHERE b.project=:project AND b.uuid=:uuid")
 					.setParameter("project", curProject).setParameter("uuid", uuid).getSingleResult() != 0)
-				throw new HIEntityException("Element with UUID already exists in project!");
+				throw new HIEntityException(String.format("Element with UUID '%s' already exists in project!", uuid));
 		}
 
 		HILayer layer = new HILayer(view, red, green, blue, opacity, uuid);
@@ -3714,7 +3714,7 @@ public class HIEditor {
 		if (uuid != null) {
 			if ((Long) em.createQuery("SELECT count(b) FROM HIBase b WHERE b.project=:project AND b.uuid=:uuid")
 					.setParameter("project", curProject).setParameter("uuid", uuid).getSingleResult() != 0)
-				throw new HIEntityException("Element with UUID already exists in project!");
+				throw new HIEntityException(String.format("Element with UUID '%s' already exists in project!", uuid));
 		}
 
 		HIURL hiUrl = new HIURL(url, title, lastAccess, uuid);
@@ -3793,7 +3793,7 @@ public class HIEditor {
 		if (uuid != null) {
 			if ((Long) em.createQuery("SELECT count(b) FROM HIBase b WHERE b.project=:project AND b.uuid=:uuid")
 					.setParameter("project", curProject).setParameter("uuid", uuid).getSingleResult() != 0)
-				throw new HIEntityException("Element with UUID already exists in project!");
+				throw new HIEntityException(String.format("Element with UUID '%s' already exists in project!", uuid));
 		}
 
 		text.setProject(curProject);
@@ -3843,7 +3843,7 @@ public class HIEditor {
 		if (uuid != null) {
 			if ((Long) em.createQuery("SELECT count(b) FROM HIBase b WHERE b.project=:project AND b.uuid=:uuid")
 					.setParameter("project", curProject).setParameter("uuid", uuid).getSingleResult() != 0)
-				throw new HIEntityException("Element with UUID already exists in project!");
+				throw new HIEntityException(String.format("Element with UUID '%s' already exists in project!", uuid));
 		}
 
 		lightTable.setProject(curProject);
@@ -4036,7 +4036,7 @@ public class HIEditor {
 		if (uuid != null) {
 			if ((Long) em.createQuery("SELECT count(b) FROM HIBase b WHERE b.project=:project AND b.uuid=:uuid")
 					.setParameter("project", curProject).setParameter("uuid", uuid).getSingleResult() != 0)
-				throw new HIEntityException("Element with UUID already exists in project!");
+				throw new HIEntityException(String.format("Element with UUID '%s' already exists in project!", uuid));
 		}
 
 		try {
@@ -4169,7 +4169,7 @@ public class HIEditor {
 		if (uuid != null) {
 			if ((Long) em.createQuery("SELECT count(b) FROM HIBase b WHERE b.project=:project AND b.uuid=:uuid")
 					.setParameter("project", curProject).setParameter("uuid", uuid).getSingleResult() != 0)
-				throw new HIEntityException("Element with UUID already exists in project!");
+				throw new HIEntityException(String.format("Element with UUID '%s' already exists in project!", uuid));
 		}
 
 		try {
@@ -4402,6 +4402,11 @@ public class HIEditor {
 		}
 
 		group.getContents().size();
+
+		if (group.getContents().isEmpty()) {
+			m_logger.warning(String.format("Group with UUID %s and id %s has no contents!", group.getUUID(), group.getId()));
+		}
+
 		em.refresh(group);
 
 		for (HIBase content : group.getContents()) {

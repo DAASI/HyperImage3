@@ -18,6 +18,10 @@
 				<include>favicon.ico</include>
 				<include>index.html</include>
 				<include>LICENSE.txt</include>
+				<include>ChangeLog.txt</include>
+				<include>NOTICE</include>
+				<include>readme.txt</include>
+				<include>upgrade.txt</include>
 			</includes>
 		</fileSet>
 	</fileSets>

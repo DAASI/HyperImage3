@@ -15,4 +15,6 @@ To add to HyperImage projects that already include the HI Reader, you can do the
 3. Add the fonts folder included in this repository to the top leve directory of your HyperImage project folder 
 4. Pubish to a server or CD-Rom as normal 
 
+test
+
 

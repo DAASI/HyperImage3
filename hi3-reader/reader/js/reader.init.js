@@ -974,6 +974,16 @@ function showTab(tab) {
     }   
 }
 
+// added by AliH
+function initPlugins() {
+    if (!reader.plugins) reader.plugins = {};
+    if (!reader.plugins.init) reader.plugins.init = [];
+    if (!reader.plugins.tooltip) reader.plugins.tooltip = {};
+    if (!reader.plugins.tooltip.canvas) reader.plugins.tooltip.canvas = {};
+    if (!reader.plugins.tooltip.canvas.before) reader.plugins.tooltip.canvas.before = [];
+    if (!reader.plugins.tooltip.canvas.show) reader.plugins.tooltip.canvas.show = [];
+}
+
 function initReader() {
     $('#guiInitIndicator').activity({
         segments: 12,

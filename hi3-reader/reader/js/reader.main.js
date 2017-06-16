@@ -1582,6 +1582,42 @@ function zoomOut() {
     }
 }
 
+// added by AliH to fix HYP-73
+function setNavAvailable(available) {
+    if ( available ) {
+        setNavOpened(true);
+        $('#navImage').show();    
+        $('#navWidget').show();
+    } else {
+        setNavOpened(false);
+        $('#navWidget').hide();
+    }
+}
+
+//added by AliH to fix HYP-73
+function updateNavRect() {
+    $('#navRect').attr('x', ($('#canvas').scrollLeft()/reader.zoom.cur)/reader.zoom.width*reader.zoom.navwidth);
+    $('#navRect').attr('y', (($('#canvas').scrollTop()/reader.zoom.cur)/reader.zoom.height*reader.zoom.navheight)+5);
+    if ( parseInt($('#navRect').attr('x')) < $('#nav').scrollLeft() ) {
+        $('#nav').scrollLeft(parseInt($('#navRect').attr('x')));
+    }
+    if ( (parseInt($('#navRect').attr('x'))+parseInt($('#navRect').attr('width'))) > ($('#nav').scrollLeft()+$(window).width()) ) {        
+        $('#nav').scrollLeft(parseInt($('#navRect').attr('x'))+parseInt($('#navRect').attr('width'))-$(window).width());
+    }
+}
+
+//added by AliH to fix HYP-73
+function setNavOpened(opened) {
+    if (opened) {
+        $('#navWidget').removeClass('nav-closed');
+        $('#nav').show();
+    } else {
+        $('#navWidget').addClass('nav-closed');
+        $('#nav').hide();
+    }
+    
+}
+
 function scaleImageTo(scale) {
     scale = Math.max(reader.zoom.min, scale);
     scale = Math.min(reader.zoom.max, scale);

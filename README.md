@@ -10,7 +10,7 @@ The following steps are required to setup HI development envoirnment:
     1. hi3-parent
     1. hi3-reader
     1. HIImage
-1. Create new glassfish server in eclipse IDE. By default eclipse IDE does not have glassfish server, please follow the link https://stackoverflow.com/questions/25200410/how-to-configure-glassfish-server-in-eclipse-manually to create and start new glassfish server.
+1. Create new glassfish server (only tested with Glass Fish version 4.1.2) in eclipse IDE. By default eclipse IDE does not have glassfish server, please follow the link https://stackoverflow.com/questions/25200410/how-to-configure-glassfish-server-in-eclipse-manually to create and start new glassfish server.
 1. Run maven "clean package" on hi3-parent. This will compile the code and will create necessary components including manager applet, editor applet, and reader-base.zip. Finally it will add everything in war HI3-Author.war, created in hi3-authorenv/target folder.
 1. We can now deploy the project by accessing admin console of local server using credetenials username "admin" and password "test". And deploying the war created in previous step.
 1. Server configurations also needs to be done for the deployment. Right now we are using all configurations of hyperimage.rir.prj server including the database instance and configurations. 

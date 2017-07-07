@@ -21,26 +21,26 @@ The following steps are required to setup HI development envoirnment:
     1. Select Database Driver Vendor "Postgresql"
     1. Set the following additional properties:
     
-    <table>
-        <tr>
-            <th>Name</th><th>Value</th>
-        </tr>
-        <tr>
-            <td>ServerName</td><td>NAME OF SERVER WHERE YOUR DATABASE IS INSTALLED</td>
-        </tr>
-        <tr>
-            <td>PortNumber</td><td>PORT NUMBER WHERE DATABASE IS RUNNING</td>
-        </tr>
-        <tr>
-            <td>DatabaseName</td><td>YOUR DATABASE NAME</td>
-        </tr>
-        <tr>
-            <td>User</td><td>DATABASE USER</td>
-        </tr>
-        <tr>
-            <td>Password</td><td>YOUR DATABASE PASSWORD</td>
-        </tr>
-     </table>
+        <table>
+            <tr>
+                <th>Name</th><th>Value</th>
+            </tr>
+            <tr>
+                <td>ServerName</td><td>NAME OF SERVER WHERE YOUR DATABASE IS INSTALLED</td>
+            </tr>
+            <tr>
+                <td>PortNumber</td><td>PORT NUMBER WHERE DATABASE IS RUNNING</td>
+            </tr>
+            <tr>
+                <td>DatabaseName</td><td>YOUR DATABASE NAME</td>
+            </tr>
+            <tr>
+                <td>User</td><td>DATABASE USER</td>
+            </tr>
+            <tr>
+                <td>Password</td><td>YOUR DATABASE PASSWORD</td>
+            </tr>
+         </table>
      
      1. Create a new JNDI Resource by going to Resources > JDBC > JDBC Resources, and click "New button"
      1. Enter JNDI name "jdbc/HIEditorORM"

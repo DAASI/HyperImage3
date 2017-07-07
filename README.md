@@ -20,6 +20,7 @@ The following steps are required to setup HI development envoirnment:
     1. Select Resource Type "javax.sql.DataSource"
     1. Select Database Driver Vendor "Postgresql"
     1. Set the following additional properties:
+    
     <table>
         <tr>
             <th>Name</th><th>Value</th>
@@ -40,10 +41,11 @@ The following steps are required to setup HI development envoirnment:
             <td>Password</td><td>YOUR DATABASE PASSWORD</td>
         </tr>
      </table>
-    1. Create a new JNDI Resource by going to Resources > JDBC > JDBC Resources, and click "New button"
-    1. Enter JNDI name "jdbc/HIEditorORM"
-    1. Select newly created pool, i-e "HIEditor_ORM_PostgreSQLPool"
-    1. Click "OK" button
+     
+     1. Create a new JNDI Resource by going to Resources > JDBC > JDBC Resources, and click "New button"
+     1. Enter JNDI name "jdbc/HIEditorORM"
+     1. Select newly created pool, i-e "HIEditor_ORM_PostgreSQLPool"
+     1. Click "OK" button
 1. Run the server from eclipse IDE or from admin console.
 1. HIImage should be accessbile at http://localhost:8080/HI3Author/
 

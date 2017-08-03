@@ -2950,8 +2950,8 @@ public class HIEditor {
 
 		if (count > 0) {
 			m_logger.warning(String.format("View with file name %s and hash %s already in project!", filename, hash));
-			// TODO: Continue even when view already in project!
-//			throw new HIEntityException("View already in project!");
+			// Requested with MartinW - Comment the following throw call if Duplicate views are allowed
+			throw new HIEntityException("View already in project!");
 		}
 
 		// check if UUID already exists in project

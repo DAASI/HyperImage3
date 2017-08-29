@@ -83,6 +83,16 @@ function HIReader() {
     this.project.bookmarks = new Array();
     this.project.localLitas = new Array();
     this.project.items['imprint'] = new HIText('imprint');
+    this.timeslider = new Object();
+    this.timeslider.startDate = null;
+    this.timeslider.endDate = null;
+    this.timeslider.defaultLowerBound = null;
+    this.timeslider.defaultUpperBound = null;
+    this.timeslider.metadataField = null;
+    this.timeslider.timeFormat = "YYYY-MM-DD";
+    this.timeslider.obj = null;
+    this.panzoom = new Object();
+    this.panzoom.panning = null;
 }
 reader = new HIReader();
 
@@ -243,6 +253,14 @@ $("body").css("font-family", "Josefin Sans, sans-serif"), $("body").css("font-si
 	tooltipFGStyle.css("letter-spacing", reader.prefs['TOOLTIPTEXT_LETTERSPACING']+'px'); $
 .stylesheet("#groupList li.text").css("background-color", reader.prefs.GROUPMEMBER_COLOR), $.stylesheet("#groupList li.text").css("border-color", reader.prefs.GROUPMEMBER_COLOR_BORDER), $.stylesheet("#groupList li.text a").css("color", reader.prefs.GROUP_THUMB_COLOR), $.stylesheet("#groupList li.text a").css("font-family", "Josefin Sans, sans-serif"), $.stylesheet("#groupList li.text a").css("font-size", reader.prefs.GROUP_THUMB_SIZE + "px"), "true" == reader.prefs.GROUP_THUMB_BOLD ? $.stylesheet("#groupList li.text a").css("font-weight", "bold") : $.stylesheet("#groupList li.text a").css("font-weight", "normal"), "true" == reader.prefs.GROUP_THUMB_ITALIC ? $.stylesheet("#groupList li.text a").css("font-style", "italic") : $.stylesheet("#groupList li.text a").css("font-style", "normal"), "true" == reader.prefs.GROUP_THUMB_UNDERLINE ? $.stylesheet("#groupList li.text a").css("text-decoration", "underline") : $.stylesheet("#groupList li.text a").css("text-decoration", "none"), $.stylesheet("#groupList li.text a").css("letter-spacing", reader.prefs.GROUP_THUMB_LETTERSPACING + "px"), $("#lighttableView").css("background-color", reader.prefs.LITA_COLOR_BG), $.stylesheet(".ltFrameTitle").css("background-color", reader.prefs.LITA_COLOR_HEAD), $.stylesheet(".ltSelected .ltFrameTitle").css("background-color", reader.prefs.LITA_COLOR_HEADSEL), $.stylesheet(".ltFrameTitle").css("font-family", "Josefin Sans, sans-serif"), $.stylesheet(".ltFrameTitle").css("font-size", reader.prefs.LITA_HEAD_SIZE + "px"), $.stylesheet(".ltFrameTitle").css("color", reader.prefs.LITA_HEAD_COLOR), $.stylesheet(".ltAnnotation .ltText").css("font-family", "Josefin Sans, sans-serif"), $.stylesheet(".ltAnnotation .ltText").css("font-size", reader.prefs.LITA_ANN_SIZE + "px"), $.stylesheet(".ltAnnotation .ltText").css("color", reader.prefs.LITA_ANN_COLOR), $.stylesheet(".hiButton").css("font-family", "Josefin Sans, sans-serif"), $("#searchInput").css("font-family", "Josefin Sans, sans-serif"), $.stylesheet(".hiButton").css("font-size", reader.prefs.DIALOGTEXT_SIZE + "px"), $("#searchInput").css("font-size", reader.prefs.DIALOGTEXT_SIZE + "px"), $.stylesheet(".hiButton").css("color", reader.prefs.DIALOGTEXT_COLOR), $("#searchInput").css("color", reader.prefs.DIALOGTEXT_COLOR), $.stylesheet(".hiButton").css("background-color", reader.prefs.DIALOG_BUTTON_COLOR), $("#searchInput").css("background-color", reader.prefs.DIALOG_INPUT_COLOR),  $.stylesheet("li.layer-context-list a, li.lita-context-list a").css("color", '#000000'), $.stylesheet("li.layer-context-list a:active, li.lita-context-list a:active").css("color", '#00cc99')
 
+}
+
+function setDateMetaDataField() {
+    for (var fieldName in reader.project.templates) {
+        if (fieldName.endsWith("dc_date")) {
+            reader.timeslider.metadataField = fieldName;
+        }
+    }
 }
 
 function loadStrings(data, success) {
@@ -1016,6 +1034,7 @@ function initReader() {
                                 dataType: 'xml',
                                 success: function(data, success) {
                                     loadProjectFile(data, success);
+                                    setDateMetaDataField();
                                     restoreSession();
                                     newLocalTable(false);
                                     initGUI();

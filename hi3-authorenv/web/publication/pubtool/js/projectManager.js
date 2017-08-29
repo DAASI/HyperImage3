@@ -113,7 +113,6 @@ function setListTabContent(serverContents, prefix, contents, tagname) {
 }
 
 function loadProjectContents() {
-    debugger;
     if ( !pubtool.project.groupsLoaded || !pubtool.project.textsLoaded || !pubtool.project.litasLoaded ) {
         console.log("Groups, texts and litas are not fully loaded so I leave function loadProjetContents immediately");
         return;

@@ -46,6 +46,7 @@
         <link rel="stylesheet" href="reader/css/miniplayer.css" />
         <link rel='stylesheet' href="font/typicons.min.css" />
         <link rel="stylesheet" href="font/raphaelicons.css" />
+		<link rel="stylesheet" href="reader/css/classic-custom.css" type="text/css" />
 
         <!-- jquery and jquery plugins -->
         <script type="text/javascript" src="reader/js/libs/modernizr-2.6.2.min.js"></script>
@@ -58,9 +59,15 @@
         <script type="text/javascript" src="reader/js/libs/jquery/jquery.mobile.custom.js"></script>
         <script type="text/javascript" src="reader/js/libs/jquery/jquery.ui.touch-punch.js"></script>
         <script type="text/javascript" src="reader/js/libs/jquery/jquery.contextMenu.js"></script>
-        <script type="text/javascript" src="reader/js/libs/panzoom.js"></script>
+        <!-- <script type="text/javascript" src="reader/js/libs/panzoom.js"></script> -->
         <script type="text/javascript" src="reader/js/libs/jquery/jquery.jplayer.min.js"></script>
         <script type="text/javascript" src="reader/js/libs/jquery/jquery.mb.miniPlayer.js"></script>
+		<script type="text/javascript" src="reader/js/libs/jQAllRangeSliders-withRuler-min.js"></script>
+		<script type="text/javascript" src="reader/js/libs/moment.min.js"></script>
+		<script type="text/javascript" src="reader/js/libs/jquery/jquery.mousewheel.js"></script>
+		<script type="text/javascript" src="reader/js/libs/panzoom-custom.js"></script>
+
+
 
         <!-- menu and scroll plugins -->
         <script type="text/javascript" src="reader/js/libs/dragscrollable.js"></script>
@@ -75,6 +82,7 @@
     </head>
 
    <body onload="initReader()">
+
         <!--[if lt IE 7]>
             <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
         <![endif]-->
@@ -94,22 +102,28 @@
 				<li class="PROJECT_TITLE_TRANSLATE">
 					<a class="startitem title" href="#">&nbsp;</a>
 					<a class="startitem title-2" href="#">&nbsp;</a>
-				</li>			
+				</li>
 				<li class="sub-menu">
 					<a class="menu-icon" href="javascript:urlFunction();"><span class="typcn typcn-th-menu"><span></a>
 				</li>
 			</ul>
-			<div id="loadingIndicator">&nbsp;</div>
-			<div id="loadingIndicator">&nbsp;</div>
-			<ul id="right-nav">
-				<li class="MENU_LANGUAGE language-title" id="languageMenu">	
-				</li>
-				<li class="right-nav-about"><a class="MENU_ABOUT" href="javascript:aboutReader();">About</a></li>
-				<li class="right-nav-imprint"><a class="MENU_IMPRINT" href="#imprint/">&nbsp;</a></li>
-				<li class="right-nav-mobile"><a class="about-reader-mobile" href="javascript:aboutReader();"><span class="typcn typcn-info-large"><span></a></li>
-				<li class="right-nav-mobile"><a class="about-reader-mobile" href="#imprint/">§</a></li>
-				<div id="projectlogo"><a  class="startitem" href="#"><img src="resource/home.png" alt="" /></a></div>
-			</ul>
+			<div style="width: 20%;float: left">&nbsp;
+				<div id="loadingIndicator">&nbsp;</div>
+			</div>
+			<div style="width: 60%;float: left">
+				<div id="dateSlider" style="z-index: 10; margin: 0 auto; margin-top: 6px;"></div>
+			</div>
+			<div style="width: 20%;float: left">
+				<ul id="right-nav">
+					<li class="MENU_LANGUAGE language-title" id="languageMenu">
+					</li>
+					<li class="right-nav-about"><a class="MENU_ABOUT" href="javascript:aboutReader();">About</a></li>
+					<li class="right-nav-imprint"><a class="MENU_IMPRINT" href="#imprint/">&nbsp;</a></li>
+					<li class="right-nav-mobile"><a class="about-reader-mobile" href="javascript:aboutReader();"><span class="typcn typcn-info-large"><span></a></li>
+					<li class="right-nav-mobile"><a class="about-reader-mobile" href="#imprint/">§</a></li>
+					<div id="projectlogo"><a  class="startitem" href="#"><img src="resource/home.png" alt="" /></a></div>
+				</ul>
+			</div>
 		</div>
 		</nav>
 		</header>
@@ -171,7 +185,6 @@
 				<li class="MENU_GALLERY">
 					<ul id="gallerymenu">
 						<li id="publicLightTables" class="MENULITA_PROJECT_LITA disabled">&nbsp;</li>
-						<li id="endLocalLightTables" class="separator"><hr /></li>
 						<li id="localLightTables" class="MENULITA_PRIVATE_LITA disabled">&nbsp;</li>
 						<li id="endLocalLightTables" class="separator"><hr /></li>
 						<li><a id ="deleteLocalTableLink" class="MENULITA_DELETE_LITA" href="#">&nbsp;</a></li>

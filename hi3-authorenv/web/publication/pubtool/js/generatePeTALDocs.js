@@ -76,7 +76,6 @@ function generatePeTALDocs() {
     }
 
     function serializeLayer(layer, order) {
-        debugger;
         var layerDoc = '<layer id="'+layer.id+'" uuid="'+layer.uuid+'" '+serializeTags(layer)+' color="'+layer.color+'" opacity="'+layer.opacity+'" order="'+order+'"';
         if ( layer.ref != null ) layerDoc += ' ref="'+layer.ref+'"';
         layerDoc += '>';

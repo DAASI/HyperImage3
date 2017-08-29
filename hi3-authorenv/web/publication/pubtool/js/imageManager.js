@@ -23,6 +23,8 @@ function generateLayerImageFiles() {
         if ( itemcount == 0 ) { // no layers in project
             console.log("zeile 810: hier duerftest du nicht rein kommen");
             pubtool.project.layersProcessed = true;
+            console.log("pubtool.project.imageToDataCounter " + pubtool.project.imageToDataCounter)
+            console.log("pubtool.project.imageLoadCounter " + pubtool.project.imageLoadCounter)
             generateZIPFile();
             return;
         }
@@ -39,14 +41,22 @@ function generateLayerImageFiles() {
                 $('#previewImage').attr('src', 'data:image/jpeg;base64,'+cb.getReturn());
                 window.setTimeout(generateLayerImageFiles(), 200);
                 pubtool.project.layerProcessCounter--;
-                if ( pubtool.project.layerProcessCounter <= 0 ) generateZIPFile();
+                if ( pubtool.project.layerProcessCounter <= 0 ) {
+                    console.log("pubtool.project.imageToDataCounter " + pubtool.project.imageToDataCounter)
+                    console.log("pubtool.project.imageLoadCounter " + pubtool.project.imageLoadCounter)
+                    generateZIPFile();
+                }
             },
             function (cb,msg) {
                 console.log("getImage error --> ", cb);
                 $('#progressbar').progressbar( "option", "value", $('#progressbar').progressbar( "option", "value" )+1 ); // update progress bar
                 window.setTimeout(generateLayerImageFiles(), 200);
                 pubtool.project.layerProcessCounter--;
-                if ( pubtool.project.layerProcessCounter <= 0 ) generateZIPFile();
+                if ( pubtool.project.layerProcessCounter <= 0 ) {
+                    console.log("error pubtool.project.imageToDataCounter " + pubtool.project.imageToDataCounter)
+                    console.log("erro pubtool.project.imageLoadCounter " + pubtool.project.imageLoadCounter)
+                    generateZIPFile();
+                }
                 HIExceptionHandler(cb, msg);
             },
             item.substring(1),
@@ -61,6 +71,8 @@ function generateLayerImageFiles() {
 function generateImageFiles() {
     function imageToDataUri(filename, data, width, height, isPreview) {
         pubtool.project.processCounter++;
+        pubtool.project.imageToDataCounter++;
+
         var img = new Image();
         img.onload = function(){
             var ctx = pubtool.canvas.getContext('2d');
@@ -72,11 +84,15 @@ function generateImageFiles() {
             ctx.drawImage(img, 0, 0, width, height);
 
             // encode image to data-uri with base64 version of compressed image
-            if ( isPreview ) $('#previewImage').attr('src', pubtool.canvas.toDataURL('image/jpeg', 0.8));
+            if ( isPreview ) {
+                $('#previewImage').attr('src', pubtool.canvas.toDataURL('image/jpeg', 0.8));
+            }
+
             pubtool.zip.file(filename, pubtool.canvas.toDataURL('image/jpeg', 0.8).substring(23), {base64: true});
+            pubtool.project.imageLoadCounter++
             pubtool.project.processCounter--;
-//			if ( pubtool.project.processCounter == 0 && pubtool.project.imagesProcessed ) generateLayerImageFiles();
-            if ( pubtool.project.imagesProcessed ) generateLayerImageFiles();
+			if ( pubtool.project.processCounter == 0 && pubtool.project.imagesProcessed ) generateLayerImageFiles();
+            // if ( pubtool.project.imagesProcessed ) generateLayerImageFiles();
         };
         img.src = data;
     }
@@ -90,11 +106,15 @@ function generateImageFiles() {
 
         pubtool.zip.file("img/"+id+".jpg", data.substring(23), {base64: true});
 
-        for (var i=0; i < view.files.images.length-1; i++)
+        for (var i=0; i < view.files.images.length-1; i++) {
             imageToDataUri("img/"+view.files.images[i].href, data, view.files.images[i].width, view.files.images[i].height);
+        }
+
     }
 
     if ( !pubtool.project.processCounter ) pubtool.project.processCounter = 0;
+    if ( !pubtool.project.imageToDataCounter ) pubtool.project.imageToDataCounter = 0;
+    if ( !pubtool.project.imageLoadCounter ) pubtool.project.imageLoadCounter = 0;
     if ( !pubtool.project.imagesProcessed ) pubtool.project.imagesProcessed = false;
 
     // gather views to load
@@ -140,6 +160,4 @@ function generateImageFiles() {
     } else {
         pubtool.project.imagesProcessed = true;
     }
-
-
 }

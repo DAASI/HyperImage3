@@ -725,8 +725,40 @@ function checkExternalLink(link) {
     }
 
     return false;
-    
-    
+}
+
+/* open external links in new window without alerting pop-up blockers */
+function checkExternalLinkForGroupList(link) {
+    if (reader.panzoom.panning) {
+        reader.panzoom.panning = false;
+        return false;
+    }
+
+    var href = typeof(link) == 'string' ? link : link.getAttribute('href');
+    var xmlData = null;
+    if (href.substring(0, 2) == '#U') {
+        href = href.substring(1, href.length);
+        if (href.substring(href.length - 1, href.length) == '/') href = href.substring(0, href.length - 1);
+        if (reader.project.items[href] == null) {
+            $.ajax({
+                url: reader.path + href + '.xml',
+                async: false,
+                data: null,
+                dataType: 'xml',
+                success: function(data) {
+                    xmlData = data;
+                }
+            });
+            if (xmlData != null) parseItem(xmlData, 'success');
+        }
+        if (reader.project.items[href] != null) {
+            window.open(reader.project.items[href].url, '_newtab');
+            event.preventDefault();
+            return true;
+        }
+    }
+
+    //return false;
 }
 
 function attachExternalLinkHandler(element, item) {
@@ -787,6 +819,19 @@ function loadContentThumbnail(imgTag, indicatorTag, ref, type) {
     imgTag.load(function(e) {
         indicatorTag.remove();
     });
+
+    var $panzoom = imgTag.panzoom();
+    $panzoom.parent().on('mousewheel.focal', function( e ) {
+        e.preventDefault();
+        var delta = e.delta || e.originalEvent.wheelDelta;
+        var zoomOut = delta ? delta < 0 : e.originalEvent.deltaY > 0;
+        $panzoom.panzoom('zoom', zoomOut, {
+            startTransform: 'scale(1.0)',
+            minScale: 1.0,
+            increment: 0.1,
+            contain: true
+        });
+    });
 }
 
 function displayContentList(contentsList) {
@@ -797,6 +842,7 @@ function displayContentList(contentsList) {
 	$('#groupList > li').remove(); // remove old content
 	$("#groupView div[id^=tt-]").remove(); // remove old tooltips
 
+	var dateAppliedToAnObject = false;
 	$(Object.keys(contentsList)).each(function(index, key) {
 		var classType = '';
 		if ( contentsList[key].type == 'object' || contentsList[key].type == 'view' || contentsList[key].type == 'layer' )
@@ -804,12 +850,54 @@ function displayContentList(contentsList) {
 		// don't display image for external URLs
 		if ( contentsList[key].type == 'url' ) contentsList[key].image = null;
 
-		var html = '<li id="cl-'+key+'"'+classType;
+		// setting date metadata on object li tag and setting up global configuration for time slider
+        var viewObjDateField = "";
+        // timeslider only applies to objects (not layers and not light table frames)
+		if (contentsList[key].type == 'object') {
+            var viewObj = reader.project.items[key];
+            if (!viewObj) {
+                loadRefObject(key);
+            }
+
+            viewObj = reader.project.items[key];
+            var projectLanguage = reader.lang;
+            if (viewObj && viewObj.md && viewObj.md[projectLanguage] && viewObj.md[projectLanguage][reader.timeslider.metadataField]) {
+                viewObjDateField = viewObj.md[projectLanguage][reader.timeslider.metadataField];
+
+                if (viewObjDateField) {
+                	var dateParts = viewObjDateField.split("-");
+                	
+                	if (dateParts) {
+                		if (dateParts.length == 1) {
+                			viewObjDateField = viewObjDateField + "-01-01";
+                		} else if (dateParts.length == 2) {
+                			viewObjDateField = viewObjDateField + "-01";
+                		}
+                	}
+                	
+                    var viewObjDateObj = moment(viewObjDateField, reader.timeslider.timeFormat);
+
+                    if (viewObjDateObj.isValid()) {
+                        dateAppliedToAnObject = true;
+
+                        if (viewObjDateObj.isBefore(reader.timeslider.startDate) || reader.timeslider.startDate == null) {
+                            reader.timeslider.startDate = viewObjDateObj;
+                        }
+
+                        if (viewObjDateObj.isAfter(reader.timeslider.endDate) || reader.timeslider.endDate == null) {
+                            reader.timeslider.endDate = viewObjDateObj;
+                        }
+                    }
+                }
+            }
+		}
+
+		var html = '<li data-timeslider="' + viewObjDateField + '" id="cl-'+key+'"'+classType;
 		if ( contentsList[key].image != null ) html += '>'; else html+=' class="text">'; 
-		html += '<a onclick="javascript:checkExternalLink(this);" class="HIExternalLink" href="#'+contentsList[key].target+'/">';
+		html += '<a onclick="return checkExternalLinkForGroupList(this);" class="HIExternalLink" href="#'+contentsList[key].target+'/">';
 		if ( contentsList[key].image != null ) {
 			html += '<div class="contentLoadingIndicator"></div>';
-			html += '<img src="#" />';
+			html += '<div class="parent"><div class="panzoom"><img src="#"/></div></div>';
 		}
 		else {
 			html += '<span class="'+typeKeys[contentsList[key].type]+'">'+reader.strings[reader.lang][typeKeys[contentsList[key].type]]+'</span>';
@@ -854,6 +942,10 @@ function displayContentList(contentsList) {
 			},
 		});	
 	});
+
+	if (dateAppliedToAnObject) {
+        hookAndShowDateSlider("groupList", "li");
+	}
 }
 
 function addLayerToLightTable(layerID) {
@@ -1033,6 +1125,7 @@ function insertAnnotationLink() {
 }
 
 function returnFromLightTable() {
+    destroyAndHideTimeSlider();
 	$('#infotext').show();
 	$('.infolita').hide();
 	if (screen.width <= 1024) {
@@ -1120,6 +1213,7 @@ function showTableXML() {
 }
 
 function newLocalTable(displayTable) {
+    destroyAndHideTimeSlider();
     reader.table = new HILighttable();
     for (var i = 0; i < reader.project.langs.length; i++) {
         var title = '-';
@@ -1166,6 +1260,16 @@ function loadFrame(item) {
         setLoadingIndicator(false);
         addFrame(item);
     });
+}
+
+function loadRefObject(key) {
+    $.ajax({
+        url: reader.path + key + '.xml',
+        async: false,
+        success: function(data) {
+            parseItem(data, true, false);
+        }
+	});
 }
 
 function loadFrameHiRes(id, view) {
@@ -1279,8 +1383,41 @@ function displayLightTable() {
     function addFrame(item) {
         frameCount++;
         var id = "table_" + frameCount;
-        if (item == null) id = 'table_anno';
-        $('#lighttableContent').append('<div id="' + id + '" class="ltFrame ltstack" style="position: absolute;"></div>');
+
+        if (item == null)
+        	id = 'table_anno';
+
+        // setting date metadata on object li tag and setting up global configuration for time slider
+        var frameObjDateField = "";
+		var frameViewId = item.href;
+        var frameView = reader.project.items[frameViewId];
+        var frameObj = frameView.parent;
+        var projectLanguage = reader.lang;
+        var frameObjDateField = frameObj.md[projectLanguage][reader.timeslider.metadataField];
+
+		if (frameObjDateField) {
+			var dateParts = frameObjDateField.split("-");
+        	
+        	if (dateParts) {
+        		if (dateParts.length == 1) {
+        			frameObjDateField = frameObjDateField + "-01-01";
+        		} else if (dateParts.length == 2) {
+        			frameObjDateField = frameObjDateField + "-01";
+        		}
+        	}
+        	
+			var frameObjDateObj = moment(frameObjDateField, reader.timeslider.timeFormat);
+
+			if (frameObjDateObj.isBefore(reader.timeslider.startDate) || reader.timeslider.startDate == null) {
+                reader.timeslider.startDate = frameObjDateObj;
+			}
+
+			if (frameObjDateObj.isAfter(reader.timeslider.endDate) || reader.timeslider.endDate == null) {
+                reader.timeslider.endDate = frameObjDateObj;
+			}
+		}
+
+        $('#lighttableContent').append('<div data-timeslider= "' + frameObjDateField + '" id="' + id + '" class="ltFrame ltstack" style="position: absolute;"></div>');
         $('#' + id).append('<div id="' + id + '_title" class="ltFrameTitle">&nbsp;</div><div id="' + id + '_content" class="ltFrameContent"></div>');
         $('#' + id).append('<div id="' + id + '_contain" class="ltResizeContainer"><canvas id="' + id + '_canvas" class="ltResizeCanvas"></canvas></div>');
         var context = document.getElementById(id + '_canvas').getContext('2d');
@@ -1488,7 +1625,13 @@ function displayLightTable() {
             $('#' + id).css("zIndex", (min + sortedFrames.length));
             setLightTableMenuGUI();
         });
-        if (view != null) loadFrameHiRes(id, view);
+
+        if (view != null)
+        	loadFrameHiRes(id, view);
+
+        if (reader.table.frames.length == frameCount)
+            hookAndShowDateSlider("lighttableContent", "div");
+
         return $('#' + id);
     }
     window.addFrame = addFrame;
@@ -1718,20 +1861,26 @@ function highlightLayer(id) {
 
 function displayObjectMetadata(object) {
     if (object == null || object.type != 'object') return;
-    for (var i = 1; i < reader.project.sortedFields.length; i++)
+    for (var i = 1; i < reader.project.sortedFields.length; i++) {
         if (object.md[reader.lang] != null && object.md[reader.lang][reader.project.sortedFields[i]] != null && object.md[reader.lang][reader.project.sortedFields[i]].length > 0) {
             $("#" + reader.project.sortedFields[i] + "_field").show();
             var objMetadata = object.md[reader.lang][
                 [reader.project.sortedFields[i]]
-            ];
-            if (reader.fromSearch)
+                ];
+            if (reader.fromSearch) {
                 $(reader.search.resultTerms).each(function(index, term) {
                     objMetadata = highlightWord(objMetadata, term);
                 });
-            // changed by AliH to fix link connection issue - The following lines commented and added accordingly
-            $("#"+reader.project.sortedFields[i]+"_value").html(objMetadata[0].innerHTML);
-            //$("#" + reader.project.sortedFields[i] + "_value").html(objMetadata);
+            }
+
+            if (objMetadata && objMetadata.length > 0 && objMetadata[0].innerHTML) {
+                $("#"+reader.project.sortedFields[i]+"_value").html(objMetadata[0].innerHTML);
+            } else {
+                $("#" + reader.project.sortedFields[i] + "_value").html(objMetadata);
+            }
         } else $("#" + reader.project.sortedFields[i] + "_field").hide();
+	}
+
     if (object.md[reader.lang] != null && object.md[reader.lang][reader.project.sortedFields[0]] != null && object.md[reader.lang][reader.project.sortedFields[0]].length > 0) {
         $("#objectannotation_field").show();
         var objAnnotation = object.md[reader.lang][reader.project.sortedFields[0]];
@@ -1739,9 +1888,12 @@ function displayObjectMetadata(object) {
             $(reader.search.resultTerms).each(function(index, term) {
                 objAnnotation = highlightWord(objAnnotation, term);
             });
-        // changed by AliH to fix link connection issue - The following lines commented and added accordingly
-        $("#objectannotation_value").html(objAnnotation[0].innerHTML);
-        //$("#objectannotation_value").html(objAnnotation);
+
+        if (objAnnotation && objAnnotation.length > 0 && objAnnotation[0].innerHTML) {
+            $("#objectannotation_value").html(objAnnotation[0].innerHTML);
+		} else {
+            $("#objectannotation_value").html(objAnnotation);
+		}
     } else $("#objectannotation_field").hide();
 }
 
@@ -1772,9 +1924,12 @@ function displayViewMetadata(view) {
             $(reader.search.resultTerms).each(function(index, term) {
                 viewAnnotation = highlightWord(viewAnnotation, term);
             });
-        // changed by AliH to fix link connection issue - The following lines commented and added accordingly
-		//$("#viewannotation_value").html(viewAnnotation);
-		$("#viewannotation_value").html(viewAnnotation[0].innerHTML);
+
+        if (viewAnnotation && viewAnnotation.length > 0 && viewAnnotation[0].innerHTML) {
+            $("#viewannotation_value").html(viewAnnotation[0].innerHTML);
+		} else {
+            $("#viewannotation_value").html(viewAnnotation);
+		}
     } else $("#viewannotation_field").hide();
 }
 
@@ -1984,7 +2139,7 @@ function setGUI(forceLoad) {
         return;
     }
     setGUIMode(guiMode);
-    
+    destroyAndHideTimeSlider();
     // init metadata fields
     for (var i = 0; i < reader.project.sortedFields.length; i++) $("#" + reader.project.sortedFields[i] + "_field").hide();
     $("#objectannotation_field").hide();

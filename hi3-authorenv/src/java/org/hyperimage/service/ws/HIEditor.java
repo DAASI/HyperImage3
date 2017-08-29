@@ -3287,14 +3287,58 @@ public class HIEditor {
 					g2d.draw(combinedPath);
 
 					// clip image to selected layer
-					int x = combinedPath.getBounds().x - 5;
-					x = Math.max(0, x);
-					int y = combinedPath.getBounds().y - 5;
-					y = Math.max(0, y);
-					int width = combinedPath.getBounds().width + 10;
+
+					int xCropFactor = 4;
+					int x = 0;
+					int xCropMargin = previewImage.getWidth();
+					
+					// finding the best scale margin starting from xCropFactor
+					while (x == 0 && xCropMargin > 0) {
+						xCropMargin = previewImage.getWidth()/xCropFactor;
+						x = combinedPath.getBounds().x - xCropMargin;
+						x = Math.max(0, x);
+						
+						if (x != 0) {
+							break;
+						}
+						
+						xCropFactor = xCropFactor * 2;
+					}
+					
+					System.out.println("ending with xCropMargin: " + xCropMargin);
+					System.out.println("ending with x: " + x);
+					
+					int width = combinedPath.getBounds().width + (xCropMargin * 2);
 					width = Math.min(previewImage.getWidth() - x, width);
-					int height = combinedPath.getBounds().height + 10;
+					
+					int yCropFactor = 4;
+					int y = 0;
+					int yCropMargin = previewImage.getHeight();
+					
+					// finding the best scale margin starting from xCropFactor
+					while (y == 0 && yCropMargin > 0) {
+						
+						yCropMargin = previewImage.getHeight()/yCropFactor;
+						y = combinedPath.getBounds().y - yCropMargin;
+						y = Math.max(0, y);
+						
+						if (y != 0) {
+							break;
+						}
+						
+						yCropFactor = yCropFactor * 2;
+					}
+					
+					int height = combinedPath.getBounds().height + (yCropMargin * 2);
 					height = Math.min(previewImage.getHeight() - y, height);
+					
+					System.out.println("ending with yCropMargin: " + yCropMargin);
+					System.out.println("ending with y: " + y);
+					
+					
+					
+					
+					
 
 					// clip image to layer bounds
 					previewImage = previewImage.getSubimage(x, y, width, height);

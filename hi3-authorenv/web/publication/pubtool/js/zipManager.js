@@ -20,8 +20,6 @@ function saveZIPFile() {
     saveAs(pubtool.zipContent, "HI-Export.zip");
 }
 function generateZIPFile() {
-    debugger;
-
     if ( $('#progressbar').progressbar( "option", "value" ) != false ) {
         $('#progressbar').progressbar({value: false});
         $('.progress-label').html(t("createZIP"));

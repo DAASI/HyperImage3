@@ -316,7 +316,22 @@ function loadViewFileData(element, view, ref) {
 function loadContentThumbnail(imgTag, indicatorTag, ref, type) {
 	reader.service.HIEditor.synchronous = false;
 	reader.service.HIEditor.getImage(
-		function (cb) { imgTag.attr('src', 'data:image/jpeg;base64,'+cb.getReturn()); indicatorTag.remove(); }, 
+		function (cb) { imgTag.attr('src', 'data:image/jpeg;base64,'+cb.getReturn()); indicatorTag.remove(); 
+		
+		var $panzoom = imgTag.panzoom();
+	    $panzoom.parent().on('mousewheel.focal', function( e ) {
+	        e.preventDefault();
+	        var delta = e.delta || e.originalEvent.wheelDelta;
+	        var zoomOut = delta ? delta < 0 : e.originalEvent.deltaY > 0;
+	        $panzoom.panzoom('zoom', zoomOut, {
+	            startTransform: 'scale(1.0)',
+	            minScale: 1.0,
+	            increment: 0.1,
+	            contain: true
+	        });
+	    });
+		
+		}, 
 		function (cb, msg) { 
 			console.log("getImage error --> ", cb, msg);			  
 			switch (type) {
@@ -610,7 +625,38 @@ function displayLightTable() {
 		frameCount++;
 		var id="table_"+frameCount;
 		if ( item == null ) id = 'table_anno';
-		$('#lighttableContent').append('<div id="'+id+'" class="ltFrame ltstack" style="position: absolute;"></div>');
+
+        // setting date metadata on object li tag and setting up global configuration for time slider
+        var frameObjDateField = "";
+        var frameViewId = item.href;
+        var frameView = reader.project.items[frameViewId];
+        var frameObj = frameView.parent;
+        var projectLanguage = reader.lang;
+        var frameObjDateField = frameObj.md[projectLanguage][reader.timeslider.metadataField];
+
+        if (frameObjDateField) {
+            var dateParts = frameObjDateField.split("-");
+
+            if (dateParts) {
+                if (dateParts.length == 1) {
+                    frameObjDateField = frameObjDateField + "-01-01";
+                } else if (dateParts.length == 2) {
+                    frameObjDateField = frameObjDateField + "-01";
+                }
+            }
+
+            var frameObjDateObj = moment(frameObjDateField, reader.timeslider.timeFormat);
+
+            if (frameObjDateObj.isBefore(reader.timeslider.startDate) || reader.timeslider.startDate == null) {
+                reader.timeslider.startDate = frameObjDateObj;
+            }
+
+            if (frameObjDateObj.isAfter(reader.timeslider.endDate) || reader.timeslider.endDate == null) {
+                reader.timeslider.endDate = frameObjDateObj;
+            }
+        }
+
+        $('#lighttableContent').append('<div data-timeslider= "' + frameObjDateField + '" id="' + id + '" class="ltFrame ltstack" style="position: absolute;"></div>');
 
 		$('#'+id).append('<div id="'+id+'_title" class="ltFrameTitle">&nbsp;</div><div id="'+id+'_content" class="ltFrameContent"></div>');
 		$('#'+id).append('<div id="'+id+'_contain" class="ltResizeContainer"><canvas id="'+id+'_canvas" class="ltResizeCanvas"></canvas></div>');
@@ -815,6 +861,9 @@ function displayLightTable() {
 		});
 		
 		if ( view != null ) loadFrameHiRes(id, view, item); // trigger image update
+
+        if (reader.table.frames.length == frameCount)
+            hookAndShowDateSlider("lighttableContent", "div");
 		
 		return $('#'+id); 
 	}
@@ -834,21 +883,18 @@ function displayLightTable() {
 	if ( reader.table.frameAnnotation.visible ) addFrame(); // add annotation frame
 
 	// frames de-select handler
-	$('#content').mousedown(function(e) { 
-		var isOverFrame = false;
-		$('.ltFrame').each(function (index, item) {
-			if ( e.pageX >= $(item).position().left 
-				&& (e.pageY-reader.zoom.yOffset) >= $(item).position().top 
-				&& e.pageX <= ($(item).position().left+$(item).width())
-				&& (e.pageY-reader.zoom.yOffset) <= ($(item).position().top+$(item).height()) )
-				isOverFrame = true;
-		});
-		if ( !isOverFrame ) {
-			$("#lighttableContent > div.ltSelected").removeClass("ltSelected"); 
-			$('#emptyInput').focus();
-			setLightTableMenuGUI();
-		}
-	});
+	$('#content').on("mousedown", "vmousedown", function(e) {
+        var isOverFrame = false;
+        $('.ltFrame').each(function(index, item) {
+            if (e.pageX >= $(item).position().left && (e.pageY - reader.zoom.yOffset) >= $(item).position().top && e.pageX <= ($(item).position().left + $(item).width()) && (e.pageY - reader.zoom.yOffset) <= ($(item).position().top + $(item).height()))
+                isOverFrame = true;
+        });
+        if (!isOverFrame) {
+            $("#lighttableContent > div.ltSelected").removeClass("ltSelected");
+            $('#emptyInput').focus();
+            setLightTableMenuGUI();
+        }
+    });
 	setLightTableMenuGUI();
 
 }
@@ -1752,6 +1798,9 @@ function initReader() {
 				if ( project.getMetadata()[i].getTitle() != null ) 
 					reader.project.title[project.getMetadata()[i].getLanguageID()] = project.getMetadata()[i].getTitle();
 				else reader.project.title[project.getMetadata()[i].getLanguageID()] = '';
+			
+			$('.title-default').append(reader.project.title[reader.project.defaultLang]);
+		    $('.title-about').append(reader.project.title[reader.project.defaultLang]);
 
 			/* extract start element */
 			var importGroup = null;
@@ -1786,6 +1835,7 @@ function initReader() {
 				}
 			}
 			reader.project.sortedFields = sortedFields;
+			setDateMetaDataField();
 		
 			/*
 			 * extract visible groups, tags, project texts and light tables

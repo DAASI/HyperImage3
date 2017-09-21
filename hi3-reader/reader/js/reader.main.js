@@ -841,7 +841,7 @@ function displayContentList(contentsList) {
 	// load contents list
 	$('#groupList > li').remove(); // remove old content
 	$("#groupView div[id^=tt-]").remove(); // remove old tooltips
-
+	destroyAndHideTimeSlider(); // remove previous timeslider (just to make sure that all references are cleared)
 	var dateAppliedToAnObject = false;
 	$(Object.keys(contentsList)).each(function(index, key) {
 		var classType = '';
@@ -956,7 +956,7 @@ function addLayerToLightTable(layerID) {
 	var view = layer.parent;
 	if ( view == null ) return;
 
-	var layerWidth = (bounds.maxX - bounds.minX) * view.files['original'].width;
+	var layerWidth = (bounds.maxX - bounds.minX) * view.files['original'].width;f
 	var layerHeight = (bounds.maxY - bounds.minY) * view.files['original'].height;
 	
 	var factor = 128.0 / Math.max(layerWidth, layerHeight);
@@ -1125,14 +1125,16 @@ function insertAnnotationLink() {
 }
 
 function returnFromLightTable() {
-    destroyAndHideTimeSlider();
 	$('#infotext').show();
 	$('.infolita').hide();
+	destroyAndHideTimeSlider();
 	if (screen.width <= 1024) {
     	document.location.reload(true);
 	}
 	if ( reader.project.items[reader.load].type == 'lita' ) {
-		if ( reader.last != null )  location.hash = reader.last+'/'; else location.hash = reader.start+'/';
+		if (!location.hash.startsWith("#V")) {
+	        if ( reader.last != null )  location.hash = reader.last+'/'; else location.hash = reader.start+'/';
+	    }
 	} else setGUI();
 }
 
@@ -1245,6 +1247,7 @@ function deleteLocalTable() {
 }
 
 function loadLocalTable(index) {
+	destroyAndHideTimeSlider ();
     if (index < 0 || index > reader.project.localLitas.length) return;
     reader.table = JSON.parse(JSON.stringify(reader.project.localLitas[index]));
     displayLightTable();
@@ -1288,6 +1291,7 @@ function loadFrameHiRes(id, view) {
 function displayLightTable() {
     var frameCount = 0;
     $('#lighttableContent > div').remove();
+    destroyAndHideTimeSlider(); // remove previous timeslider (just to make sure that all references are cleared)
     if (reader.table == null) return;
     setGUIMode(3);
     setMenuState();

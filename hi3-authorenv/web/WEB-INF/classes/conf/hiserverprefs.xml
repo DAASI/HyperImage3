@@ -9,7 +9,7 @@
         <map/>
         <node name="service">
           <map>
-            <entry key="historeLocation" value="/home/ali/Projects/Hyperimage/HIStore/"/>
+            <entry key="historeLocation" value="/HI3Store/"/>
 	        <entry key="prometheusAPILocation" value="http://prometheus-test.uni-koeln.de/pandora-devel"/>
      	    <entry key="OAUTHConsumerKey" value=""/>
 	        <entry key="OAUTHConsumerSecret" value=""/>

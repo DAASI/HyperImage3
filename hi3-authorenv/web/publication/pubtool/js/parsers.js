@@ -352,6 +352,7 @@ function parseItem(data, relatedID) {
 
                 // TODO replace frameAnnotation <line> with HTML
                 item.count = 0;
+                item.members = [];
                 $(data).children().children().each(function (index, node) {
                     if ( node.tagName == 'lita' ) {
                         item.count = $(node).find("lita > frame").size();
@@ -372,6 +373,7 @@ function parseItem(data, relatedID) {
                                 frameContent.setAttribute("y", parseInt(frameContent.getAttribute("y")));
                                 frameContent.setAttribute("width", parseInt(frameContent.getAttribute("width")));
                                 frameContent.setAttribute("height", parseInt(frameContent.getAttribute("height")));
+                                item.members.push(frameContent.getAttribute("ref"));
                             });
                         });
                     }

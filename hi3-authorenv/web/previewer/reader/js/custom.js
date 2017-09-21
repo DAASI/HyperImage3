@@ -181,7 +181,7 @@ $(window).load(function() {
 		$("#CANVAS_MENU").hide();
 		$('#canvas').removeClass('overlay');
 		$('#canvasWrapper').removeClass('overlay');
-		saveLocalTable();
+		saveServerTable();
 	});
 });
 		

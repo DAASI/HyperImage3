@@ -82,6 +82,15 @@ function getItemLinks(item) {
             break;
 
         case 'G':
+        	parseFieldLinks(item.annotation);
+        	// added by AliH - to add backtracking (sites) for groups
+        	if ( item.members != null && item.members.length > 0 ) {
+            	for (var member in item.members) {
+            		links[item.members[member]] = pubtool.project.items[item.members[member]];
+            	}
+            }
+            break;
+            
         case 'U':
         case 'V':
             parseFieldLinks(item.annotation);
@@ -100,7 +109,12 @@ function getItemLinks(item) {
             break;
 
         case 'X':
-            // TODO light tables
+        	// added by AliH - to add backtracking (sites) for light tables
+        	if (item.members != null && item.members.length > 0 ) {
+            	for (var member in item.members) {
+            		links[item.members[member]] = pubtool.project.items[item.members[member]];
+            	}
+            }
             break;
     }
 

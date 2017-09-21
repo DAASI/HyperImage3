@@ -210,7 +210,16 @@ function generatePeTALDocs() {
 
         var refItem = item;
         if ( getPeTALType(item) == 'layer' ) refItem = item.parent.parent;
-        if ( getPeTALType(item) == 'inscription' || getPeTALType(item) == 'view' ) refItem = item.parent;
+        if ( getPeTALType(item) == 'inscription' || getPeTALType(item) == 'view' ) {
+        	refItem = item.parent;
+        	// added by AliH - to add backtracking (sites) of light tables in the view
+        	if (item.sites) {
+        		for (site in item.sites) {
+        			var siteObj = item.sites[site];
+        			refItem.sites[siteObj.id] = siteObj;
+            	}
+        	}
+        }
 
         doc += serializeRefs('sites', 'site', refItem.sites);
         doc += serializeRefs('references', 'reference', refItem.refs);

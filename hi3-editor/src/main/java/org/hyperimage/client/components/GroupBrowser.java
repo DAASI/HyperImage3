@@ -64,6 +64,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -593,8 +594,13 @@ public class GroupBrowser extends HIComponent
 											ByteArrayOutputStream outJPEG = HiImageConfig.getHiImage().convertToStream(viewImage);	// TODO:Does this make sense at all?! 
                                             outJPEG.close();
                                             
+                                            // store converted image byte stream to the temp image file
+                                            FileOutputStream fos = new FileOutputStream(tempFile);
+                                            fos.write(outJPEG.toByteArray());
+                                            fos.close();
+                                            
                                             importFile = tempFile;
-                                            customExtenstion = ".jpg";
+                                            //customExtenstion = ".jpg";
                                         }                                        
                                     } catch (Exception e) {
                                         System.out.println("Image conversion failed!");

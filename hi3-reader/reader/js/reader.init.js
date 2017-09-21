@@ -86,8 +86,6 @@ function HIReader() {
     this.timeslider = new Object();
     this.timeslider.startDate = null;
     this.timeslider.endDate = null;
-    this.timeslider.defaultLowerBound = null;
-    this.timeslider.defaultUpperBound = null;
     this.timeslider.metadataField = null;
     this.timeslider.timeFormat = "YYYY-MM-DD";
     this.timeslider.obj = null;

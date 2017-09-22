@@ -3252,11 +3252,11 @@ public class HIEditor {
 					// if base element was layer, render layer on top of image
 					// BufferedImage previewImage =
 					// ImageHelper.convertByteArrayToBufferedImage(storageManager.getPreview(view));
-					BufferedImage previewImage = HiImageConfig.getHiImage()
-							.createImageFromStream(new ByteArrayInputStream(storageManager.getPreview(view)));
-					HILayerRenderer renderLayer = new HILayerRenderer((HILayer) base, previewImage.getWidth(),
-							previewImage.getHeight());
-					Graphics2D g2d = previewImage.createGraphics();
+					BufferedImage originalImage = HiImageConfig.getHiImage()
+							.createImageFromStream(new ByteArrayInputStream(storageManager.getOriginal(view)));
+					HILayerRenderer renderLayer = new HILayerRenderer((HILayer) base, originalImage.getWidth(),
+							originalImage.getHeight());
+					Graphics2D g2d = originalImage.createGraphics();
 
 					// return full view if layer has no polygons
 					if (renderLayer.getRelativePolygons().size() == 0) {
@@ -3287,79 +3287,38 @@ public class HIEditor {
 					g2d.draw(combinedPath);
 
 					// clip image to selected layer
-
-					int xCropFactor = 4;
-					int x = 0;
-					int xCropMargin = previewImage.getWidth();
-					
-					// finding the best scale margin starting from xCropFactor
-					while (x == 0 && xCropMargin > 0) {
-						xCropMargin = previewImage.getWidth()/xCropFactor;
-						x = combinedPath.getBounds().x - xCropMargin;
-						x = Math.max(0, x);
-						
-						if (x != 0) {
-							break;
-						}
-						
-						xCropFactor = xCropFactor * 2;
-					}
-					
-					System.out.println("ending with xCropMargin: " + xCropMargin);
-					System.out.println("ending with x: " + x);
-					
-					int width = combinedPath.getBounds().width + (xCropMargin * 2);
-					width = Math.min(previewImage.getWidth() - x, width);
-					
-					int yCropFactor = 4;
-					int y = 0;
-					int yCropMargin = previewImage.getHeight();
-					
-					// finding the best scale margin starting from xCropFactor
-					while (y == 0 && yCropMargin > 0) {
-						
-						yCropMargin = previewImage.getHeight()/yCropFactor;
-						y = combinedPath.getBounds().y - yCropMargin;
-						y = Math.max(0, y);
-						
-						if (y != 0) {
-							break;
-						}
-						
-						yCropFactor = yCropFactor * 2;
-					}
-					
-					int height = combinedPath.getBounds().height + (yCropMargin * 2);
-					height = Math.min(previewImage.getHeight() - y, height);
-					
-					System.out.println("ending with yCropMargin: " + yCropMargin);
-					System.out.println("ending with y: " + y);
-					
-					
-					
-					
-					
+					int x = combinedPath.getBounds().x - 100;
+					x = Math.max(0, x);
+					int y = combinedPath.getBounds().y - 100;
+					y = Math.max(0, y);
+					int width = combinedPath.getBounds().width + 200;
+					width = Math.min(originalImage.getWidth() - x, width);
+					int height = combinedPath.getBounds().height + 200;
+					height = Math.min(originalImage.getHeight() - y, height);
 
 					// clip image to layer bounds
-					previewImage = previewImage.getSubimage(x, y, width, height);
+					originalImage = originalImage.getSubimage(x, y, width, height);
 					// scale image back to thumbnail size
-					// previewImage = ImageHelper.scaleImageTo(previewImage, new
+					// originalImage = ImageHelper.scaleImageTo(originalImage, new
 					// Dimension(128, 128)).getAsBufferedImage();
-					previewImage = HiImageConfig.getHiImage().scaleImage(previewImage, new Dimension(128, 128),
-							view.getRepositoryID());
+					
+					//originalImage = HiImageConfig.getHiImage().scaleImage(originalImage, new Dimension(128, 128),
+					//		view.getRepositoryID());
 
 					// convert back to bytes
 					// ByteArrayOutputStream outThumbnail = new
 					// ByteArrayOutputStream();
 					// JPEGEncodeParam jpegParam = new JPEGEncodeParam();
 					// jpegParam.setQuality(0.8f); // set encoding quality
-					// JAI.create("encode", previewImage, outThumbnail, "JPEG",
+					// JAI.create("encode", originalImage, outThumbnail, "JPEG",
 					// jpegParam);
-					ByteArrayOutputStream outThumbnail = HiImageConfig.getHiImage().convertToStream(previewImage);
+					ByteArrayOutputStream outThumbnail = HiImageConfig.getHiImage().convertToStream(originalImage);
 					bitstream = outThumbnail.toByteArray();
 
 				} else {
-					bitstream = storageManager.getThumbnail(view);
+					// because Martin Wanke wanted to increase the resolution of the thumbnails
+					//bitstream = storageManager.getThumbnail(view);
+					bitstream = storageManager.getPreview(view);
 				}
 
 			}

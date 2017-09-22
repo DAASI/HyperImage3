@@ -820,16 +820,39 @@ function loadContentThumbnail(imgTag, indicatorTag, ref, type) {
         indicatorTag.remove();
     });
 
-    var $panzoom = imgTag.panzoom();
+    imgTag.css({'max-width':'128px', 'max-height':'128px','width': 'auto','height': 'auto'});
+
+    if (imgTag.attr('src').startsWith("img/L")) {
+    	var $panzoom = imgTag.panzoom({
+            increment       : 0.5,
+            minScale        : 1,
+            maxScale        : 20,
+            startTransform  : 'scale(1.8)',
+            contain         : false
+        }).panzoom('zoom', true);
+    } else {
+    	var $panzoom = imgTag.panzoom({
+            increment       : 0.5,
+            minScale        : 1,
+            maxScale        : 20,
+            startTransform  : 'scale(1)',
+            contain         : false
+        }).panzoom('zoom', true);
+    }
+    
+
     $panzoom.parent().on('mousewheel.focal', function( e ) {
+    	if (imgTag.attr('src').startsWith("img/V") && imgTag.attr('src').includes("thumb")) {
+    		var imgSrc = imgTag.attr('src');
+        	var imgNameChunks = imgSrc.split("_");
+        	var newImgName = imgNameChunks[0] + ".jpg";
+        	imgTag.attr('src', newImgName);
+    	}
         e.preventDefault();
         var delta = e.delta || e.originalEvent.wheelDelta;
         var zoomOut = delta ? delta < 0 : e.originalEvent.deltaY > 0;
         $panzoom.panzoom('zoom', zoomOut, {
-            startTransform: 'scale(1.0)',
-            minScale: 1.0,
-            increment: 0.1,
-            contain: true
+
         });
     });
 }
@@ -897,7 +920,7 @@ function displayContentList(contentsList) {
 		html += '<a onclick="return checkExternalLinkForGroupList(this);" class="HIExternalLink" href="#'+contentsList[key].target+'/">';
 		if ( contentsList[key].image != null ) {
 			html += '<div class="contentLoadingIndicator"></div>';
-			html += '<div class="parent"><div class="panzoom"><img src="#"/></div></div>';
+			html += '<div class="parent"><div class="panzoom" style="width: 128px; height: 128px"><img src="#"/></div></div>';
 		}
 		else {
 			html += '<span class="'+typeKeys[contentsList[key].type]+'">'+reader.strings[reader.lang][typeKeys[contentsList[key].type]]+'</span>';
@@ -995,7 +1018,7 @@ function addViewToLightTable(viewID) {
 
 function duplicateFrame() {
     var isAnnotation = false;
-    var selectedFrame = $("#lighttableContent > div.ltSelected");
+    var selectedFrame = $("#lighttableContent > div.context-menu-active");
     if (selectedFrame.length == 0) selectedFrame = null;
     else selectedFrame = selectedFrame[0];
     if (selectedFrame != null) isAnnotation = $(selectedFrame).hasClass('ltAnnotation');
@@ -1020,7 +1043,7 @@ function duplicateFrame() {
 
 function removeFrame() {
     var isAnnotation = false;
-    var selectedFrame = $("#lighttableContent > div.ltSelected");
+    var selectedFrame = $("#lighttableContent > div.context-menu-active");
     if (selectedFrame.length == 0) selectedFrame = null;
     else selectedFrame = selectedFrame[0];
     if (selectedFrame != null) isAnnotation = $(selectedFrame).hasClass('ltAnnotation');
@@ -1031,7 +1054,7 @@ function removeFrame() {
 
 function fitToFrame() {
     var isAnnotation = false;
-    var selectedFrame = $("#lighttableContent > div.ltSelected");
+    var selectedFrame = $("#lighttableContent > div.context-menu-active");
     if (selectedFrame.length == 0) selectedFrame = null;
     else selectedFrame = selectedFrame[0];
     if (selectedFrame != null) isAnnotation = $(selectedFrame).hasClass('ltAnnotation');
@@ -1049,7 +1072,7 @@ function fitToFrame() {
 
 function fitToThumb() {
     var isAnnotation = false;
-    var selectedFrame = $("#lighttableContent > div.ltSelected");
+    var selectedFrame = $("#lighttableContent > div.context-menu-active");
     if (selectedFrame.length == 0) selectedFrame = null;
     else selectedFrame = selectedFrame[0];
     if (selectedFrame != null) isAnnotation = $(selectedFrame).hasClass('ltAnnotation');

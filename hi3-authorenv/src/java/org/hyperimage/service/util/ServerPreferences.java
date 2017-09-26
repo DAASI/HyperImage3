@@ -86,7 +86,8 @@ public class ServerPreferences {
 	// Default preference values
 	private static final String DEF_HISTORE_LOC = "/Users/Shared/HIStore/";
 	private static final String DEF_PPG_LOC="http://hyperimage.ws/PostPetalGenerator/PostPetalGenerator.jnlp";
-        private static final String DEF_PROMETHEUS_API_LOC="http://prometheus-test.uni-koeln.de/pandora-devel";
+        //private static final String DEF_PROMETHEUS_API_LOC="http://prometheus-test.uni-koeln.de/pandora-devel";
+        private static final String DEF_PROMETHEUS_API_LOC="http://prometheus-bildarchiv.de/development/api";
         private static final String DEF_PROMETHEUS_CONSUMER_KEY_VAL="";
         private static final String DEF_PROMETHEUS_CONSUMER_SECRET_VAL="";
 

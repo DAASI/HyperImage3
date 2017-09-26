@@ -143,6 +143,9 @@ function generateImageFiles() {
                     processImage(item, 'data:image/jpeg;base64,' + bitstream);
                 } else {
                     console.log("Got empty image for item " + item);
+                    var msg = {};
+                    msg.text = "HI-Reader Publication cannot be created: Image for item " + item + " could not be retrieved.";
+                    HIExceptionHandler(null, msg);
                 }
 
                 $('#progressbar').progressbar( "option", "value", $('#progressbar').progressbar( "option", "value" )+1 ); // update progress bar

@@ -3316,9 +3316,7 @@ public class HIEditor {
 					bitstream = outThumbnail.toByteArray();
 
 				} else {
-					// because Martin Wanke wanted to increase the resolution of the thumbnails
-					//bitstream = storageManager.getThumbnail(view);
-					bitstream = storageManager.getPreview(view);
+					bitstream = storageManager.getThumbnail(view);
 				}
 
 			}

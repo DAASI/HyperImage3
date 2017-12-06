@@ -38,9 +38,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -123,7 +123,7 @@ import org.hyperimage.connector.fedora3.ws.HiTypedDatastream;
 /**
  * @author Jens-Martin Loebel
  */
-public class GroupBrowser extends HIComponent 
+public class GroupBrowser extends HIComponent
 	implements ListSelectionListener, ActionListener, MouseListener {
 
 	private GroupListView groupListView;
@@ -134,7 +134,7 @@ public class GroupBrowser extends HIComponent
 	private HI_ListDisplayStyles userSelectedStyle = HI_ListDisplayStyles.ICON_STYLE;
 
 	private GroupContentsTransferHandler groupContentsHandler;
-	
+
     /**
      * This class implements the Drag and Drop handler for the Group List. As
      * per SDD: only dragging a group into the group contents folder, creating a
@@ -457,7 +457,7 @@ public class GroupBrowser extends HIComponent
 
             // determine target group
             HiGroup dropGroup = groupListView.getCurrentGroup();
-            if (!(supp.getComponent() instanceof GroupContentsList)) 
+            if (!(supp.getComponent() instanceof GroupContentsList))
                 dropGroup = groupListView.getGroup(groupListView.getList().getDropLocation().getIndex());
 
             // user cant drag things into the import group
@@ -510,7 +510,7 @@ public class GroupBrowser extends HIComponent
 
                     if (importFiles.size() < 1) return false; // no files to import
 
-                    // check if editor file upload/import feature is disabled 
+                    // check if editor file upload/import feature is disabled
                     if (System.getProperty("HI.feature.importDisabled") != null) return false;
 
                     // check if project has quota and upload would exceed quota
@@ -569,7 +569,7 @@ public class GroupBrowser extends HIComponent
                                 }
                                 if ( mimetype == null ) mimetype = "application/octet-stream";
                                 if ( mimetype.startsWith("image/") && !mimetype.endsWith("/jpeg") ) {
-                                    // convert image to jpeg if possible                                    
+                                    // convert image to jpeg if possible
                                     try {
                                         File tempFile = null;
                                         if ( System.getProperty("java.io.tmpdir") != null ) {
@@ -591,17 +591,17 @@ public class GroupBrowser extends HIComponent
 //                                            // set encoding quality
 //                                            jpegParam.setQuality(0.9f);
 //                                            JAI.create("encode",viewImage, outJPEG, "JPEG", jpegParam);
-											ByteArrayOutputStream outJPEG = HiImageConfig.getHiImage().convertToStream(viewImage);	// TODO:Does this make sense at all?! 
+											ByteArrayOutputStream outJPEG = HiImageConfig.getHiImage().convertToStream(viewImage);	// TODO:Does this make sense at all?!
                                             outJPEG.close();
-                                            
+
                                             // store converted image byte stream to the temp image file
                                             FileOutputStream fos = new FileOutputStream(tempFile);
                                             fos.write(outJPEG.toByteArray());
                                             fos.close();
-                                            
+
                                             importFile = tempFile;
-                                            //customExtenstion = ".jpg";
-                                        }                                        
+                                            customExtenstion = ".jpg";
+                                        }
                                     } catch (Exception e) {
                                         System.out.println("Image conversion failed!");
                                         System.out.println("FILE: "+file.getName());
@@ -612,7 +612,7 @@ public class GroupBrowser extends HIComponent
                                 HIRuntime.getManager().refreshProject();
                             } catch (HIWebServiceException wse) {
                                 // TODO: handle image already in project case
-                                HIRuntime.getGui().reportError(wse, browser);                                
+                                HIRuntime.getGui().reportError(wse, browser);
                                 return false;
                             }
                             if (importview == null) {
@@ -1058,12 +1058,12 @@ public class GroupBrowser extends HIComponent
         }
     }
 
-	
-	
+
+
 	//	----------------------------------------------------------------------------------------
 
-	
-	
+
+
 	/**
 	 * DEBUG
 	 * Class: HIGroupContentLoader
@@ -1071,15 +1071,15 @@ public class GroupBrowser extends HIComponent
 	 * @author Jens-Martin Loebel
 	 *
 	 */
-	class HIGroupContentLoader implements Runnable 
-	{		
+	class HIGroupContentLoader implements Runnable
+	{
 		private Thread thread;
 		private HiGroup group;
 
 
 		public HIGroupContentLoader()
 		{
-			this.thread = new Thread(this); 
+			this.thread = new Thread(this);
 		}
 
 		public void loadGroup(HiGroup group) {
@@ -1089,20 +1089,20 @@ public class GroupBrowser extends HIComponent
 			else if ( thread.getState() == Thread.State.TERMINATED ) {
 				thread = new Thread(this);
 				thread.start();
-			} else { 
+			} else {
 				while ( thread.getState() == Thread.State.RUNNABLE ) ;
 				thread = new Thread(this);
 				thread.start();
 			}
 		}
 
-		public void run() 
+		public void run()
 		{
 			final List<HiQuickInfo> infoList;
 			try {
 				// DEBUG
 				infoList = HIRuntime.getManager().getGroupContents(group);
-				
+
 			} catch (HIWebServiceException wse) {
 				HIRuntime.getGui().reportError(wse, browser);
 				groupContentsView.setContents(null);
@@ -1113,7 +1113,7 @@ public class GroupBrowser extends HIComponent
 			SwingUtilities.invokeLater(new Runnable()  {
 				public void run() {
 					if ( infoList != null ) {
-						if ( infoList.size() >= HIRuntime.MAX_GROUP_ITEMS ) 
+						if ( infoList.size() >= HIRuntime.MAX_GROUP_ITEMS )
 							setDisplayStyle(HI_ListDisplayStyles.LIST_STYLE);
 						else
 							setDisplayStyle(userSelectedStyle);
@@ -1133,7 +1133,7 @@ public class GroupBrowser extends HIComponent
 
 		}
 	}
-	
+
 
 	//	----------------------------------------------------------------------------------------
 
@@ -1144,9 +1144,9 @@ public class GroupBrowser extends HIComponent
 
 	public GroupBrowser(HiGroup group) {
 		super(Messages.getString("GroupBrowser.17"), Messages.getString("GroupBrowser.18")); //$NON-NLS-1$ //$NON-NLS-2$
-		
-		groupListView = new GroupListView(HIRuntime.getManager().getImportGroup(), 
-				HIRuntime.getManager().getTrashGroup(), 
+
+		groupListView = new GroupListView(HIRuntime.getManager().getImportGroup(),
+				HIRuntime.getManager().getTrashGroup(),
 				HIRuntime.getManager().getProject().getDefaultLanguage().getLanguageId());
 		groupContentsView = new GroupContentsView();
 		metadataEditorView = new GroupPropertyEditorView();
@@ -1165,7 +1165,7 @@ public class GroupBrowser extends HIComponent
 		HIRuntime.getGui().startIndicatingServiceActivity();
 		groupListView.getList().setEnabled(false);
 		groupContentsView.prepareElementLoading();
-		
+
 
 		// set initial group if possible
 		if ( group == null ) group = HIRuntime.getManager().getImportGroup();
@@ -1180,7 +1180,7 @@ public class GroupBrowser extends HIComponent
 			else groupListView.getList().setSelectedIndex(groupIndex);
 		}
 
-		
+
 		groupContentsView.setCurrentGroup(group);
 		metadataEditorView.setGroup(group, HIRuntime.getManager().getProject().getDefaultLanguage().getLanguageId());
                 metadataEditorView.setTagCount(HIRuntime.getGui().getTagCountForElement(group));
@@ -1193,11 +1193,11 @@ public class GroupBrowser extends HIComponent
 		groupContentsHandler = new GroupContentsTransferHandler(this);
 		groupContentsView.getContentsList().setTransferHandler(groupContentsHandler);
 		groupListView.getList().setTransferHandler(new GroupTransferHandler(this));
-		
+
 		// attach listeners
 		metadataEditorView.getSaveButton().addActionListener(this);
 		metadataEditorView.getResetButton().addActionListener(this);
-		
+
 		groupContentsView.getContentsList().addMouseListener(this);
         groupContentsView.getListStyleButton().addActionListener(this);
         groupContentsView.optionsButton.addActionListener(this);
@@ -1205,28 +1205,28 @@ public class GroupBrowser extends HIComponent
 
         groupListView.getList().addListSelectionListener(this);
 		groupListView.attachActionListeners(this);
-		
+
 		// attach context menu listener
 		groupListView.getList().addMouseListener(this);
 
-		
+
 		// register views
 		this.views.add(groupListView);
 		this.views.add(groupContentsView);
 		this.views.add(metadataEditorView);
 	}
-	
-	
+
+
 	public void updateLanguage() {
 		super.updateLanguage();
 		if ( groupContentsView.getContentsList().getDisplayStyle() == HI_ListDisplayStyles.ICON_STYLE )
 			groupContentsView.getListStyleButton().setToolTipText(Messages.getString("GroupBrowser.77")); //$NON-NLS-1$
-		else 
+		else
 			groupContentsView.getListStyleButton().setToolTipText(Messages.getString("GroupBrowser.78")); //$NON-NLS-1$
 		updateTitle();
 	}
 
-	
+
 	public HiBase getBaseElement() {
 		// returns the group that is currently selected
 		if ( groupListView.getList().getModel().getSize() > 0 && groupListView.getList().getSelectedIndex() >= 0 )
@@ -1235,21 +1235,21 @@ public class GroupBrowser extends HIComponent
 			return null;
 	}
 
-	
+
 	/**
 	 * implementation of the HIComponent method
 	 * The group browser will accept any element and check if it is an a currently displayed group.
 	 * Additionally changes made to a group are also propagated.
 	 * This method updates the GUI to reflect the changes made by other components.
 	 */
-	
+
 	public void receiveMessage(HIMessageTypes message, HiBase base ) {
 		/*
 		 * respond to LANGUAGE_ADDED / LANGUAGE_REMOVED messages
 		 */
 		if ( message == HIMessageTypes.LANGUAGE_ADDED || message == HIMessageTypes.LANGUAGE_REMOVED ) {
 			// reload all group metadata
-			DefaultListModel model = (DefaultListModel) groupListView.getList().getModel(); 
+			DefaultListModel model = (DefaultListModel) groupListView.getList().getModel();
 			// skip import and trash group
 			HIRuntime.getGui().startIndicatingServiceActivity();
 			try {
@@ -1265,14 +1265,14 @@ public class GroupBrowser extends HIComponent
 				return;
 			}
 			HIRuntime.getGui().stopIndicatingServiceActivity();
-			
+
 			// update GUI
 			metadataEditorView.setGroup(groupListView.getCurrentGroup(), HIRuntime.getManager().getProject().getDefaultLanguage().getLanguageId());
                         metadataEditorView.setTagCount(HIRuntime.getGui().getTagCountForElement(groupListView.getCurrentGroup()));
 		}
-		
 
-		
+
+
 		/*
 		 * respond to ENTITY_CHANGED messages
 		 */
@@ -1281,7 +1281,7 @@ public class GroupBrowser extends HIComponent
 				// update group metadata and/or title
 				groupListView.updateGroup((HiGroup)base);
 				if ( groupListView.getCurrentGroup().getId() == base.getId() ) {
-					metadataEditorView.setGroup((HiGroup)base,HIRuntime.getManager().getProject().getDefaultLanguage().getLanguageId()); 
+					metadataEditorView.setGroup((HiGroup)base,HIRuntime.getManager().getProject().getDefaultLanguage().getLanguageId());
                                         metadataEditorView.setTagCount(HIRuntime.getGui().getTagCountForElement((HiGroup)base));
                                 }
 			}
@@ -1289,7 +1289,7 @@ public class GroupBrowser extends HIComponent
 			// update group contents if necessary
 			for ( HiQuickInfo content : groupContentsView.getContents() ) {
 				if ( content.getBaseID() == base.getId() || content.getRelatedID() == base.getId() ) {
-					
+
 					// DEBUG
 					HiQuickInfo newInfo;
 					try {
@@ -1304,13 +1304,13 @@ public class GroupBrowser extends HIComponent
 				}
 			}
 		}
-		
+
 		/*
 		 * respond to GROUP_CONTENTS_CHANGED messages
 		 */
 		if ( message == HIMessageTypes.GROUP_CONTENTS_CHANGED ) {
 			HiGroup changedGroup = (HiGroup)base;
-		
+
 			if ( changedGroup.getId() == groupListView.getCurrentGroup().getId()
 				 || groupListView.getCurrentGroup().getType() != GroupTypes.HIGROUP_REGULAR ) {
 				// reload contents
@@ -1331,7 +1331,7 @@ public class GroupBrowser extends HIComponent
 				contentLoader.loadGroup(groupListView.getCurrentGroup());
 //			}
 		}
-		
+
 		/*
 		 * respond to DEFAULT_LANGUAGE_CHANGED
 		 */
@@ -1362,7 +1362,7 @@ public class GroupBrowser extends HIComponent
 				}
 			}
 		}
-		
+
 		/*
 		 * respond to GROUP_SORTORDER_CHANGED messages
 		 */
@@ -1375,7 +1375,7 @@ public class GroupBrowser extends HIComponent
 				return;
 			}
 		}
-		
+
 		/*
 		 * respond to GROUPCONTENTS_SORTORDER_CHANGED messages
 		 */
@@ -1390,29 +1390,29 @@ public class GroupBrowser extends HIComponent
 					}
 			}
 		}
-		
+
 	}
-	
-	
+
+
 	/**
 	 * respond to GUI close request, prompt user to save metadata or cancel operation
 	 */
 	public boolean requestClose() {
 		return askToSaveOrCancelChanges();
 	}
-	
-	
+
+
 	/**
 	 * Resets group list, metadata and contents view after a project change.
 	 * Reloads all groups.
 	 */
 	public void resetBrowser() {
 		discardChanges();
-		
+
 		try {
 			HIRuntime.getGui().startIndicatingServiceActivity();
 			groupListView.resetAllGroups(
-					HIRuntime.getManager().getImportGroup(), 
+					HIRuntime.getManager().getImportGroup(),
 					HIRuntime.getManager().getTrashGroup(),
 					HIRuntime.getManager().getGroups()
 			);
@@ -1421,25 +1421,25 @@ public class GroupBrowser extends HIComponent
 			HIRuntime.getGui().reportError(wse, this);
 		}
 	}
-	
-	
+
+
 	private void saveMetadataChanges() {
 		boolean updateMetadata = metadataEditorView.hasMetadataChanges();
-		
+
 		if ( updateMetadata && HIRuntime.getGui().checkEditAbility(false) ) {
 			metadataEditorView.syncChanges();
 			try {
 				HIRuntime.getGui().startIndicatingServiceActivity();
 				HIRuntime.getManager().updateFlexMetadataRecords(
-						metadataEditorView.getMetadata());                                
+						metadataEditorView.getMetadata());
 				HIRuntime.getGui().stopIndicatingServiceActivity();
 
 				// propagate changes
                                 groupListView.getCurrentGroup().setTimestamp(new Date().getTime());
                                 metadataEditorView.updateContent();
 				HIRuntime.getGui().sendMessage(
-						HIMessageTypes.ENTITY_CHANGED, 
-						groupContentsView.getCurrentGroup(), 
+						HIMessageTypes.ENTITY_CHANGED,
+						groupContentsView.getCurrentGroup(),
 						this);
 				// update GUI
 				groupListView.updateContent();
@@ -1447,11 +1447,11 @@ public class GroupBrowser extends HIComponent
 				HIRuntime.getGui().reportError(wse, this);
 				return;
 			}
-			
+
 		}
 
 	}
-		
+
     // [JML] visibility properties are not part of the editor anymore. They will be handled by the PostPeTAL Generator
 /*
 	private void savePropertyChanges() {
@@ -1468,8 +1468,8 @@ public class GroupBrowser extends HIComponent
 
 				// propagate changes
 				HIRuntime.getGui().sendMessage(
-						HIMessageTypes.ENTITY_CHANGED, 
-						groupContentsView.getCurrentGroup(), 
+						HIMessageTypes.ENTITY_CHANGED,
+						groupContentsView.getCurrentGroup(),
 						this);
 				 // update GUI
 				groupListView.updateContent();
@@ -1477,22 +1477,22 @@ public class GroupBrowser extends HIComponent
 				HIRuntime.getGui().reportError(wse, this);
 				return;
 			}
-		}	
+		}
 	}
 */
-	
+
 	private void discardChanges() {
 		if ( metadataEditorView.hasChanges() )
 			metadataEditorView.resetChanges();
 	}
-	
+
 	private boolean askToSaveOrCancelChanges() {
 		if ( metadataEditorView.hasChanges() && HIRuntime.getGui().checkEditAbility(true) ) {
 			int decision = JOptionPane.showConfirmDialog(
-					HIRuntime.getGui(), 
+					HIRuntime.getGui(),
 							Messages.getString("GroupBrowser.19")); //$NON-NLS-1$
-			
-			if ( decision == JOptionPane.CANCEL_OPTION ) 
+
+			if ( decision == JOptionPane.CANCEL_OPTION )
 				return false;
 			else if ( decision == JOptionPane.YES_OPTION ) {
 				saveMetadataChanges();
@@ -1518,12 +1518,12 @@ public class GroupBrowser extends HIComponent
 
 		return newGroup;
 	}
-	
+
 	private void loadContentPreviews() {
 		for ( HiQuickInfo info : groupContentsView.getContents() )
 			loadContentPreview(info);
 	}
-	
+
 	private void loadContentPreview(HiQuickInfo info) {
 		GroupContentsCellRenderer renderer = (GroupContentsCellRenderer) groupContentsView.getContentsList().getCellRenderer();
 		QuickInfoCell cell = renderer.getCellForContent(info);
@@ -1541,7 +1541,7 @@ public class GroupBrowser extends HIComponent
 		}
 	}
 
-	
+
 	private boolean updateContentSortOrder() {
 		String sortOrder = groupContentsView.getSortOrder();
 
@@ -1550,10 +1550,10 @@ public class GroupBrowser extends HIComponent
 			return true;
                 // assert
                 if ( groupListView == null || groupListView.getCurrentGroup() == null ) return false;
-		
+
 		if ( groupListView.getCurrentGroup().getType() != GroupTypes.HIGROUP_REGULAR )
 			return true; // don´t try to set sort order for import or trash group
-		
+
 		if ( groupListView.getCurrentGroup().getSortOrder().compareTo(sortOrder) != 0 ) {
 			try {
 				HIRuntime.getGui().startIndicatingServiceActivity();
@@ -1567,7 +1567,7 @@ public class GroupBrowser extends HIComponent
 				return false;
 			}
 		}
-		
+
 		return true;
 	}
 
@@ -1585,8 +1585,8 @@ public class GroupBrowser extends HIComponent
 		getWindowMenuItem().setText(getTitle());
 		HIRuntime.getGui().updateComponentTitle(this);
 	}
-	
-	
+
+
 
 	//--------------------------------------------------------------------------------------
 
@@ -1597,34 +1597,34 @@ public class GroupBrowser extends HIComponent
 		if ( groupListView.getList().getSelectedIndex() == -1 )
 			groupListView.setSelectedGroup(groupContentsView.getCurrentGroup());
 
-		if ( groupListView.getCurrentGroup().getId() != groupContentsView.getCurrentGroup().getId() ) {	
+		if ( groupListView.getCurrentGroup().getId() != groupContentsView.getCurrentGroup().getId() ) {
 			// warn user about unsaved data
 			if ( ! askToSaveOrCancelChanges() ) {
 				groupListView.setSelectedGroup(groupContentsView.getCurrentGroup());
 				return;
 			}
-			
+
 			groupListView.getList().setEnabled(false);
 			groupContentsView.prepareElementLoading();
 			HiGroup group = groupListView.getCurrentGroup();
 			groupContentsView.setCurrentGroup(group);
 			metadataEditorView.setGroup(group, HIRuntime.getManager().getProject().getDefaultLanguage().getLanguageId());
                         metadataEditorView.setTagCount(HIRuntime.getGui().getTagCountForElement(group));
-			
+
 			if ( group != null )
 				contentLoader.loadGroup(group);
-			
+
 			// update info title
 			updateTitle();
 		}
 	}
 
-	
+
 	public void actionPerformed(ActionEvent e) {
 		// DEBUG: refactor
-		// ----- popup menu 
+		// ----- popup menu
 		if ( e.getActionCommand().startsWith("new") ) { //$NON-NLS-1$
-			/* 
+			/*
 			 * content creation options
 			 */
 			try {
@@ -1655,7 +1655,7 @@ public class GroupBrowser extends HIComponent
 				HIRuntime.getGui().sendMessage(HIMessageTypes.GROUP_CONTENTS_CHANGED, groupListView.getCurrentGroup(), this);
 				HIRuntime.getGui().sendMessage(HIMessageTypes.GROUPCONTENTS_SORTORDER_CHANGED, groupListView.getCurrentGroup(), this);
 				// open new element
-				HIRuntime.getGui().openContentEditor(info, this);			
+				HIRuntime.getGui().openContentEditor(info, this);
 
 			} catch (HIWebServiceException wse) {
 				HIRuntime.getGui().reportError(wse, this);
@@ -1682,7 +1682,7 @@ public class GroupBrowser extends HIComponent
 								"HIBase",  //$NON-NLS-1$
 								"title",  //$NON-NLS-1$
 								MetadataHelper.getDefaultMetadataRecord(
-										curGroup, 
+										curGroup,
 										HIRuntime.getManager().getProject().getDefaultLanguage().getLanguageId()
 								));
 						if ( title == null || title.length() == 0 ) {
@@ -1691,7 +1691,7 @@ public class GroupBrowser extends HIComponent
                                                 } else groupTitle = title;
 					}
 					HiFlexMetadataRecord record = MetadataHelper.getDefaultMetadataRecord(
-							newGroup, 
+							newGroup,
 							HIRuntime.getManager().getProject().getDefaultLanguage().getLanguageId());
 					if ( record != null ) {
 						// sync title to server
@@ -1700,8 +1700,8 @@ public class GroupBrowser extends HIComponent
 						HIRuntime.getManager().updateFlexMetadataRecord(record);
 						HIRuntime.getGui().stopIndicatingServiceActivity();
 					}
-					
-					
+
+
 					// add all selected elements to new group
 					String sortOrder = ""; //$NON-NLS-1$
 					for ( int index : indices ) {
@@ -1710,14 +1710,14 @@ public class GroupBrowser extends HIComponent
 						sortOrder = sortOrder+","+content.getBaseID(); //$NON-NLS-1$
 					}
 					// set sort order
-					if ( sortOrder.length() > 0 ) sortOrder = sortOrder.substring(1);	
+					if ( sortOrder.length() > 0 ) sortOrder = sortOrder.substring(1);
 					HIRuntime.getManager().updateGroupSortOrder(newGroup, sortOrder);
 
 					// propagate changes
                                         groupListView.getCurrentGroup().setTimestamp(new Date().getTime());
                                         metadataEditorView.updateContent();
 					HIRuntime.getGui().sendMessage(HIMessageTypes.ENTITY_ADDED, newGroup, this);
-					HIRuntime.getGui().sendMessage(HIMessageTypes.GROUP_CONTENTS_CHANGED, newGroup, this);					
+					HIRuntime.getGui().sendMessage(HIMessageTypes.GROUP_CONTENTS_CHANGED, newGroup, this);
 					groupListView.setGroups(HIRuntime.getManager().getGroups());
 					groupListView.getList().setSelectedIndex(groupListView.getList().getModel().getSize()-2);
 					// reload group contents if necessary
@@ -1802,7 +1802,7 @@ public class GroupBrowser extends HIComponent
 				// inform user that his selection included elements that we can´t move to the trash
 				if ( groupsOrLayersInSelection )
 					HIRuntime.getGui().displayInfoDialog(Messages.getString("GroupBrowser.65"), Messages.getString("GroupBrowser.66")); //$NON-NLS-1$ //$NON-NLS-2$
-					
+
 				HIRuntime.getGui().startIndicatingServiceActivity();
 				for ( HiQuickInfo content : contentsToRemove ) {
 					if ( deleteFromProject )
@@ -1818,7 +1818,7 @@ public class GroupBrowser extends HIComponent
 				}
                                 HIRuntime.getManager().refreshProject();
 				HIRuntime.getGui().stopIndicatingServiceActivity();
-				
+
 				// propagate changes
                                 groupListView.getCurrentGroup().setTimestamp(new Date().getTime());
                                 metadataEditorView.updateContent();
@@ -1828,7 +1828,7 @@ public class GroupBrowser extends HIComponent
 			} catch (HIWebServiceException wse) {
 				HIRuntime.getGui().reportError(wse, this);
 				return;
-			}		
+			}
 
 		}
 
@@ -1857,9 +1857,9 @@ public class GroupBrowser extends HIComponent
 						Messages.getString("GroupBrowser.70"), //$NON-NLS-1$
 						Messages.getString("GroupBrowser.71")+"\n\n"+Messages.getString("GroupBrowser.73")) ) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 					return;
-				
+
 				metadataEditorView.resetChanges();
-				
+
 				boolean groupDeleted = false;
 				HiGroup deletedGroup = null;
 				try {
@@ -1951,10 +1951,10 @@ public class GroupBrowser extends HIComponent
 								for ( int i=0; i < groupListView.getList().getModel().getSize(); i++ )
 									if ( ((HiGroup)groupListView.getList().getModel().getElementAt(i)).getId() == content.getBaseID() )
 										index = i; // remember index of group
-								if ( index >= 0 ) 
+								if ( index >= 0 )
 									// select found group
 									groupListView.getList().setSelectedIndex(index);
-								else 
+								else
 									// group not found, inform user
 									HIRuntime.getGui().displayInfoDialog(Messages.getString("GroupBrowser.79"), Messages.getString("GroupBrowser.80")); //$NON-NLS-1$ //$NON-NLS-2$
 							} else // open content user clicked on
